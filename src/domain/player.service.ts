@@ -6,13 +6,13 @@ import { plainToInstance } from "class-transformer";
 import { SettingsService } from "./settings.service";
 import {Draft} from "./draft";
 import {DraftService} from "./draft.service";
+import {environment} from "../environments/environment";
 
 @Injectable({
   providedIn: "root",
 })
 export class PlayerService {
-  public static readonly PLAYER_URL: string =
-    "http://localhost:3000/api/players";
+  public static readonly PLAYER_URL: string = `${environment.apiUrl}/players`;
   private playersSubject = new BehaviorSubject<Player[]>([]);
   players$ = this.playersSubject.asObservable();
 

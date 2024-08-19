@@ -4,12 +4,13 @@ import { plainToInstance } from "class-transformer";
 import { BehaviorSubject, of, switchMap, tap } from "rxjs";
 import { Draft } from "./draft";
 import {PlayerStatus} from "./player";
+import {environment} from "../environments/environment";
 
 @Injectable({
   providedIn: "root",
 })
 export class DraftService {
-  public static readonly DRAFTS_URL: string = "http://localhost:3000/api/drafts";
+  public static readonly DRAFTS_URL: string = `${environment.apiUrl}/drafts`;
   private draftsSubject = new BehaviorSubject<Draft[]>([]);
   drafts$ = this.draftsSubject.asObservable();
   private selectedDraftSubject = new BehaviorSubject<Draft | null>(null);
