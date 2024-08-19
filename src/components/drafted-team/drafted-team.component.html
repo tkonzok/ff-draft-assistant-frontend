@@ -1,0 +1,19 @@
+<div class="drafted-team-grid">
+  <div class="grid-header">
+    <div>OVR</div>
+    <div>POS</div>
+    <div>RANK</div>
+    <div>NAME</div>
+    <div>TEAM</div>
+    <div>BYE</div>
+  </div>
+
+  <div class="grid-row-wrapper">
+    <div *ngFor="let player of players" class="grid-row">
+      <app-drafted-team-row
+        [player]="player"
+        [setting]="selectedSetting"
+      ></app-drafted-team-row>
+    </div>
+  </div>
+</div>

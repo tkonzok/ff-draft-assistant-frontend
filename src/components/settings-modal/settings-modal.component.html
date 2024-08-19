@@ -1,0 +1,27 @@
+<h1 mat-dialog-title>Select Draft Settings</h1>
+<div mat-dialog-content>
+  <mat-form-field appearance="fill">
+    <mat-label>Name</mat-label>
+    <input matInput [(ngModel)]="name" placeholder="Enter league name" />
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Settings</mat-label>
+    <mat-select [(ngModel)]="settings">
+      <mat-option *ngFor="let settings of availableSettings" [value]="settings">
+        {{ settings }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Total Participants</mat-label>
+    <mat-select [(ngModel)]="totalParticipants">
+      <mat-option *ngFor="let num of participantOptions" [value]="num">
+        {{ num }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-button (click)="onCreate()">Create</button>
+</div>

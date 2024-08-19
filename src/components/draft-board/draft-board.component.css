@@ -1,0 +1,98 @@
+.filters-wrapper {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.filter-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.filter-buttons button {
+  padding: 10px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.filter-buttons button.active {
+  background: #777;
+  color: white;
+}
+
+.draft-board-grid {
+  display: grid;
+  grid-template-columns: max-content;
+  width: fit-content;
+  max-height: 100%;
+  border: 1px solid #ddd;
+  overflow: hidden;
+}
+
+.grid-header {
+  display: grid;
+  grid-template-columns: repeat(2, 32px) repeat(3, 64px) 256px repeat(2, 72px);
+  font-weight: bold;
+  background-color: #3f3f3f;
+}
+
+.grid-header > div {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  text-align: start;
+}
+
+.grid-row-wrapper {
+  max-height: min(1280px, calc(100vh - 96px));
+  overflow: auto;
+}
+
+.grid-row {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.black-background {
+  background-color: #000;
+  color: #fff;
+}
+
+.red-background {
+  background-color: #700;
+  color: #fff;
+}
+
+.search-container {
+  position: relative;
+  display: inline-block;
+}
+
+.search-input {
+  height: 100%;
+  padding-left: 8px;
+  padding-right: 30px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.clear-btn {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 24px;
+  color: #999;
+}
+
+.clear-btn:hover {
+  color: #333;
+}
+
+.highlighted {
+  background-color: #6f6f6f;
+}

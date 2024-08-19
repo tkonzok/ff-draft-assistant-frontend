@@ -1,0 +1,15 @@
+.team-wrapper {
+  padding: 2px 8px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.white-background {
+  background-color: #fff;
+  color: #000;
+}
+
+.red-background {
+  background-color: #700;
+}

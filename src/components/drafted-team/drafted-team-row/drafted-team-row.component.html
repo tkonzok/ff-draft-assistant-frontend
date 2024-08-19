@@ -1,0 +1,8 @@
+<div class="drafted-team-row">
+  <div>{{ player.rankings[this.setting].ovr }}</div>
+  <app-position [pos]="player.pos"></app-position>
+  <div>{{ player.rankings[this.setting].rank }}</div>
+  <div>{{ player.name }}</div>
+  <app-team [team]="player.team"></app-team>
+  <app-bye [bye]="player.bye"></app-bye>
+</div>

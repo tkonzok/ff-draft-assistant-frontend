@@ -1,0 +1,88 @@
+<div class="filters-wrapper">
+  <div class="filter-buttons">
+    <button (click)="showAll()" class="black-background">CLEAR</button>
+    <button
+      (click)="togglePosition(Position.QB)"
+      [ngClass]="{
+        'qb-background': visiblePositions.has(Position.QB),
+      }"
+    >
+      {{ Position.QB }}
+    </button>
+    <button
+      (click)="togglePosition(Position.RB)"
+      [ngClass]="{
+        'rb-background': visiblePositions.has(Position.RB),
+      }"
+    >
+      {{ Position.RB }}
+    </button>
+    <button
+      (click)="togglePosition(Position.WR)"
+      [ngClass]="{
+        'wr-background': visiblePositions.has(Position.WR),
+      }"
+    >
+      {{ Position.WR }}
+    </button>
+    <button
+      (click)="togglePosition(Position.TE)"
+      [ngClass]="{
+        'te-background': visiblePositions.has(Position.TE),
+      }"
+    >
+      {{ Position.TE }}
+    </button>
+    <button
+      (click)="toggleTierView()"
+      [ngClass]="{
+        'red-background': showOnlyNextTiers,
+      }"
+    >
+      TIER
+    </button>
+  </div>
+  <div class="search-container">
+    <input
+      type="text"
+      [(ngModel)]="searchTerm"
+      placeholder="Search players..."
+      (input)="filterPlayers()"
+      class="search-input"
+    />
+    <button *ngIf="searchTerm" (click)="clearSearch()" class="clear-btn">
+      ×
+    </button>
+  </div>
+  <span>{{currentPick}}</span>
+</div>
+
+<div class="draft-board-grid">
+  <div class="grid-header">
+    <div></div>
+    <div></div>
+    <div>OVR</div>
+    <div>POS</div>
+    <div>RANK</div>
+    <div>NAME</div>
+    <div>TEAM</div>
+    <div>BYE</div>
+  </div>
+
+  <div class="grid-row-wrapper">
+    <div *ngFor="let player of filteredPlayers" class="grid-row">
+      <app-draft-board-row
+        [player]="player"
+        [showBorderBottom]="
+          visiblePositions.size === 1 &&
+          player.rankings[this.settings].isLastOfTier
+        "
+        [ngClass]="{
+          highlighted:
+            highlightedPlayers.includes(player) && !showOnlyNextTiers,
+        }"
+      >
+      </app-draft-board-row>
+    </div>
+  </div>
+</div>
