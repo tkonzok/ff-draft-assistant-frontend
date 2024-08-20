@@ -35,8 +35,7 @@ export class DraftService {
         switchMap(() => this.http.get<Draft[]>(DraftService.DRAFTS_URL)),
         switchMap((drafts) => of(plainToInstance(Draft, drafts))),
         tap((drafts) => {
-          this.draftsSubject.next(drafts); // Update drafts
-          console.log("Draft created and drafts refreshed:", drafts);
+          this.draftsSubject.next(drafts);
         }),
       )
       .subscribe();
@@ -64,7 +63,6 @@ export class DraftService {
         switchMap((drafts) => of(plainToInstance(Draft, drafts))),
         tap((drafts) => {
           this.draftsSubject.next(drafts);
-          console.log(`Draft ${id} updated and drafts refreshed:`, drafts);
         }),
       )
       .subscribe();

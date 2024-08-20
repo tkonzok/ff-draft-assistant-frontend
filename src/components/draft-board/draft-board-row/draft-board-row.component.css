@@ -1,6 +1,6 @@
 .draft-board-row {
   display: grid;
-  grid-template-columns: repeat(2, 32px) repeat(3, 64px) 256px repeat(2, 72px);
+  grid-template-columns: 44px 48px repeat(2, 64px) 256px repeat(2, 72px) 36px;
   align-items: center;
   height: 40px;
   padding: 8px 0;
@@ -23,8 +23,8 @@ button {
 }
 
 button img {
-  width: 20px;
-  height: 20px;
+  width: 26px;
+  height: 26px;
 }
 
 .border-bottom {

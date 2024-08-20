@@ -30,7 +30,7 @@ export class DraftBoardComponent implements OnInit, OnDestroy {
   protected searchTerm: string = "";
   protected settings: string = "";
   protected currentPick: string = "1";
-  protected readonly visiblePositions: Set<string> = new Set();
+  protected visiblePosition?: string;
   protected readonly Position = Position;
 
   private pickPositionsSubject: BehaviorSubject<number[]> = new BehaviorSubject<number[]>(this.getPickPositions(1, 12));
@@ -60,7 +60,7 @@ export class DraftBoardComponent implements OnInit, OnDestroy {
             const status = draft.playerStates?.[player.id];
             return status === PlayerStatus.AVAILABLE;
           })
-          : this.totalPlayers;
+          : [];
         this.updateHighlightedPlayers(pickPositions);
         this.updateCurrentPick();
         this.filterPlayers();
@@ -74,16 +74,12 @@ export class DraftBoardComponent implements OnInit, OnDestroy {
 
   protected togglePosition(position: Position): void {
     this.showOnlyNextTiers = false;
-    if (this.visiblePositions.has(position)) {
-      this.visiblePositions.delete(position);
-    } else {
-      this.visiblePositions.add(position);
-    }
+    this.visiblePosition = position
     this.filterPlayers();
   }
 
   protected toggleTierView() {
-    this.visiblePositions.clear();
+    this.visiblePosition = undefined;
     this.clearSearchTerm();
     this.showOnlyNextTiers = !this.showOnlyNextTiers;
     this.filterPlayers();
@@ -100,28 +96,28 @@ export class DraftBoardComponent implements OnInit, OnDestroy {
         [Position.WR]: this.getCurrentTier(Position.WR),
         [Position.TE]: this.getCurrentTier(Position.TE),
       };
-      this.filteredPlayers = this.availablePlayers.filter((player) => {
-        if (!player.rankings[this.settings]?.ovr) {
+      this.filteredPlayers = this.availablePlayers.filter((availablePlayer: Player) => {
+        if (!availablePlayer.rankings[this.settings]?.ovr) {
           return false;
         }
-        const matchesPosition = this.visiblePositions.size === 0 || this.visiblePositions.has(player.pos);
-        const matchesCurrentTier = player.rankings[this.settings].tier === currentTiers[player.pos];
-        return matchesPosition && matchesCurrentTier && this.matchesSearchTerm(player);
+        const matchesPosition = !this.visiblePosition || this.visiblePosition === availablePlayer.pos;
+        const matchesCurrentTier = availablePlayer.rankings[this.settings].tier === currentTiers[availablePlayer.pos];
+        return matchesPosition && matchesCurrentTier && this.matchesSearchTerm(availablePlayer);
       });
       return;
     }
-    this.filteredPlayers = this.availablePlayers.filter((player) => {
-      if (!player.rankings[this.settings]?.ovr) {
+    this.filteredPlayers = this.availablePlayers.filter((availablePlayer) => {
+      if (!availablePlayer.rankings[this.settings]?.ovr) {
         return false;
       }
-      const matchesPosition = this.visiblePositions.size === 0 || this.visiblePositions.has(player.pos);
-      return matchesPosition && this.matchesSearchTerm(player);
+      const matchesPosition = !this.visiblePosition || this.visiblePosition === availablePlayer.pos;
+      return matchesPosition && this.matchesSearchTerm(availablePlayer);
     });
   }
 
   protected showAll() {
     this.showOnlyNextTiers = false;
-    this.visiblePositions.clear();
+    this.visiblePosition = undefined;
     this.clearSearchTerm();
     this.filterPlayers();
   }

@@ -29,7 +29,7 @@
       <button (click)="reset()">
         Reset
       </button>
-      <button (click)="delete()">
+      <button (click)="showModal = true">
         Delete
       </button>
     </div>
@@ -39,4 +39,8 @@
     class="mt-16"
     [draftPosition]="{ draftPosition, totalDraftPositions }"
   ></app-draft-board>
+  <app-confirm-delete-modal
+    *ngIf="showModal"
+    (confirm)="handleConfirmation($event)">
+  </app-confirm-delete-modal>
 </div>

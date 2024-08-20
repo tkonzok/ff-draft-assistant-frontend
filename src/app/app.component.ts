@@ -3,23 +3,25 @@ import { RouterOutlet } from "@angular/router";
 import { DraftBoardComponent } from "../components/draft-board/draft-board.component";
 import { DraftedTeamComponent } from "../components/drafted-team/drafted-team.component";
 import { PlayerService } from "../domain/player.service";
-import { NgClass, NgForOf } from "@angular/common";
+import {NgClass, NgForOf, NgIf} from "@angular/common";
 import { SettingsService } from "../domain/settings.service";
 import {Draft} from "../domain/draft";
 import {DraftService} from "../domain/draft.service";
 import {MatDialog} from "@angular/material/dialog";
 import {SettingsModalComponent} from "../components/settings-modal/settings-modal.component";
 import {FormsModule} from "@angular/forms";
+import {ConfirmDeleteModalComponent} from "../components/confirm-delete-modal/confirm-delete-modal.component";
 
 @Component({
   selector: "app-root",
   standalone: true,
-  imports: [RouterOutlet, DraftBoardComponent, DraftedTeamComponent, NgClass, NgForOf, FormsModule],
+  imports: [RouterOutlet, DraftBoardComponent, DraftedTeamComponent, NgClass, NgForOf, FormsModule, ConfirmDeleteModalComponent, NgIf],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.css",
   providers: [],
 })
 export class AppComponent implements OnInit {
+  protected showModal: boolean = false;
   protected draftPosition: number = 1;
   protected totalDraftPositions: number = 12;
   protected availableSettings: string[] = [];
@@ -111,5 +113,12 @@ export class AppComponent implements OnInit {
   protected delete() {
     this.draftService.delete(this.selectedDraftId);
     location.reload();
+  }
+
+  protected handleConfirmation(confirmed: boolean) {
+    this.showModal = false;
+    if (confirmed) {
+      this.delete();
+    }
   }
 }

@@ -1,7 +1,9 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { NgClass } from "@angular/common";
-import { PlayerStatus } from "../../domain/player";
+import {Player, PlayerStatus} from "../../domain/player";
 import { PlayerService } from "../../domain/player.service";
+import {DraftService} from "../../domain/draft.service";
+import {combineLatest} from "rxjs";
 
 @Component({
   selector: "app-bye",
@@ -14,14 +16,19 @@ export class ByeComponent implements OnInit {
   @Input({ required: true }) bye!: string;
   private timesByeDrafted: number = 0;
 
-  constructor(private playerService: PlayerService) {}
+  constructor(private playerService: PlayerService, private draftService: DraftService) {}
 
   ngOnInit(): void {
-    this.playerService.players$.subscribe((players) => {
-      this.timesByeDrafted = players
-        .filter((player) => player.status === PlayerStatus.DRAFTED)
+    combineLatest([this.playerService.players$, this.draftService.selectedDraft$]).subscribe(([players, draft]) => {
+      if (!draft) {
+        this.timesByeDrafted = 0;
+        return;
+      }
+      const draftedPlayerIds: string[] = Object.keys(draft.playerStates).filter((key: string) => draft.playerStates[key] === PlayerStatus.DRAFTED);
+      const draftedPlayers: Player[] = players.filter((player) => draftedPlayerIds.includes(player.id))
+      this.timesByeDrafted = draftedPlayers
         .map((player) => player.bye)
-        .filter((bye) => bye === this.bye).length;
+        .filter((team) => team === this.bye).length;
     });
   }
 

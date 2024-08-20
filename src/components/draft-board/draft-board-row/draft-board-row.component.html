@@ -5,16 +5,6 @@
   }"
 >
   <div>
-    <button (click)="draft()">
-      <img
-        ngSrc="../../../assets/icons/checkmark.svg"
-        alt="checkmark"
-        height="24"
-        width="24"
-      />
-    </button>
-  </div>
-  <div>
     <button (click)="remove()">
       <img
         ngSrc="../../../assets/icons/cross.svg"
@@ -30,4 +20,14 @@
   <div>{{ player.name }}</div>
   <app-team [team]="player.team"></app-team>
   <app-bye [bye]="player.bye"></app-bye>
+  <div>
+    <button (click)="draft()">
+      <img
+        ngSrc="../../../assets/icons/checkmark.svg"
+        alt="checkmark"
+        height="24"
+        width="24"
+      />
+    </button>
+  </div>
 </div>

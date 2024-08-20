@@ -4,6 +4,13 @@
   margin-bottom: 10px;
 }
 
+.filters-wrapper span {
+  margin: 8px auto 8px 8px;
+  text-align: start;
+  font-weight: bold;
+  font-size: 16px;
+}
+
 .filter-buttons {
   display: flex;
   gap: 10px;
@@ -33,14 +40,14 @@
 
 .grid-header {
   display: grid;
-  grid-template-columns: repeat(2, 32px) repeat(3, 64px) 256px repeat(2, 72px);
+  grid-template-columns: 44px 48px repeat(3, 64px) 256px repeat(2, 72px) 36px;
   font-weight: bold;
   background-color: #3f3f3f;
+  border-bottom: 1px solid #ddd;
 }
 
 .grid-header > div {
   padding: 10px;
-  border-bottom: 1px solid #ddd;
   text-align: start;
 }
 

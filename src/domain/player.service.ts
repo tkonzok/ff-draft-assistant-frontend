@@ -23,15 +23,17 @@ export class PlayerService {
   ) {}
 
   init(): void {
-    this.settingsService.selectedSetting$
+    combineLatest([this.settingsService.selectedSetting$, this.draftService.selectedDraft$])
       .pipe(
-        switchMap((setting) =>
+        switchMap(([setting, draft]) =>
           this.http.get<Player[]>(PlayerService.PLAYER_URL).pipe(
             map((players) => plainToInstance(Player, players)),
             map((players) => this.filterPlayers(players, setting)),
             map((players) => this.sortPlayers(players, setting)),
             tap((players) => {
-              this.markLastOfTier(players, setting);
+              if (draft) {
+                this.markLastOfTier(players, draft, setting);
+              }
               this.playersSubject.next(players);
             }),
           ),
@@ -42,23 +44,9 @@ export class PlayerService {
 
   draft(player: Player): void {
     this.draftService.updatePlayerStatus(player.id, PlayerStatus.DRAFTED)
-    // const players = this.playersSubject.getValue();
-    // const playerIndex = players.findIndex((p) => p.name === player.name);
-    //
-    // if (playerIndex !== -1) {
-    //   players[playerIndex].status = PlayerStatus.DRAFTED;
-    //   this.playersSubject.next([...players]);
-    // }
   }
 
   remove(player: Player): void {
-    // const players = this.playersSubject.getValue();
-    // const playerIndex = players.findIndex((p) => p.name === player.name);
-    //
-    // if (playerIndex !== -1) {
-    //   players[playerIndex].status = PlayerStatus.NOT_AVAILABLE;
-    //   this.playersSubject.next([...players]);
-    // }
     this.draftService.updatePlayerStatus(player.id, PlayerStatus.NOT_AVAILABLE)
   }
 
@@ -76,8 +64,10 @@ export class PlayerService {
     });
   }
 
-  private markLastOfTier(players: Player[], setting: string): void {
-    players.forEach((currentPlayer, index) => {
+  private markLastOfTier(players: Player[], draft: Draft, setting: string): void {
+    const availablePlayerIds: string[] = Object.keys(draft.playerStates).filter((key: string) => draft.playerStates[key] === PlayerStatus.AVAILABLE);
+    const availablePlayers: Player[] = players.filter((player) => availablePlayerIds.includes(player.id))
+    availablePlayers.forEach((currentPlayer, index) => {
       const nextPlayer = players
         .slice(index + 1)
         .find((next) => next.pos === currentPlayer.pos);

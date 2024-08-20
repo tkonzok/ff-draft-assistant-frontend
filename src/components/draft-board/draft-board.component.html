@@ -4,7 +4,7 @@
     <button
       (click)="togglePosition(Position.QB)"
       [ngClass]="{
-        'qb-background': visiblePositions.has(Position.QB),
+        'qb-background': visiblePosition === Position.QB,
       }"
     >
       {{ Position.QB }}
@@ -12,7 +12,7 @@
     <button
       (click)="togglePosition(Position.RB)"
       [ngClass]="{
-        'rb-background': visiblePositions.has(Position.RB),
+        'rb-background': visiblePosition === Position.RB,
       }"
     >
       {{ Position.RB }}
@@ -20,7 +20,7 @@
     <button
       (click)="togglePosition(Position.WR)"
       [ngClass]="{
-        'wr-background': visiblePositions.has(Position.WR),
+        'wr-background': visiblePosition === Position.WR,
       }"
     >
       {{ Position.WR }}
@@ -28,7 +28,7 @@
     <button
       (click)="togglePosition(Position.TE)"
       [ngClass]="{
-        'te-background': visiblePositions.has(Position.TE),
+        'te-background': visiblePosition === Position.TE,
       }"
     >
       {{ Position.TE }}
@@ -60,13 +60,13 @@
 <div class="draft-board-grid">
   <div class="grid-header">
     <div></div>
-    <div></div>
     <div>OVR</div>
     <div>POS</div>
     <div>RANK</div>
     <div>NAME</div>
     <div>TEAM</div>
     <div>BYE</div>
+    <div></div>
   </div>
 
   <div class="grid-row-wrapper">
@@ -74,7 +74,7 @@
       <app-draft-board-row
         [player]="player"
         [showBorderBottom]="
-          visiblePositions.size === 1 &&
+          visiblePosition !== undefined &&
           player.rankings[this.settings].isLastOfTier
         "
         [ngClass]="{
