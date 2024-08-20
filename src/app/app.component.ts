@@ -103,6 +103,10 @@ export class AppComponent implements OnInit {
     this.settingsService.selectSettings((event.target as HTMLSelectElement).value);
   }
 
+  protected reload() {
+    location.reload();
+  }
+
   protected reset() {
     if (!this.selectedDraft) {
       location.reload();

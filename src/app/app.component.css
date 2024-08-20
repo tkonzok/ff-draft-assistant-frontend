@@ -60,3 +60,9 @@ app-draft-board {
   width: 30px;
   text-align: center;
 }
+
+.reload-button {
+  width: 100px;
+  height: 30px;
+  text-align: center;
+}
