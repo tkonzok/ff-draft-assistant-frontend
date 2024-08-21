@@ -77,6 +77,7 @@
           visiblePosition !== undefined &&
           player.rankings[this.settings].isLastOfTier
         "
+        [tier]="player.rankings[this.settings].tier"
         [ngClass]="{
           highlighted:
             highlightedPlayers.includes(player) && !showOnlyNextTiers,
