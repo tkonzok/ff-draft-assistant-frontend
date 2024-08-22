@@ -1,6 +1,6 @@
 .drafted-team-row {
   display: grid;
-  grid-template-columns: repeat(3, 64px) 256px repeat(2, 72px);
+  grid-template-columns: 48px repeat(2, 64px) 256px repeat(2, 72px);
   align-items: center;
   height: 40px;
   padding: 8px 0;
@@ -25,4 +25,16 @@ button {
 button img {
   width: 20px;
   height: 20px;
+}
+
+@media (max-width: 600px) {
+  .drafted-team-row {
+    grid-template-columns: 40px 40px 56px 172px repeat(2, 56px);
+  }
+
+  .drafted-team-row > * {
+    padding-left: 0;
+    padding-right: 0;
+    margin: 0 auto;
+  }
 }

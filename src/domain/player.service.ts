@@ -68,7 +68,7 @@ export class PlayerService {
     const availablePlayerIds: string[] = Object.keys(draft.playerStates).filter((key: string) => draft.playerStates[key] === PlayerStatus.AVAILABLE);
     const availablePlayers: Player[] = players.filter((player) => availablePlayerIds.includes(player.id))
     availablePlayers.forEach((currentPlayer, index) => {
-      const nextPlayer = players
+      const nextPlayer = availablePlayers
         .slice(index + 1)
         .find((next) => next.pos === currentPlayer.pos);
       currentPlayer.rankings[setting].isLastOfTier = !(

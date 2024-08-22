@@ -18,3 +18,9 @@
 .red-background {
   background-color: #700;
 }
+
+@media (max-width: 600px) {
+  .bye-wrapper {
+    padding: 2px 4px;
+  }
+}

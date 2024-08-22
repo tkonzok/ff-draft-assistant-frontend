@@ -1,7 +1,7 @@
 <div class="container">
   <div class="flex column mt-16">
-    <div class="draft-position-wrapper">
-      <span class="draft-position-label">Draft Position: </span>
+    <div class="settings-wrapper">
+      <span class="draft-position-label">Pos: </span>
       <select [value]="draftPosition" (change)="selectDraftPosition($event)" class="select-dropdown">
         <option *ngFor="let position of draftPositions" [value]="position">
           {{ position }}
@@ -9,11 +9,17 @@
       </select>
       <span class="draft-position-label">of </span>
       <span class="draft-position-display">{{ totalDraftPositions }}</span>
-      <button class="reload-button" (click)="reload()">RELOAD</button>
+      <button class="reload-button" (click)="reload()">Reload</button>
+      <button (click)="reset()">
+        Reset
+      </button>
+      <button (click)="showModal = true">
+        Delete
+      </button>
     </div>
     <div class="select-wrapper">
-      <button (click)="openSettingsModal()">
-        New Draft
+      <button (click)="openSettingsModal()" class="button-new-draft">
+        +
       </button>
       <span>Draft:</span>
       <select [(ngModel)]="selectedDraftId" (ngModelChange)="selectDraft($event)" class="select-dropdown">
@@ -27,12 +33,6 @@
           {{ setting }}
         </option>
       </select>
-      <button (click)="reset()">
-        Reset
-      </button>
-      <button (click)="showModal = true">
-        Delete
-      </button>
     </div>
     <app-drafted-team></app-drafted-team>
   </div>

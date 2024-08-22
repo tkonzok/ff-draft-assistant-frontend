@@ -1,6 +1,6 @@
 .container {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 20px;
   justify-content: space-around;
   margin: 32px auto 0;
@@ -18,9 +18,10 @@ app-draft-board {
   font-size: 18px;
 }
 
-.draft-position-wrapper,
+.settings-wrapper,
 .select-wrapper {
   display: flex;
+  justify-content: space-between;
   align-items: center;
   gap: 16px;
 }
@@ -61,8 +62,46 @@ app-draft-board {
   text-align: center;
 }
 
-.reload-button {
-  width: 100px;
+.settings-wrapper > button {
+  width: 90px;
   height: 30px;
   text-align: center;
+}
+
+.reload-button {
+  padding: 0 20px;
+}
+
+.button-new-draft {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 26px;
+}
+
+@media (max-width: 1240px) {
+  .container {
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    margin: 0 auto;
+  }
+
+  .mt-16 {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 720px) {
+  .settings-wrapper > button {
+    width: fit-content;
+  }
+}
+
+@media (max-width: 600px) {
+  .select-wrapper > span {
+    display: none;
+  }
 }

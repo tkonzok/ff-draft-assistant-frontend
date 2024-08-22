@@ -9,13 +9,13 @@
 
 .grid-header {
   display: grid;
-  grid-template-columns: repeat(3, 64px) 256px repeat(2, 72px);
+  grid-template-columns: 48px repeat(2, 64px) 256px repeat(2, 72px);
   font-weight: bold;
+  border-bottom: 1px solid #ddd;
 }
 
 .grid-header > div {
   padding: 10px;
-  border-bottom: 1px solid #ddd;
   text-align: start;
 }
 
@@ -27,4 +27,16 @@
 .grid-row {
   display: grid;
   grid-template-columns: 1fr;
+}
+
+@media (max-width: 600px) {
+  .grid-header {
+    grid-template-columns: 40px 40px 56px 172px repeat(2, 56px);
+  }
+
+  .grid-header > div {
+    padding-left: 0;
+    padding-right: 0;
+    margin: 0 auto;
+  }
 }

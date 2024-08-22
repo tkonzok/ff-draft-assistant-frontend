@@ -4,13 +4,6 @@
   margin-bottom: 10px;
 }
 
-.filters-wrapper span {
-  margin: 8px auto 8px 8px;
-  text-align: start;
-  font-weight: bold;
-  font-size: 16px;
-}
-
 .filter-buttons {
   display: flex;
   gap: 10px;
@@ -29,46 +22,15 @@
   color: white;
 }
 
-.draft-board-grid {
-  display: grid;
-  grid-template-columns: max-content;
-  width: fit-content;
-  max-height: 100%;
-  border: 1px solid #ddd;
-  overflow: hidden;
+.search-bar-wrapper {
+  display: flex;
 }
 
-.grid-header {
-  display: grid;
-  grid-template-columns: 44px 48px repeat(3, 64px) 256px repeat(2, 72px) 36px;
-  font-weight: bold;
-  background-color: #3f3f3f;
-  border-bottom: 1px solid #ddd;
-}
-
-.grid-header > div {
-  padding: 10px;
+.search-bar-wrapper span {
+  margin: 8px auto 8px 8px;
   text-align: start;
-}
-
-.grid-row-wrapper {
-  max-height: min(1280px, calc(100vh - 96px));
-  overflow: auto;
-}
-
-.grid-row {
-  display: grid;
-  grid-template-columns: 1fr;
-}
-
-.black-background {
-  background-color: #000;
-  color: #fff;
-}
-
-.red-background {
-  background-color: #700;
-  color: #fff;
+  font-weight: bold;
+  font-size: 16px;
 }
 
 .search-container {
@@ -100,6 +62,66 @@
   color: #333;
 }
 
+.draft-board-grid {
+  display: grid;
+  grid-template-columns: max-content;
+  width: fit-content;
+  max-height: 100%;
+  border: 1px solid #ddd;
+  overflow: hidden;
+}
+
+.grid-header {
+  display: grid;
+  grid-template-columns: 44px 48px repeat(2, 64px) 164px repeat(2, 72px) 44px;
+  font-weight: bold;
+  background-color: #3f3f3f;
+  border-bottom: 1px solid #ddd;
+}
+
+.grid-header > div {
+  padding: 10px;
+  text-align: start;
+}
+
+.grid-row-wrapper {
+  max-height: min(1280px, calc(100vh - 96px));
+  overflow: auto;
+}
+
+.grid-row {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.black-background {
+  background-color: #000;
+  color: #fff;
+}
+
+.red-background {
+  background-color: #700;
+  color: #fff;
+}
+
 .highlighted {
   background-color: #6f6f6f;
+}
+
+@media (max-width: 600px) {
+  .filters-wrapper {
+    flex-direction: column;
+    flex-flow: column-reverse;
+    padding-left: 8px;
+  }
+
+  .grid-header {
+    grid-template-columns: 40px 32px 32px 48px 128px repeat(2, 48px) 44px;
+  }
+
+  .grid-header > div {
+    padding-left: 0;
+    padding-right: 0;
+    margin: 0 auto;
+  }
 }

@@ -42,19 +42,21 @@
       TIER
     </button>
   </div>
-  <div class="search-container">
-    <input
-      type="text"
-      [(ngModel)]="searchTerm"
-      placeholder="Search players..."
-      (input)="filterPlayers()"
-      class="search-input"
-    />
-    <button *ngIf="searchTerm" (click)="clearSearch()" class="clear-btn">
-      ×
-    </button>
+  <div class="search-bar-wrapper">
+    <div class="search-container">
+      <input
+        type="text"
+        [(ngModel)]="searchTerm"
+        placeholder="Search players..."
+        (input)="filterPlayers()"
+        class="search-input"
+      />
+      <button *ngIf="searchTerm" (click)="clearSearch()" class="clear-btn">
+        ×
+      </button>
+    </div>
+    <span>{{currentPick}}</span>
   </div>
-  <span>{{currentPick}}</span>
 </div>
 
 <div class="draft-board-grid">
@@ -77,7 +79,6 @@
           visiblePosition !== undefined &&
           player.rankings[this.settings].isLastOfTier
         "
-        [tier]="player.rankings[this.settings].tier"
         [ngClass]="{
           highlighted:
             highlightedPlayers.includes(player) && !showOnlyNextTiers,

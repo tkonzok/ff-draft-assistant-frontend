@@ -22,7 +22,6 @@ import { SettingsService } from "../../../domain/settings.service";
 })
 export class DraftBoardRowComponent implements OnInit {
   @Input({ required: true }) player!: Player;
-  @Input({ required: true }) tier!: string;
   @Input() showBorderBottom: boolean = false;
   protected selectedSetting: string = "hppr1qb";
 
