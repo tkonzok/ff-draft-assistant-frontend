@@ -11,6 +11,7 @@
   display: grid;
   grid-template-columns: 48px repeat(2, 64px) 256px repeat(2, 72px);
   font-weight: bold;
+  background-color: #3f3f3f;
   border-bottom: 1px solid #ddd;
 }
 
@@ -21,8 +22,16 @@
 
 .grid-row-wrapper {
   max-height: min(1280px, calc(100vh - 96px));
-  overflow: auto;
+  overflow: hidden;
+  transition: max-height 0.5s ease-out, opacity 0.5s ease-out;
+  opacity: 1;
 }
+
+.grid-row-wrapper.collapsed {
+  max-height: 0;
+  opacity: 0;
+}
+
 
 .grid-row {
   display: grid;

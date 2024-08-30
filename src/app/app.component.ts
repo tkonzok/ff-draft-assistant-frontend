@@ -111,12 +111,15 @@ export class AppComponent implements OnInit {
     if (!this.selectedDraft) {
       location.reload();
     }
-    this.draftService.reset(this.selectedDraft!.id);
+    this.draftService.reset(this.selectedDraft!.id).subscribe(() => {
+      location.reload()
+    });
   }
 
   protected delete() {
-    this.draftService.delete(this.selectedDraftId);
-    location.reload();
+    this.draftService.delete(this.selectedDraftId).subscribe(() => {
+      location.reload()
+    });
   }
 
   protected handleConfirmation(confirmed: boolean) {

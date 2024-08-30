@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { plainToInstance } from "class-transformer";
 import { BehaviorSubject, of, switchMap, tap } from "rxjs";
@@ -65,11 +65,11 @@ export class DraftService {
           this.draftsSubject.next(drafts);
         }),
       )
-      .subscribe();
   }
 
   delete(id: string) {
-    return this.http.delete(`${DraftService.DRAFTS_URL}/${id}`).subscribe();
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.delete(`${DraftService.DRAFTS_URL}/${id}`, { headers });
   }
 
   private loadDrafts() {

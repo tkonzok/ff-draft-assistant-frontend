@@ -42,6 +42,7 @@
   ></app-draft-board>
   <app-confirm-delete-modal
     *ngIf="showModal"
+    [name]="selectedDraft?.name"
     (confirm)="handleConfirmation($event)">
   </app-confirm-delete-modal>
 </div>

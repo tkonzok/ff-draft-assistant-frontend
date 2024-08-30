@@ -95,6 +95,10 @@ app-draft-board {
 }
 
 @media (max-width: 720px) {
+  .container {
+    padding: 64px 16px 16px;
+  }
+
   .settings-wrapper > button {
     width: fit-content;
   }

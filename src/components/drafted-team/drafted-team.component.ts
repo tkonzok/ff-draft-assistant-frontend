@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { JsonPipe, NgForOf } from "@angular/common";
+import {JsonPipe, NgClass, NgForOf} from "@angular/common";
 import { DraftedTeamRowComponent } from "./drafted-team-row/drafted-team-row.component";
 import { DraftBoardRowComponent } from "../draft-board/draft-board-row/draft-board-row.component";
 import { Player, PlayerStatus } from "../../domain/player";
@@ -12,13 +12,14 @@ import {DraftService} from "../../domain/draft.service";
 @Component({
   selector: "app-drafted-team",
   standalone: true,
-  imports: [NgForOf, JsonPipe, DraftedTeamRowComponent, DraftBoardRowComponent],
+  imports: [NgForOf, JsonPipe, DraftedTeamRowComponent, DraftBoardRowComponent, NgClass],
   templateUrl: "./drafted-team.component.html",
   styleUrl: "./drafted-team.component.css",
 })
 export class DraftedTeamComponent implements OnInit, OnDestroy {
   players: Player[] = [];
   selectedSetting: string = "hppr1qb";
+  protected visible: boolean = true;
   private subscription: Subscription = new Subscription();
 
   constructor(
@@ -53,8 +54,11 @@ export class DraftedTeamComponent implements OnInit, OnDestroy {
     );
   }
 
-
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  protected toggleVisibility() {
+    this.visible = !this.visible;
   }
 }

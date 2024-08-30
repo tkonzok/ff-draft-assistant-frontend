@@ -11,6 +11,7 @@ export class SettingsService {
     "hpprSf",
     "upsidebowl1qb",
     "arcadebowl",
+    "wk1ppr"
   ];
   private selectedSettingSubject: BehaviorSubject<string> =
     new BehaviorSubject<string>(this.SETTINGS[0]);

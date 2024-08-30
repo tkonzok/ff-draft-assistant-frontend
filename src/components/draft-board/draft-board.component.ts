@@ -168,6 +168,10 @@ export class DraftBoardComponent implements OnInit, OnDestroy {
   }
 
   private updateCurrentPick() {
+    if (!this.availablePlayers.length) {
+      this.currentPick = "";
+      return;
+    }
     const numberOfDraftedPlayers = this.totalPlayers.length - this.availablePlayers.length;
     const currentPick = numberOfDraftedPlayers + 1;
     const round = Math.ceil(currentPick / this.totalDraftPositions);

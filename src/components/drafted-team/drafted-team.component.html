@@ -1,5 +1,5 @@
 <div class="drafted-team-grid">
-  <div class="grid-header">
+  <div class="grid-header" (click)="toggleVisibility()">
     <div>OVR</div>
     <div>POS</div>
     <div>RANK</div>
@@ -8,7 +8,7 @@
     <div>BYE</div>
   </div>
 
-  <div class="grid-row-wrapper">
+  <div class="grid-row-wrapper" [ngClass]="{'collapsed': !visible}">
     <div *ngFor="let player of players" class="grid-row">
       <app-drafted-team-row
         [player]="player"

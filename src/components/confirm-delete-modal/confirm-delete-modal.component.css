@@ -21,6 +21,12 @@
   z-index: 1001;
 }
 
+.buttons-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 button {
   margin: 5px;
   height: 50px;

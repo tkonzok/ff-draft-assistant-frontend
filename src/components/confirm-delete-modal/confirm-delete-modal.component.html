@@ -1,6 +1,9 @@
 <div class="modal-backdrop"></div>
 <div class="modal">
-  <p>Are you sure you want to delete?</p>
-  <button (click)="onConfirm()">Yes</button>
-  <button (click)="onCancel()">No</button>
+  <p *ngIf="name">Are you sure you want to delete {{name}}?</p>
+  <p *ngIf="!name">Are you sure you want to delete?</p>
+  <div class="buttons-wrapper">
+    <button (click)="onConfirm()">Yes</button>
+    <button (click)="onCancel()">No</button>
+  </div>
 </div>
