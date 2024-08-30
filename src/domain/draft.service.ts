@@ -55,9 +55,8 @@ export class DraftService {
   }
 
   reset(id: string) {
-    const params = new HttpParams().set("reset", true);
     return this.http
-      .post<Draft>(`${DraftService.DRAFTS_URL}/${id}`, {}, { params })
+      .put<Draft>(`${DraftService.DRAFTS_URL}/${id}/reset`, {})
       .pipe(
         switchMap(() => this.http.get<Draft[]>(DraftService.DRAFTS_URL)),
         switchMap((drafts) => of(plainToInstance(Draft, drafts))),
