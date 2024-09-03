@@ -35,15 +35,15 @@ export class AppComponent implements OnInit {
     private draftService: DraftService,
     private settingsService: SettingsService,
     private dialog: MatDialog,
-  ) {
-    this.availableSettings = settingsService.availableSettings;
-    this.selectedSetting = this.availableSettings[0];
-  }
+  ) {}
 
   ngOnInit(): void {
     this.playerService.init();
     this.settingsService.selectedSetting$.subscribe((setting) => {
       this.selectedSetting = setting;
+    });
+    this.settingsService.availableSettings$.subscribe((settings) => {
+      this.availableSettings = settings;
     });
     this.draftService.drafts$.subscribe((drafts) => {
       this.availableDrafts = drafts;
