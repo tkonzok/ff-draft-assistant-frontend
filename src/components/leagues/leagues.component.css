@@ -8,6 +8,13 @@
   height: calc(100vh - 32px);
 }
 
+.content {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 100px;
+  justify-content: space-around;
+}
+
 @media (max-width: 1240px) {
   .container {
     flex-direction: column;

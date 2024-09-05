@@ -11,6 +11,7 @@ import {League} from "../../domain/league";
 import {RosterComponent} from "./roster/roster.component";
 import {MatchupComponent} from "./matchup/matchup.component";
 import {forkJoin, switchMap, tap} from "rxjs";
+import {ScheduleComponent} from "./schedule/schedule.component";
 
 @Component({
   selector: "app-leagues",
@@ -24,7 +25,8 @@ import {forkJoin, switchMap, tap} from "rxjs";
     ReactiveFormsModule,
     RouterLink,
     RosterComponent,
-    MatchupComponent
+    MatchupComponent,
+    ScheduleComponent
   ],
   templateUrl: "./leagues.component.html",
   styleUrls: ["./leagues.component.css"],
@@ -32,8 +34,7 @@ import {forkJoin, switchMap, tap} from "rxjs";
 export class LeaguesComponent implements OnInit {
   protected leagues: League[] = [];
   protected rosterIds: Map<string, number | null> = new Map<string, number | null>()
-  protected selectedLeague?: League;
-  protected selectedWeek: number = 7;
+  protected selectedWeek: number = 1;
   private readonly USER_ID: string = "855945059361755136";
 
   constructor(
@@ -55,30 +56,9 @@ export class LeaguesComponent implements OnInit {
       }),
       tap((leagues: League[]) => {
         this.leagues = leagues;
-        this.selectedLeague = this.leagues[0];
       })
     ).subscribe();
     this.sleeperService.getWeek().subscribe((week) => this.selectedWeek = week)
-  }
-
-  protected decrementSelectedLeague() {
-    if (!this.selectedLeague) {
-      return;
-    }
-    if (this.selectedLeague === this.leagues[0]) {
-      return;
-    }
-    this.selectedLeague = this.leagues[this.leagues.indexOf(this.selectedLeague) - 1]
-  }
-
-  protected incrementSelectedLeague() {
-    if (!this.selectedLeague) {
-      return;
-    }
-    if (this.selectedLeague === this.leagues[this.leagues.length - 1]) {
-      return;
-    }
-    this.selectedLeague = this.leagues[this.leagues.indexOf(this.selectedLeague) + 1]
   }
 
   protected decrementSelectedWeek() {

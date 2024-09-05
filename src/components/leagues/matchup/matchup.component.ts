@@ -2,8 +2,7 @@ import {Component, Input, OnInit} from "@angular/core";
 import {League} from "../../../domain/league";
 import {MatchupRoster} from "../../../domain/matchup-roster";
 import {SleeperService} from "../../../domain/sleeper.service";
-import {forkJoin, map, tap} from "rxjs";
-import {Matchup} from "../../../domain/matchup";
+import {map, tap} from "rxjs";
 import {NgForOf} from "@angular/common";
 import {SleeperPlayer} from "../../../domain/sleeper-player";
 
