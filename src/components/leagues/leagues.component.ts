@@ -33,7 +33,7 @@ export class LeaguesComponent implements OnInit {
   protected leagues: League[] = [];
   protected rosterIds: Map<string, number | null> = new Map<string, number | null>()
   protected selectedLeague?: League;
-  protected selectedWeek: number = 1;
+  protected selectedWeek: number = 7;
   private readonly USER_ID: string = "855945059361755136";
 
   constructor(
@@ -58,6 +58,7 @@ export class LeaguesComponent implements OnInit {
         this.selectedLeague = this.leagues[0];
       })
     ).subscribe();
+    this.sleeperService.getWeek().subscribe((week) => this.selectedWeek = week)
   }
 
   protected decrementSelectedLeague() {

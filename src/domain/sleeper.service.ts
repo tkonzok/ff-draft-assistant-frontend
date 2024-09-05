@@ -7,6 +7,7 @@ import {plainToInstance} from "class-transformer";
 import {League} from "./league";
 import {Matchup} from "./matchup";
 import {Roster} from "./roster";
+import {NflState} from "./nfl-state";
 
 @Injectable({
   providedIn: "root",
@@ -41,6 +42,12 @@ export class SleeperService {
   getMatchups(leagueId: string, week: string): Observable<Matchup[]> {
     return this.http.get<Matchup[]>(`${SleeperService.SLEEPER_API_URL}/league/${leagueId}/matchups/${week}`).pipe(
       map((matchups) => plainToInstance(Matchup, matchups, {excludeExtraneousValues: true}))
+    )
+  }
+  
+  getWeek(): Observable<number> {
+    return this.http.get<NflState>(`${SleeperService.SLEEPER_API_URL}/state/nfl`).pipe(
+      map((state) => state.display_week)
     )
   }
 }
