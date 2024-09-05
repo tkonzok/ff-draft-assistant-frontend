@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from "@angular/core";
+import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
 import {environment} from "../../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {ScheduleService} from "../../../domain/schedule.service";
@@ -29,6 +29,8 @@ export class ScheduleComponent implements OnInit {
     return this._week;
   }
 
+  @Output() selectGame: EventEmitter<Schedule> = new EventEmitter<Schedule>()
+
   constructor(
     private scheduleService: ScheduleService,
   ) {}
@@ -40,6 +42,10 @@ export class ScheduleComponent implements OnInit {
         this.filterSchedule()
       })
     ).subscribe()
+  }
+
+  protected onSelectGame(game: Schedule) {
+    this.selectGame.emit(game)
   }
 
   private filterSchedule() {

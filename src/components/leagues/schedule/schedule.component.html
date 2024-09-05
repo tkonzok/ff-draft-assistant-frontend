@@ -1,3 +1,3 @@
 <div class="flex column">
-  <span *ngFor="let game of filteredSchedule">{{game.guestTeam}} at {{game.homeTeam}}</span>
+  <button *ngFor="let game of filteredSchedule" (click)="onSelectGame(game)">{{game.guestTeam}} at {{game.homeTeam}}</button>
 </div>

@@ -1,0 +1,20 @@
+.content {
+  display: flex;
+}
+
+.content div {
+  width: 200px;
+}
+
+.content div span {
+  display: flex;
+  flex-direction: column;
+}
+
+.green {
+  color: darkseagreen;
+}
+
+.red {
+  color: darksalmon;
+}

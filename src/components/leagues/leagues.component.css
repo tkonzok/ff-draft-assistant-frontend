@@ -5,7 +5,8 @@
   justify-content: space-around;
   margin: 32px auto 0;
   padding: 16px;
-  height: calc(100vh - 32px);
+  height: calc(100vh - 132px);
+  overflow-y: scroll;
 }
 
 .content {
@@ -13,6 +14,10 @@
   flex-wrap: nowrap;
   gap: 100px;
   justify-content: space-around;
+}
+
+.content > div {
+  gap: 32px;
 }
 
 @media (max-width: 1240px) {

@@ -7,9 +7,9 @@
       <button (click)="incrementSelectedWeek()">-></button>
     </div>
     <div class="content">
-      <app-schedule [week]="selectedWeek"></app-schedule>
-      <div>
-        <app-matchup *ngFor="let league of leagues" [league]="league" [rosterId]="rosterIds.get(league.league_id)" [week]="selectedWeek"></app-matchup>
+      <app-schedule [week]="selectedWeek" (selectGame)="onSelectGame($event)"></app-schedule>
+      <div class="flex column">
+        <app-matchup *ngFor="let league of leagues" [league]="league" [rosterId]="rosterIds.get(league.league_id)" [week]="selectedWeek" [selectedGame]="selectedGame"></app-matchup>
       </div>
     </div>
   </div>

@@ -1,11 +1,11 @@
-<h2>{{league.name}}</h2>
-<div class="flex">
-  <div class="flex column">
-    <h3>My Team</h3>
-    <span *ngFor="let starter of myTeam?.starters">{{ starter ? starter.team + " | " + starter.first_name + " " + starter.last_name : "--"}}</span>
-  </div>
-  <div class="flex column">
-    <h3>Opponents Team</h3>
-    <span *ngFor="let starter of opponent?.starters">{{ starter ? starter.team + " | " + starter.first_name + " " + starter.last_name : "--"}}</span>
+<div *ngIf="myTeam?.starters?.length || opponent?.starters?.length">
+  <h2>{{league.name}}</h2>
+  <div class="content">
+    <div class="flex column green">
+      <span *ngFor="let starter of myTeam?.starters">{{ starter ? starter.team + " | " + starter.first_name + " " + starter.last_name : "--"}}</span>
+    </div>
+    <div class="flex column red">
+      <span *ngFor="let starter of opponent?.starters">{{ starter ? starter.team + " | " + starter.first_name + " " + starter.last_name : "--"}}</span>
+    </div>
   </div>
 </div>

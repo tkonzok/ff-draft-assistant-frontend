@@ -12,6 +12,7 @@ import {RosterComponent} from "./roster/roster.component";
 import {MatchupComponent} from "./matchup/matchup.component";
 import {forkJoin, switchMap, tap} from "rxjs";
 import {ScheduleComponent} from "./schedule/schedule.component";
+import {Schedule} from "../../domain/schedule";
 
 @Component({
   selector: "app-leagues",
@@ -35,6 +36,7 @@ export class LeaguesComponent implements OnInit {
   protected leagues: League[] = [];
   protected rosterIds: Map<string, number | null> = new Map<string, number | null>()
   protected selectedWeek: number = 1;
+  protected selectedGame?: Schedule;
   private readonly USER_ID: string = "855945059361755136";
 
   constructor(
@@ -66,6 +68,7 @@ export class LeaguesComponent implements OnInit {
       return;
     }
     this.selectedWeek -= 1;
+    this.selectedGame = undefined;
   }
 
   protected incrementSelectedWeek() {
@@ -73,5 +76,10 @@ export class LeaguesComponent implements OnInit {
       return;
     }
     this.selectedWeek += 1;
+    this.selectedGame = undefined;
+  }
+
+  protected onSelectGame(game: Schedule) {
+    this.selectedGame = this.selectedGame === game ? undefined : game;
   }
 }
