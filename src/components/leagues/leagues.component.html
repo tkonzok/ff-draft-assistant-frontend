@@ -1,5 +1,6 @@
 <div class="container">
   <div class="flex column mt-16">
     <button [routerLink]="['/drafts']">Drafts</button>
+    <span *ngFor="let league of leagues">{{ league.name }}</span>
   </div>
 </div>
