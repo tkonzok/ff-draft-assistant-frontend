@@ -8,6 +8,9 @@ import {RouterLink} from "@angular/router";
 import {SleeperService} from "../../domain/sleeper.service";
 import {SleeperPlayer} from "../../domain/sleeper-player";
 import {League} from "../../domain/league";
+import {RosterComponent} from "./roster/roster.component";
+import {MatchupComponent} from "./matchup/matchup.component";
+import {forkJoin, switchMap, tap} from "rxjs";
 
 @Component({
   selector: "app-leagues",
@@ -19,14 +22,18 @@ import {League} from "../../domain/league";
     NgForOf,
     NgIf,
     ReactiveFormsModule,
-    RouterLink
+    RouterLink,
+    RosterComponent,
+    MatchupComponent
   ],
   templateUrl: "./leagues.component.html",
   styleUrls: ["./leagues.component.css"],
 })
 export class LeaguesComponent implements OnInit {
-  protected allSleeperPlayers: SleeperPlayer[] = [];
   protected leagues: League[] = [];
+  protected rosterIds: Map<string, number | null> = new Map<string, number | null>()
+  protected selectedLeague?: League;
+  protected selectedWeek: number = 1;
   private readonly USER_ID: string = "855945059361755136";
 
   constructor(
@@ -34,7 +41,56 @@ export class LeaguesComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.sleeperService.getSleeperPlayers().subscribe((sleeperPlayers) => this.allSleeperPlayers = sleeperPlayers);
-    this.sleeperService.getLeagues(this.USER_ID).subscribe((leagues) => this.leagues = leagues)
+    this.sleeperService.getLeagues(this.USER_ID).pipe(
+      switchMap((leagues) => {
+        const leagueObservables = leagues.map((league: League) =>
+          this.sleeperService.getRosterId(league.league_id, this.USER_ID).pipe(
+            tap((rosterId: number | null) => {
+              this.rosterIds.set(league.league_id, rosterId);
+            }),
+            switchMap(() => [league])
+          )
+        );
+        return forkJoin(leagueObservables);
+      }),
+      tap((leagues: League[]) => {
+        this.leagues = leagues;
+        this.selectedLeague = this.leagues[0];
+      })
+    ).subscribe();
+  }
+
+  protected decrementSelectedLeague() {
+    if (!this.selectedLeague) {
+      return;
+    }
+    if (this.selectedLeague === this.leagues[0]) {
+      return;
+    }
+    this.selectedLeague = this.leagues[this.leagues.indexOf(this.selectedLeague) - 1]
+  }
+
+  protected incrementSelectedLeague() {
+    if (!this.selectedLeague) {
+      return;
+    }
+    if (this.selectedLeague === this.leagues[this.leagues.length - 1]) {
+      return;
+    }
+    this.selectedLeague = this.leagues[this.leagues.indexOf(this.selectedLeague) + 1]
+  }
+
+  protected decrementSelectedWeek() {
+    if (this.selectedWeek === 1) {
+      return;
+    }
+    this.selectedWeek -= 1;
+  }
+
+  protected incrementSelectedWeek() {
+    if (this.selectedWeek === 17) {
+      return;
+    }
+    this.selectedWeek += 1;
   }
 }

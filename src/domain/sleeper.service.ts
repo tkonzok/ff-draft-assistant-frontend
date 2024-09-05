@@ -2,10 +2,11 @@ import {Injectable} from "@angular/core";
 import {environment} from "../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {SleeperPlayer} from "./sleeper-player";
-import {map, Observable} from "rxjs";
+import {filter, map, Observable} from "rxjs";
 import {plainToInstance} from "class-transformer";
 import {League} from "./league";
 import {Matchup} from "./matchup";
+import {Roster} from "./roster";
 
 @Injectable({
   providedIn: "root",
@@ -30,7 +31,14 @@ export class SleeperService {
     )
   }
 
-  getMatchups(leagueId: string, week: string) {
+  getRosterId(leagueId: string, userId: string): Observable<number | null> {
+    return this.http.get<Roster[]>(`${SleeperService.SLEEPER_API_URL}/league/${leagueId}/rosters`).pipe(
+      map((rosters) => plainToInstance(Roster, rosters, { excludeExtraneousValues: true })),
+      map((rosters: Roster[]) => rosters.find(roster => roster.owner_id === userId)?.roster_id || null)
+    );
+  }
+
+  getMatchups(leagueId: string, week: string): Observable<Matchup[]> {
     return this.http.get<Matchup[]>(`${SleeperService.SLEEPER_API_URL}/league/${leagueId}/matchups/${week}`).pipe(
       map((matchups) => plainToInstance(Matchup, matchups, {excludeExtraneousValues: true}))
     )
