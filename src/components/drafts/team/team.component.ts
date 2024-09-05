@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { NgClass } from "@angular/common";
-import { PlayerService } from "../../domain/player.service";
-import {Player, PlayerStatus} from "../../domain/player";
-import {DraftService} from "../../domain/draft.service";
+import { PlayerService } from "../../../domain/player.service";
+import {Player, PlayerStatus} from "../../../domain/player";
+import {DraftService} from "../../../domain/draft.service";
 import {combineLatest} from "rxjs";
 
 @Component({

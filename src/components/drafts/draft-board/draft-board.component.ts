@@ -2,12 +2,12 @@ import { JsonPipe, NgClass, NgForOf, NgIf } from "@angular/common";
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { BehaviorSubject, Subscription, combineLatest } from "rxjs";
-import { Player, PlayerStatus } from "../../domain/player";
-import { PlayerService } from "../../domain/player.service";
-import { SettingsService } from "../../domain/settings.service";
 import { Position } from "../position/position.component";
 import { DraftBoardRowComponent } from "./draft-board-row/draft-board-row.component";
-import {DraftService} from "../../domain/draft.service";
+import {Player, PlayerStatus} from "../../../domain/player";
+import {PlayerService} from "../../../domain/player.service";
+import {SettingsService} from "../../../domain/settings.service";
+import {DraftService} from "../../../domain/draft.service";
 
 @Component({
   selector: "app-draft-board",

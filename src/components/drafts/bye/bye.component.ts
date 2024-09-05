@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { NgClass } from "@angular/common";
-import {Player, PlayerStatus} from "../../domain/player";
-import { PlayerService } from "../../domain/player.service";
-import {DraftService} from "../../domain/draft.service";
 import {combineLatest} from "rxjs";
+import {PlayerService} from "../../../domain/player.service";
+import {DraftService} from "../../../domain/draft.service";
+import {Player, PlayerStatus} from "../../../domain/player";
 
 @Component({
   selector: "app-bye",

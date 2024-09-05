@@ -1,9 +1,9 @@
 import { Component, Input } from "@angular/core";
-import { Player } from "../../../domain/player";
 import { NgOptimizedImage } from "@angular/common";
 import { PositionComponent } from "../../position/position.component";
 import { ByeComponent } from "../../bye/bye.component";
 import { TeamComponent } from "../../team/team.component";
+import {Player} from "../../../../domain/player";
 
 @Component({
   selector: "app-drafted-team-row",

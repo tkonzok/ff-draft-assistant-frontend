@@ -2,12 +2,12 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 import {JsonPipe, NgClass, NgForOf} from "@angular/common";
 import { DraftedTeamRowComponent } from "./drafted-team-row/drafted-team-row.component";
 import { DraftBoardRowComponent } from "../draft-board/draft-board-row/draft-board-row.component";
-import { Player, PlayerStatus } from "../../domain/player";
-import { PlayerService } from "../../domain/player.service";
 import { Position } from "../position/position.component";
-import { SettingsService } from "../../domain/settings.service";
 import { combineLatest, Subscription, switchMap } from "rxjs";
-import {DraftService} from "../../domain/draft.service";
+import {SettingsService} from "../../../domain/settings.service";
+import {Player, PlayerStatus} from "../../../domain/player";
+import {PlayerService} from "../../../domain/player.service";
+import {DraftService} from "../../../domain/draft.service";
 
 @Component({
   selector: "app-drafted-team",
