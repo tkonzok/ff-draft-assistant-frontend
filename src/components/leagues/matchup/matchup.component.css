@@ -3,12 +3,12 @@
 }
 
 .content div {
-  width: 200px;
+  width: 240px;
 }
 
-.content div span {
+.player {
   display: flex;
-  flex-direction: column;
+  gap: 8px;
 }
 
 .green {
@@ -17,4 +17,8 @@
 
 .red {
   color: darksalmon;
+}
+
+.points {
+  font-weight: bold;
 }

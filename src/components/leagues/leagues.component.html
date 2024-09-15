@@ -1,15 +1,18 @@
 <div class="container">
   <div class="flex column mt-16">
-    <button [routerLink]="['/drafts']">Drafts</button>
-    <div *ngIf="leagues.length">
-      <button (click)="decrementSelectedWeek()"><-</button>
-      <span>{{ selectedWeek }}</span>
-      <button (click)="incrementSelectedWeek()">-></button>
-    </div>
     <div class="content">
-      <app-schedule [week]="selectedWeek" (selectGame)="onSelectGame($event)"></app-schedule>
       <div class="flex column">
-        <app-matchup *ngFor="let league of leagues" [league]="league" [rosterId]="rosterIds.get(league.league_id)" [week]="selectedWeek" [selectedGame]="selectedGame"></app-matchup>
+        <button [routerLink]="['/drafts']">Drafts</button>
+        <div class="week-selector" *ngIf="leagues.length">
+          <button (click)="decrementSelectedWeek()"><-</button>
+          <span>{{ selectedWeek }}</span>
+          <button (click)="incrementSelectedWeek()">-></button>
+        </div>
+        <app-schedule [week]="selectedWeek" (selectGame)="onSelectGame($event)"></app-schedule>
+        <button [ngClass]="showPoints ? 'hide-points' : 'show-points'" (click)="toggleShowPoints()">{{ showPoints ? 'Hide Points' : 'Show Points' }}</button>
+      </div>
+      <div class="matchup-container flex column">
+        <app-matchup *ngFor="let league of leagues" [league]="league" [rosterId]="rosterIds.get(league.league_id)" [week]="selectedWeek" [selectedGame]="selectedGame" [showPoints]="showPoints"></app-matchup>
       </div>
     </div>
   </div>

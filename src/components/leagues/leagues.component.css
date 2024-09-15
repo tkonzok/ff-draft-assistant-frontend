@@ -1,3 +1,8 @@
+button {
+  padding: 8px;
+  font-size: 16px;
+}
+
 .container {
   display: flex;
   flex-wrap: nowrap;
@@ -18,6 +23,24 @@
 
 .content > div {
   gap: 32px;
+}
+
+.show-points {
+  background-color: darksalmon;
+}
+
+.hide-points {
+  background-color: darkseagreen;
+}
+
+.week-selector {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+}
+
+.matchup-container {
+  margin-top: 72px;
 }
 
 @media (max-width: 1240px) {

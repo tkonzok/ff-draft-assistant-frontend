@@ -10,4 +10,7 @@ export class MatchupRoster {
 
   @Expose()
   points!: number;
+
+  @Expose()
+  starters_points!: number[];
 }

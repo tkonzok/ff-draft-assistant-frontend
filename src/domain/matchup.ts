@@ -15,4 +15,7 @@ export class Matchup {
 
   @Expose()
   points!: number;
+
+  @Expose()
+  starters_points!: number[];
 }

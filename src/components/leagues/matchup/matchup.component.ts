@@ -26,6 +26,7 @@ export class MatchupComponent implements OnInit {
   private _rosterId: number | null | undefined;
   private _week: number = 1;
   private _selectedGame?: Schedule;
+  private _showPoints: boolean = false;
 
   @Input({ required: true })
   set league(value: League) {
@@ -61,6 +62,14 @@ export class MatchupComponent implements OnInit {
   }
   get selectedGame(): Schedule | undefined {
     return this._selectedGame;
+  }
+
+  @Input()
+  set showPoints(showPoints: boolean) {
+    this._showPoints = showPoints;
+  }
+  get showPoints(): boolean {
+    return this._showPoints;
   }
 
   constructor(
@@ -102,6 +111,7 @@ export class MatchupComponent implements OnInit {
           }),
           roster_id: myMatchup.roster_id,
           points: myMatchup.points,
+          starters_points: myMatchup.starters_points,
         };
 
         this.opponent = {
@@ -116,6 +126,7 @@ export class MatchupComponent implements OnInit {
           }),
           roster_id: opponentsMatchup.roster_id,
           points: opponentsMatchup.points,
+          starters_points: opponentsMatchup.starters_points,
         };
       })
     ).subscribe();

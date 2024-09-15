@@ -2,7 +2,7 @@ import {Component, OnInit} from "@angular/core";
 import {ConfirmDeleteModalComponent} from "../drafts/confirm-delete-modal/confirm-delete-modal.component";
 import {DraftBoardComponent} from "../drafts/draft-board/draft-board.component";
 import {DraftedTeamComponent} from "../drafts/drafted-team/drafted-team.component";
-import {NgForOf, NgIf} from "@angular/common";
+import {NgClass, NgForOf, NgIf} from "@angular/common";
 import {ReactiveFormsModule} from "@angular/forms";
 import {RouterLink} from "@angular/router";
 import {SleeperService} from "../../domain/sleeper.service";
@@ -27,7 +27,8 @@ import {Schedule} from "../../domain/schedule";
     RouterLink,
     RosterComponent,
     MatchupComponent,
-    ScheduleComponent
+    ScheduleComponent,
+    NgClass
   ],
   templateUrl: "./leagues.component.html",
   styleUrls: ["./leagues.component.css"],
@@ -37,6 +38,7 @@ export class LeaguesComponent implements OnInit {
   protected rosterIds: Map<string, number | null> = new Map<string, number | null>()
   protected selectedWeek: number = 1;
   protected selectedGame?: Schedule;
+  protected showPoints: boolean = false;
   private readonly USER_ID: string = "855945059361755136";
 
   constructor(
@@ -81,5 +83,9 @@ export class LeaguesComponent implements OnInit {
 
   protected onSelectGame(game: Schedule) {
     this.selectedGame = this.selectedGame === game ? undefined : game;
+  }
+
+  protected toggleShowPoints() {
+    this.showPoints = !this.showPoints;
   }
 }
