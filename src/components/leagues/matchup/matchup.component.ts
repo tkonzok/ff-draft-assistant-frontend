@@ -6,6 +6,7 @@ import {map, tap} from "rxjs";
 import {NgForOf, NgIf} from "@angular/common";
 import {SleeperPlayer} from "../../../domain/sleeper-player";
 import {Schedule} from "../../../domain/schedule";
+import {Matchup} from "../../../domain/matchup";
 
 @Component({
   selector: "app-matchup",
@@ -99,36 +100,42 @@ export class MatchupComponent implements OnInit {
           return;
         }
 
+        const myFilteredStarters = this.filterStarters(myMatchup);
+        const opponentFilteredStarters = this.filterStarters(opponentsMatchup);
+
         this.myTeam = {
-          starters: myMatchup.starters.map(starter => this.allSleeperPlayers.find(player => player.player_id === starter)).filter((player) => {
-            if (!player) {
-              return false;
-            }
-            if (this.selectedGame === undefined) {
-              return true;
-            }
-            return [this.selectedGame?.guestTeam, this.selectedGame?.homeTeam].includes(player.team)
-          }),
+          starters: myFilteredStarters.map(item => item.player),
           roster_id: myMatchup.roster_id,
           points: myMatchup.points,
-          starters_points: myMatchup.starters_points,
+          starters_points: myFilteredStarters.map(item => myMatchup.starters_points[item.index]),
         };
 
+
         this.opponent = {
-          starters: opponentsMatchup.starters.map(starter => this.allSleeperPlayers.find(player => player.player_id === starter)).filter((player) => {
-            if (!player) {
-              return false;
-            }
-            if (this.selectedGame === undefined) {
-              return true;
-            }
-            return [this.selectedGame?.guestTeam, this.selectedGame?.homeTeam].includes(player.team)
-          }),
+          starters: opponentFilteredStarters.map(item => item.player),
           roster_id: opponentsMatchup.roster_id,
           points: opponentsMatchup.points,
-          starters_points: opponentsMatchup.starters_points,
+          starters_points: opponentFilteredStarters.map(item => opponentsMatchup.starters_points[item.index]),
         };
       })
     ).subscribe();
+  }
+
+  private filterStarters(matchup: Matchup) {
+    return matchup.starters
+      .map((starter, index) => ({
+        player: this.allSleeperPlayers.find(player => player.player_id === starter),
+        index: index
+      }))
+      .filter((item) => {
+        const player = item.player;
+        if (!player) {
+          return false;
+        }
+        if (this.selectedGame === undefined) {
+          return true;
+        }
+        return [this.selectedGame?.guestTeam, this.selectedGame?.homeTeam].includes(player.team);
+      });
   }
 }

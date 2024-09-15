@@ -6,7 +6,6 @@ import {NgClass, NgForOf, NgIf} from "@angular/common";
 import {ReactiveFormsModule} from "@angular/forms";
 import {RouterLink} from "@angular/router";
 import {SleeperService} from "../../domain/sleeper.service";
-import {SleeperPlayer} from "../../domain/sleeper-player";
 import {League} from "../../domain/league";
 import {RosterComponent} from "./roster/roster.component";
 import {MatchupComponent} from "./matchup/matchup.component";
@@ -82,7 +81,12 @@ export class LeaguesComponent implements OnInit {
   }
 
   protected onSelectGame(game: Schedule) {
-    this.selectedGame = this.selectedGame === game ? undefined : game;
+    if (this.selectedGame === game) {
+      this.selectedGame = undefined;
+      this.showPoints = false;
+      return
+    }
+    this.selectedGame = game;
   }
 
   protected toggleShowPoints() {

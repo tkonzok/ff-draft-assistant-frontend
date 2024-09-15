@@ -6,14 +6,14 @@
         <span>{{ showPoints && myTeam?.starters_points?.length ? myTeam!.starters_points[index] + " " : ""}}</span>
         <span class="green">{{ starter ? starter.team + " | " + starter.first_name + " " + starter.last_name : "--"}}</span>
       </span>
-      <span class="points" *ngIf="showPoints">{{myTeam?.points}}</span>
+      <span class="points" *ngIf="showPoints && !selectedGame">{{myTeam?.points}}</span>
     </div>
     <div class="flex column">
       <span class="player" *ngFor="let starter of opponent?.starters; let index = index">
         <span>{{ showPoints && opponent?.starters_points?.length ? opponent!.starters_points[index] + " " : ""}}</span>
         <span class="red">{{ starter ? starter.team + " | " + starter.first_name + " " + starter.last_name : "--"}}</span>
       </span>
-      <span class="points" *ngIf="showPoints">{{opponent?.points}}</span>
+      <span class="points" *ngIf="showPoints && !selectedGame">{{opponent?.points}}</span>
     </div>
   </div>
 </div>
