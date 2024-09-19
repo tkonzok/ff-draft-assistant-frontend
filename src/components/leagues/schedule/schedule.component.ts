@@ -4,13 +4,14 @@ import {HttpClient} from "@angular/common/http";
 import {ScheduleService} from "../../../domain/schedule.service";
 import {map, tap} from "rxjs";
 import {Schedule} from "../../../domain/schedule";
-import {NgForOf} from "@angular/common";
+import {NgClass, NgForOf} from "@angular/common";
 
 @Component({
   selector: "app-schedule",
   standalone: true,
   imports: [
-    NgForOf
+    NgForOf,
+    NgClass
   ],
   templateUrl: "./schedule.component.html",
   styleUrls: ["./schedule.component.css"],
@@ -31,6 +32,8 @@ export class ScheduleComponent implements OnInit {
   get week(): number | undefined {
     return this._week;
   }
+
+  @Input() selectedGame?: Schedule;
 
   @Output() selectGame: EventEmitter<Schedule> = new EventEmitter<Schedule>()
 

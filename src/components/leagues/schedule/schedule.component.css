@@ -2,3 +2,7 @@ button {
   padding: 4px 8px;
   font-size: 16px;
 }
+
+.selected {
+  background: cadetblue;
+}

@@ -4,6 +4,7 @@
     <button
       *ngFor="let game of dateGroup[1]"
       (click)="onSelectGame(game)"
+      [ngClass]="{'selected': selectedGame === game}"
     >
       {{ game.guestTeam }} at {{ game.homeTeam }}
     </button>

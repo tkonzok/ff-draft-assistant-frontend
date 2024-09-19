@@ -8,7 +8,7 @@
           <span>{{ selectedWeek }}</span>
           <button (click)="incrementSelectedWeek()">-></button>
         </div>
-        <app-schedule [week]="selectedWeek" (selectGame)="onSelectGame($event)"></app-schedule>
+        <app-schedule [week]="selectedWeek" [selectedGame]="selectedGame" (selectGame)="onSelectGame($event)"></app-schedule>
         <button [ngClass]="showPoints ? 'hide-points' : 'show-points'" (click)="toggleShowPoints()">{{ showPoints ? 'Hide Points' : 'Show Points' }}</button>
       </div>
       <div class="matchup-container flex column">
