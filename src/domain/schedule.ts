@@ -9,4 +9,7 @@ export class Schedule {
 
   @Expose()
   guestTeam!: string;
+
+  @Expose()
+  date!: string;
 }

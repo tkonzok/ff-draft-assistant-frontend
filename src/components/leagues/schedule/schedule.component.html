@@ -1,3 +1,12 @@
 <div class="flex column">
-  <button *ngFor="let game of filteredSchedule" (click)="onSelectGame(game)">{{game.guestTeam}} at {{game.homeTeam}}</button>
+<!--  <button *ngFor="let game of filteredSchedule" (click)="onSelectGame(game)">{{game.guestTeam}} at {{game.homeTeam}}</button>-->
+  <div class="flex column" *ngFor="let dateGroup of filteredScheduleMapByDate">
+    <button
+      *ngFor="let game of dateGroup[1]"
+      (click)="onSelectGame(game)"
+    >
+      {{ game.guestTeam }} at {{ game.homeTeam }}
+    </button>
+    <span></span>
+  </div>
 </div>
