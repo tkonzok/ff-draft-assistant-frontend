@@ -44,7 +44,6 @@ export class DraftsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.playerService.init();
     this.settingsService.selectedSetting$.subscribe((setting) => {
       this.selectedSetting = setting;
     });

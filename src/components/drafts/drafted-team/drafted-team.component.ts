@@ -31,7 +31,7 @@ export class DraftedTeamComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscription.add(
       combineLatest([
-        this.playerService.players$,
+        this.playerService.playersOfSelectedDraft$,
         this.settingsService.selectedSetting$,
         this.draftService.selectedDraft$,
       ]).subscribe(([players, setting, draft]) => {

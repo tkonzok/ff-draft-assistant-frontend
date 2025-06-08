@@ -1,29 +1,48 @@
-<span>Ranking:</span>
-<select
-  *ngIf="availableSettings$ | async; let settings"
-  [(ngModel)]="selectedSetting"
-  (ngModelChange)="filterPlayers($event)"
-  class="select-dropdown"
->
-  <option *ngFor="let setting of settings" [value]="setting">
-    {{ setting }}
-  </option>
-</select>
-<div class="draft-board-grid">
-  <div class="grid-header">
-    <div></div>
-    <div>OVR</div>
-    <div>POS</div>
-    <div>RANK</div>
-    <div>NAME</div>
-    <div>TEAM</div>
-    <div>BYE</div>
-    <div></div>
-  </div>
+@if (initialized$ | async) {
+  <span>Ranking:</span>
+  <select [(ngModel)]="selectedSetting" (ngModelChange)="filterAndSortPlayers($event)" class="select-dropdown">
+    <option *ngFor="let setting of availableSettings" [value]="setting">
+      {{ setting }}
+    </option>
+  </select>
 
-  <div class="grid-row-wrapper">
-    <div *ngFor="let player of filteredPlayers" class="grid-row">
-      <app-draft-board-row [player]="player"> </app-draft-board-row>
+  @if (this.selectedSetting) {
+    <div class="draft-board-grid">
+      <div class="grid-header">
+        <div></div>
+        <div>OVR</div>
+        <div>POS</div>
+        <div>RANK</div>
+        <div>NAME</div>
+        <div>TEAM</div>
+        <div>BYE</div>
+        <div></div>
+      </div>
+
+      <div class="grid-row-wrapper">
+        <div *ngFor="let player of filteredPlayers" class="grid-row">
+          <div class="ranking-row">
+            <div>
+              <button>
+                <img ngSrc="../../../assets/icons/cross.svg" alt="cross" height="24" width="24" />
+              </button>
+            </div>
+            <div>{{ player.rankings[this.selectedSetting].ovr }}</div>
+            <app-position [pos]="player.pos"></app-position>
+            <div>{{ player.rankings[this.selectedSetting].rank }}</div>
+            <div>{{ player.name }}</div>
+            <app-team [team]="player.team"></app-team>
+            <app-bye [bye]="player.bye"></app-bye>
+            <div>
+              <button>
+                <img ngSrc="../../../assets/icons/checkmark.svg" alt="checkmark" height="24" width="24" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
+  }
+} @else {
+  <p>loading...</p>
+}

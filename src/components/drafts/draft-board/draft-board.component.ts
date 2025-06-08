@@ -54,7 +54,7 @@ export class DraftBoardComponent implements OnInit, OnDestroy {
     );
 
     this.subscriptions.add(
-      combineLatest([this.pickPositionsSubject, this.playerService.players$, this.draftService.selectedDraft$]).subscribe(
+      combineLatest([this.pickPositionsSubject, this.playerService.playersOfSelectedDraft$, this.draftService.selectedDraft$]).subscribe(
         ([pickPositions, players, draft]) => {
           this.totalPlayers = players;
           this.availablePlayers = draft

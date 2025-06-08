@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { plainToInstance } from 'class-transformer';
-import { BehaviorSubject, combineLatest, map, switchMap, tap } from 'rxjs';
+import { combineLatest, map, ReplaySubject } from 'rxjs';
 import { environment } from '../environments/environment';
 import { Draft } from './draft';
 import { DraftService } from './draft.service';
@@ -13,31 +13,30 @@ import { SettingsService } from './settings.service';
 })
 export class PlayerService {
   public static readonly PLAYER_URL: string = `${environment.apiUrl}/players`;
-  private playersSubject = new BehaviorSubject<Player[]>([]);
-  players$ = this.playersSubject.asObservable();
+  private _playersOfSelectedDraft$ = new ReplaySubject<Player[]>(1);
+  private _players$ = new ReplaySubject<Player[]>(1);
 
   constructor(
     private http: HttpClient,
     private settingsService: SettingsService,
     private draftService: DraftService,
-  ) {}
+  ) {
+    this.http
+      .get<Player[]>(PlayerService.PLAYER_URL)
+      .pipe(map((players) => plainToInstance(Player, players)))
+      .subscribe((players: Player[]) => this._players$.next(players));
 
-  init(): void {
-    combineLatest([this.settingsService.selectedSetting$, this.draftService.selectedDraft$])
+    combineLatest([this._players$, this.settingsService.selectedSetting$, this.draftService.selectedDraft$])
       .pipe(
-        switchMap(([setting, draft]) =>
-          this.http.get<Player[]>(PlayerService.PLAYER_URL).pipe(
-            map((players) => plainToInstance(Player, players)),
-            map((players) => this.filterPlayers(players, setting)),
-            map((players) => this.sortPlayers(players, setting)),
-            tap((players) => {
-              if (draft) {
-                this.markLastOfTier(players, draft, setting);
-              }
-              this.playersSubject.next(players);
-            }),
-          ),
-        ),
+        map(([players, setting, draft]) => {
+          const playersCopy = [...players];
+          this.filterPlayers(playersCopy, setting);
+          this.sortPlayers(playersCopy, setting);
+          if (draft) {
+            this.markLastOfTier(playersCopy, draft, setting);
+          }
+          this._playersOfSelectedDraft$.next(playersCopy);
+        }),
       )
       .subscribe();
   }
@@ -48,6 +47,14 @@ export class PlayerService {
 
   remove(player: Player): void {
     this.draftService.updatePlayerStatus(player.id, PlayerStatus.NOT_AVAILABLE);
+  }
+
+  get players$() {
+    return this._players$.asObservable();
+  }
+
+  get playersOfSelectedDraft$() {
+    return this._playersOfSelectedDraft$.asObservable();
   }
 
   private filterPlayers(players: Player[], setting: string): Player[] {

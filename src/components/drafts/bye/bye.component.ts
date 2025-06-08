@@ -22,7 +22,7 @@ export class ByeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    combineLatest([this.playerService.players$, this.draftService.selectedDraft$]).subscribe(([players, draft]) => {
+    combineLatest([this.playerService.playersOfSelectedDraft$, this.draftService.selectedDraft$]).subscribe(([players, draft]) => {
       if (!draft) {
         this.timesByeDrafted = 0;
         return;
