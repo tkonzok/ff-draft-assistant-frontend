@@ -1,25 +1,26 @@
-import { JsonPipe, NgClass, NgForOf, NgIf } from "@angular/common";
-import { Component, Input, OnDestroy, OnInit } from "@angular/core";
-import { FormsModule } from "@angular/forms";
-import { BehaviorSubject, Subscription, combineLatest } from "rxjs";
-import { Position } from "../position/position.component";
-import { DraftBoardRowComponent } from "./draft-board-row/draft-board-row.component";
-import {Player, PlayerStatus} from "../../../domain/player";
-import {PlayerService} from "../../../domain/player.service";
-import {SettingsService} from "../../../domain/settings.service";
-import {DraftService} from "../../../domain/draft.service";
+import { JsonPipe, NgClass, NgForOf, NgIf } from '@angular/common';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import { BehaviorSubject, Subscription, combineLatest } from 'rxjs';
+import { DraftService } from '../../../domain/draft.service';
+import { Player, PlayerStatus } from '../../../domain/player';
+import { PlayerService } from '../../../domain/player.service';
+import { SettingsService } from '../../../domain/settings.service';
+import { Position } from '../position/position.component';
+import { DraftBoardRowComponent } from './draft-board-row/draft-board-row.component';
 
 @Component({
-  selector: "app-draft-board",
+  selector: 'app-draft-board',
   standalone: true,
-  imports: [NgForOf, JsonPipe, DraftBoardRowComponent, NgClass, FormsModule, NgIf],
-  templateUrl: "./draft-board.component.html",
-  styleUrls: ["./draft-board.component.css"],
+  imports: [NgForOf, JsonPipe, DraftBoardRowComponent, NgClass, FormsModule, NgIf, RouterLink],
+  templateUrl: './draft-board.component.html',
+  styleUrls: ['./draft-board.component.css'],
 })
 export class DraftBoardComponent implements OnInit, OnDestroy {
   @Input() set draftPosition(value: Record<string, number>) {
-    const pickPositions: number[] = this.getPickPositions(value["draftPosition"], value["totalDraftPositions"]);
-    this.totalDraftPositions = value["totalDraftPositions"];
+    const pickPositions: number[] = this.getPickPositions(value['draftPosition'], value['totalDraftPositions']);
+    this.totalDraftPositions = value['totalDraftPositions'];
     this.pickPositionsSubject.next(pickPositions);
   }
 
@@ -27,9 +28,9 @@ export class DraftBoardComponent implements OnInit, OnDestroy {
   protected filteredPlayers: Player[] = [];
   protected highlightedPlayers: Player[] = [];
   protected showOnlyNextTiers: boolean = false;
-  protected searchTerm: string = "";
-  protected settings: string = "";
-  protected currentPick: string = "1";
+  protected searchTerm: string = '';
+  protected settings: string = '';
+  protected currentPick: string = '1';
   protected visiblePosition?: string;
   protected readonly Position = Position;
 
@@ -53,18 +54,20 @@ export class DraftBoardComponent implements OnInit, OnDestroy {
     );
 
     this.subscriptions.add(
-      combineLatest([this.pickPositionsSubject, this.playerService.players$, this.draftService.selectedDraft$]).subscribe(([pickPositions, players, draft]) => {
-        this.totalPlayers = players;
-        this.availablePlayers = draft
-          ? players.filter((player) => {
-            const status = draft.playerStates?.[player.id];
-            return status === PlayerStatus.AVAILABLE;
-          })
-          : [];
-        this.updateHighlightedPlayers(pickPositions);
-        this.updateCurrentPick();
-        this.filterPlayers();
-      }),
+      combineLatest([this.pickPositionsSubject, this.playerService.players$, this.draftService.selectedDraft$]).subscribe(
+        ([pickPositions, players, draft]) => {
+          this.totalPlayers = players;
+          this.availablePlayers = draft
+            ? players.filter((player) => {
+                const status = draft.playerStates?.[player.id];
+                return status === PlayerStatus.AVAILABLE;
+              })
+            : [];
+          this.updateHighlightedPlayers(pickPositions);
+          this.updateCurrentPick();
+          this.filterPlayers();
+        },
+      ),
     );
   }
 
@@ -74,7 +77,7 @@ export class DraftBoardComponent implements OnInit, OnDestroy {
 
   protected togglePosition(position: Position): void {
     this.showOnlyNextTiers = false;
-    this.visiblePosition = position
+    this.visiblePosition = position;
     this.filterPlayers();
   }
 
@@ -145,21 +148,19 @@ export class DraftBoardComponent implements OnInit, OnDestroy {
     draftPosition = Number(draftPosition);
     for (let round = 1; round <= totalRounds; round++) {
       round = Number(round);
-      const pickInRound = (round % 2 === 1)
-        ? (round - 1) * totalTeams + draftPosition
-        : (round * totalTeams - draftPosition + 1);
+      const pickInRound = round % 2 === 1 ? (round - 1) * totalTeams + draftPosition : round * totalTeams - draftPosition + 1;
       picks.push(Number(pickInRound));
     }
     return picks;
   }
 
   private clearSearchTerm() {
-    this.searchTerm = "";
+    this.searchTerm = '';
   }
 
   private matchesSearchTerm(player: Player) {
-    let trimmedPlayerName = player.name.toLowerCase().replace(/[^a-zA-Z]/g, "");
-    let trimmedSearchTerm = this.searchTerm.toLowerCase().replace(/[^a-zA-Z]/g, "");
+    let trimmedPlayerName = player.name.toLowerCase().replace(/[^a-zA-Z]/g, '');
+    let trimmedSearchTerm = this.searchTerm.toLowerCase().replace(/[^a-zA-Z]/g, '');
     return trimmedPlayerName.includes(trimmedSearchTerm);
   }
 
@@ -169,7 +170,7 @@ export class DraftBoardComponent implements OnInit, OnDestroy {
 
   private updateCurrentPick() {
     if (!this.availablePlayers.length) {
-      this.currentPick = "";
+      this.currentPick = '';
       return;
     }
     const numberOfDraftedPlayers = this.totalPlayers.length - this.availablePlayers.length;

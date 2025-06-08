@@ -1,20 +1,15 @@
-import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
-import {environment} from "../../../environments/environment";
-import {HttpClient} from "@angular/common/http";
-import {ScheduleService} from "../../../domain/schedule.service";
-import {map, tap} from "rxjs";
-import {Schedule} from "../../../domain/schedule";
-import {NgClass, NgForOf} from "@angular/common";
+import { NgClass, NgForOf } from '@angular/common';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { tap } from 'rxjs';
+import { Schedule } from '../../../domain/schedule';
+import { ScheduleService } from '../../../domain/schedule.service';
 
 @Component({
-  selector: "app-schedule",
+  selector: 'app-schedule',
   standalone: true,
-  imports: [
-    NgForOf,
-    NgClass
-  ],
-  templateUrl: "./schedule.component.html",
-  styleUrls: ["./schedule.component.css"],
+  imports: [NgForOf, NgClass],
+  templateUrl: './schedule.component.html',
+  styleUrls: ['./schedule.component.css'],
 })
 export class ScheduleComponent implements OnInit {
   protected fullSchedule: Schedule[] = [];
@@ -23,9 +18,9 @@ export class ScheduleComponent implements OnInit {
   private _week?: number;
 
   @Input() set week(value: number) {
-    this._week = value
-    this.filterSchedule()
-    this.sortSchedule()
+    this._week = value;
+    this.filterSchedule();
+    this.sortSchedule();
     this.mapScheduleDates();
   }
 
@@ -35,33 +30,34 @@ export class ScheduleComponent implements OnInit {
 
   @Input() selectedGame?: Schedule;
 
-  @Output() selectGame: EventEmitter<Schedule> = new EventEmitter<Schedule>()
+  @Output() selectGame: EventEmitter<Schedule> = new EventEmitter<Schedule>();
 
-  constructor(
-    private scheduleService: ScheduleService,
-  ) {}
+  constructor(private scheduleService: ScheduleService) {}
 
   ngOnInit() {
-    this.scheduleService.getSchedule().pipe(
-      tap((schedule) => {
-        this.fullSchedule = schedule
-        this.filterSchedule();
-        this.sortSchedule();
-        this.mapScheduleDates();
-      })
-    ).subscribe()
+    this.scheduleService
+      .getSchedule()
+      .pipe(
+        tap((schedule) => {
+          this.fullSchedule = schedule;
+          this.filterSchedule();
+          this.sortSchedule();
+          this.mapScheduleDates();
+        }),
+      )
+      .subscribe();
   }
 
   protected onSelectGame(game: Schedule) {
-    this.selectGame.emit(game)
+    this.selectGame.emit(game);
   }
 
   private filterSchedule() {
-    this.filteredSchedule = this.fullSchedule.filter((game) => game.week === this.week)
+    this.filteredSchedule = this.fullSchedule.filter((game) => game.week === this.week);
   }
 
   private sortSchedule() {
-    this.filteredSchedule = this.filteredSchedule.sort((a, b) => a.date.localeCompare(b.date))
+    this.filteredSchedule = this.filteredSchedule.sort((a, b) => a.date.localeCompare(b.date));
   }
 
   private mapScheduleDates() {
@@ -73,6 +69,6 @@ export class ScheduleComponent implements OnInit {
       map.get(date)?.push(schedule);
       return map;
     }, new Map<string, Schedule[]>());
-    this.filteredScheduleMapByDate = Array.from(map.entries())
+    this.filteredScheduleMapByDate = Array.from(map.entries());
   }
 }

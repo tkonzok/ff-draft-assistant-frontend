@@ -1,8 +1,8 @@
-import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DraftedTeamRowComponent } from "./drafted-team-row.component";
+import { DraftedTeamRowComponent } from './drafted-team-row.component';
 
-describe("PlayerRowComponent", () => {
+describe('PlayerRowComponent', () => {
   let component: DraftedTeamRowComponent;
   let fixture: ComponentFixture<DraftedTeamRowComponent>;
 
@@ -16,7 +16,7 @@ describe("PlayerRowComponent", () => {
     fixture.detectChanges();
   });
 
-  it("should create", () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 });

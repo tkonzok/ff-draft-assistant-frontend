@@ -1,20 +1,20 @@
-import {Component, OnInit} from "@angular/core";
-import {ConfirmDeleteModalComponent} from "../drafts/confirm-delete-modal/confirm-delete-modal.component";
-import {DraftBoardComponent} from "../drafts/draft-board/draft-board.component";
-import {DraftedTeamComponent} from "../drafts/drafted-team/drafted-team.component";
-import {NgClass, NgForOf, NgIf} from "@angular/common";
-import {ReactiveFormsModule} from "@angular/forms";
-import {RouterLink} from "@angular/router";
-import {SleeperService} from "../../domain/sleeper.service";
-import {League} from "../../domain/league";
-import {RosterComponent} from "./roster/roster.component";
-import {MatchupComponent} from "./matchup/matchup.component";
-import {forkJoin, switchMap, tap} from "rxjs";
-import {ScheduleComponent} from "./schedule/schedule.component";
-import {Schedule} from "../../domain/schedule";
+import { NgClass, NgForOf, NgIf } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import { forkJoin, switchMap, tap } from 'rxjs';
+import { League } from '../../domain/league';
+import { Schedule } from '../../domain/schedule';
+import { SleeperService } from '../../domain/sleeper.service';
+import { ConfirmDeleteModalComponent } from '../drafts/confirm-delete-modal/confirm-delete-modal.component';
+import { DraftBoardComponent } from '../drafts/draft-board/draft-board.component';
+import { DraftedTeamComponent } from '../drafts/drafted-team/drafted-team.component';
+import { MatchupComponent } from './matchup/matchup.component';
+import { RosterComponent } from './roster/roster.component';
+import { ScheduleComponent } from './schedule/schedule.component';
 
 @Component({
-  selector: "app-leagues",
+  selector: 'app-leagues',
   standalone: true,
   imports: [
     ConfirmDeleteModalComponent,
@@ -27,41 +27,42 @@ import {Schedule} from "../../domain/schedule";
     RosterComponent,
     MatchupComponent,
     ScheduleComponent,
-    NgClass
+    NgClass,
   ],
-  templateUrl: "./leagues.component.html",
-  styleUrls: ["./leagues.component.css"],
+  templateUrl: './leagues.component.html',
+  styleUrls: ['./leagues.component.css'],
 })
 export class LeaguesComponent implements OnInit {
   protected leagues: League[] = [];
-  protected rosterIds: Map<string, number | null> = new Map<string, number | null>()
+  protected rosterIds: Map<string, number | null> = new Map<string, number | null>();
   protected selectedWeek: number = 1;
   protected selectedGame?: Schedule;
   protected showPoints: boolean = false;
-  private readonly USER_ID: string = "855945059361755136";
+  private readonly USER_ID: string = '855945059361755136';
 
-  constructor(
-    private sleeperService: SleeperService,
-  ) {}
+  constructor(private sleeperService: SleeperService) {}
 
   ngOnInit() {
-    this.sleeperService.getLeagues(this.USER_ID).pipe(
-      switchMap((leagues) => {
-        const leagueObservables = leagues.map((league: League) =>
-          this.sleeperService.getRosterId(league.league_id, this.USER_ID).pipe(
-            tap((rosterId: number | null) => {
-              this.rosterIds.set(league.league_id, rosterId);
-            }),
-            switchMap(() => [league])
-          )
-        );
-        return forkJoin(leagueObservables);
-      }),
-      tap((leagues: League[]) => {
-        this.leagues = leagues;
-      })
-    ).subscribe();
-    this.sleeperService.getWeek().subscribe((week) => this.selectedWeek = week)
+    this.sleeperService
+      .getLeagues(this.USER_ID)
+      .pipe(
+        switchMap((leagues) => {
+          const leagueObservables = leagues.map((league: League) =>
+            this.sleeperService.getRosterId(league.league_id, this.USER_ID).pipe(
+              tap((rosterId: number | null) => {
+                this.rosterIds.set(league.league_id, rosterId);
+              }),
+              switchMap(() => [league]),
+            ),
+          );
+          return forkJoin(leagueObservables);
+        }),
+        tap((leagues: League[]) => {
+          this.leagues = leagues;
+        }),
+      )
+      .subscribe();
+    this.sleeperService.getWeek().subscribe((week) => (this.selectedWeek = week));
   }
 
   protected decrementSelectedWeek() {
@@ -84,7 +85,7 @@ export class LeaguesComponent implements OnInit {
     if (this.selectedGame === game) {
       this.selectedGame = undefined;
       this.showPoints = false;
-      return
+      return;
     }
     this.selectedGame = game;
   }

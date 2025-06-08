@@ -1,0 +1,44 @@
+.draft-board-row {
+  display: grid;
+  grid-template-columns: 44px 48px repeat(2, 64px) 164px repeat(2, 72px) 44px;
+  align-items: center;
+  height: 40px;
+  padding: 8px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.draft-board-row > * {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  text-align: start;
+  padding: 8px;
+}
+
+button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+button img {
+  width: 26px;
+  height: 26px;
+}
+
+.border-bottom {
+  border-bottom: 4px solid;
+}
+
+@media (max-width: 600px) {
+  .draft-board-row {
+    grid-template-columns: 40px 32px 32px 48px 128px repeat(2, 48px) 44px;
+  }
+
+  .draft-board-row > * {
+    padding-left: 0;
+    padding-right: 0;
+    margin: 0 auto;
+  }
+}

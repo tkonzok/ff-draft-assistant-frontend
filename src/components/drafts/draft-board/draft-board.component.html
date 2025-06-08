@@ -51,12 +51,11 @@
         (input)="filterPlayers()"
         class="search-input"
       />
-      <button *ngIf="searchTerm" (click)="clearSearch()" class="clear-btn">
-        ×
-      </button>
+      <button *ngIf="searchTerm" (click)="clearSearch()" class="clear-btn">×</button>
     </div>
-    <span>{{currentPick}}</span>
+    <span>{{ currentPick }}</span>
   </div>
+  <button [routerLink]="'/rankings'">EDIT</button>
 </div>
 
 <div class="draft-board-grid">
@@ -75,13 +74,9 @@
     <div *ngFor="let player of filteredPlayers" class="grid-row">
       <app-draft-board-row
         [player]="player"
-        [showBorderBottom]="
-          visiblePosition !== undefined &&
-          player.rankings[this.settings].isLastOfTier
-        "
+        [showBorderBottom]="visiblePosition !== undefined && player.rankings[this.settings].isLastOfTier"
         [ngClass]="{
-          highlighted:
-            highlightedPlayers.includes(player) && !showOnlyNextTiers,
+          highlighted: highlightedPlayers.includes(player) && !showOnlyNextTiers,
         }"
       >
       </app-draft-board-row>

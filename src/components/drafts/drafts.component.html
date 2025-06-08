@@ -1,6 +1,5 @@
 <div class="container">
   <div class="flex column mt-16">
-    <button [routerLink]="['/leagues']">Leagues</button>
     <div class="settings-wrapper">
       <span class="draft-position-label">Pos: </span>
       <select [value]="draftPosition" (change)="selectDraftPosition($event)" class="select-dropdown">
@@ -11,17 +10,11 @@
       <span class="draft-position-label">of </span>
       <span class="draft-position-display">{{ totalDraftPositions }}</span>
       <button class="reload-button" (click)="reload()">Reload</button>
-      <button (click)="reset()">
-        Reset
-      </button>
-      <button (click)="showModal = true">
-        Delete
-      </button>
+      <button (click)="reset()">Reset</button>
+      <button (click)="showModal = true">Delete</button>
     </div>
     <div class="select-wrapper">
-      <button (click)="openSettingsModal()" class="button-new-draft">
-        +
-      </button>
+      <button (click)="openSettingsModal()" class="button-new-draft">+</button>
       <span>Draft:</span>
       <select [(ngModel)]="selectedDraftId" (ngModelChange)="selectDraft($event)" class="select-dropdown">
         <option *ngFor="let draft of availableDrafts" [value]="draft.id">
@@ -37,13 +30,7 @@
     </div>
     <app-drafted-team></app-drafted-team>
   </div>
-  <app-draft-board
-    class="mt-16"
-    [draftPosition]="{ draftPosition, totalDraftPositions }"
-  ></app-draft-board>
-  <app-confirm-delete-modal
-    *ngIf="showModal"
-    [name]="selectedDraft?.name"
-    (confirm)="handleConfirmation($event)">
+  <app-draft-board class="mt-16" [draftPosition]="{ draftPosition, totalDraftPositions }"></app-draft-board>
+  <app-confirm-delete-modal *ngIf="showModal" [name]="selectedDraft?.name" (confirm)="handleConfirmation($event)">
   </app-confirm-delete-modal>
 </div>

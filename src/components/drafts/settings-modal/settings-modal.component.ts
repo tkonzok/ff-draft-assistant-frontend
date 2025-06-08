@@ -1,19 +1,13 @@
-import {Component, Inject} from '@angular/core';
-import {
-  MAT_DIALOG_DATA,
-  MatDialogActions,
-  MatDialogContent,
-  MatDialogRef,
-  MatDialogTitle
-} from "@angular/material/dialog";
-import {MatFormField, MatLabel, MatOption, MatSelect} from "@angular/material/select";
-import {FormsModule} from "@angular/forms";
-import {MatButton} from "@angular/material/button";
-import {NgForOf} from "@angular/common";
-import {MatInput} from "@angular/material/input";
+import { NgForOf } from '@angular/common';
+import { Component, Inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import { MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
+import { MatInput } from '@angular/material/input';
+import { MatFormField, MatLabel, MatOption, MatSelect } from '@angular/material/select';
 
 @Component({
-  selector: "app-settings-modal",
+  selector: 'app-settings-modal',
   standalone: true,
   imports: [
     MatSelect,
@@ -28,14 +22,14 @@ import {MatInput} from "@angular/material/input";
     NgForOf,
     MatInput,
   ],
-  templateUrl: "./settings-modal.component.html",
-  styleUrl: "./settings-modal.component.css",
+  templateUrl: './settings-modal.component.html',
+  styleUrl: './settings-modal.component.css',
 })
 export class SettingsModalComponent {
   availableSettings: string[] = [];
-  name: string = "";
+  name: string = '';
   settings: string;
-  totalParticipants: string = "12";
+  totalParticipants: string = '12';
   participantOptions: string[] = Array.from({ length: 11 }, (_, i) => (i + 6).toString());
 
   constructor(

@@ -1,24 +1,24 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
-import {JsonPipe, NgClass, NgForOf} from "@angular/common";
-import { DraftedTeamRowComponent } from "./drafted-team-row/drafted-team-row.component";
-import { DraftBoardRowComponent } from "../draft-board/draft-board-row/draft-board-row.component";
-import { Position } from "../position/position.component";
-import { combineLatest, Subscription, switchMap } from "rxjs";
-import {SettingsService} from "../../../domain/settings.service";
-import {Player, PlayerStatus} from "../../../domain/player";
-import {PlayerService} from "../../../domain/player.service";
-import {DraftService} from "../../../domain/draft.service";
+import { JsonPipe, NgClass, NgForOf } from '@angular/common';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription, combineLatest } from 'rxjs';
+import { DraftService } from '../../../domain/draft.service';
+import { Player, PlayerStatus } from '../../../domain/player';
+import { PlayerService } from '../../../domain/player.service';
+import { SettingsService } from '../../../domain/settings.service';
+import { DraftBoardRowComponent } from '../draft-board/draft-board-row/draft-board-row.component';
+import { Position } from '../position/position.component';
+import { DraftedTeamRowComponent } from './drafted-team-row/drafted-team-row.component';
 
 @Component({
-  selector: "app-drafted-team",
+  selector: 'app-drafted-team',
   standalone: true,
   imports: [NgForOf, JsonPipe, DraftedTeamRowComponent, DraftBoardRowComponent, NgClass],
-  templateUrl: "./drafted-team.component.html",
-  styleUrl: "./drafted-team.component.css",
+  templateUrl: './drafted-team.component.html',
+  styleUrl: './drafted-team.component.css',
 })
 export class DraftedTeamComponent implements OnInit, OnDestroy {
   players: Player[] = [];
-  selectedSetting: string = "hppr1qb";
+  selectedSetting: string = 'hppr1qb';
   protected visible: boolean = true;
   private subscription: Subscription = new Subscription();
 
@@ -34,11 +34,10 @@ export class DraftedTeamComponent implements OnInit, OnDestroy {
         this.playerService.players$,
         this.settingsService.selectedSetting$,
         this.draftService.selectedDraft$,
-      ])
-        .subscribe(([players, setting, draft]) => {
-          this.selectedSetting = setting as string;
-          this.players = draft
-            ? players
+      ]).subscribe(([players, setting, draft]) => {
+        this.selectedSetting = setting as string;
+        this.players = draft
+          ? players
               .filter((player) => draft.playerStates?.[player.id] === PlayerStatus.DRAFTED)
               .sort((a, b) => {
                 const positionOrder: Record<Position, number> = {
@@ -49,8 +48,8 @@ export class DraftedTeamComponent implements OnInit, OnDestroy {
                 };
                 return (positionOrder[a.pos] || 0) - (positionOrder[b.pos] || 0);
               })
-            : [];
-        }),
+          : [];
+      }),
     );
   }
 

@@ -1,19 +1,18 @@
-import {Component, OnInit} from "@angular/core";
-import {NgForOf, NgIf} from "@angular/common";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {Draft} from "../../domain/draft";
-import {PlayerService} from "../../domain/player.service";
-import {DraftService} from "../../domain/draft.service";
-import {SettingsService} from "../../domain/settings.service";
-import {MatDialog} from "@angular/material/dialog";
-import {SettingsModalComponent} from "./settings-modal/settings-modal.component";
-import {ConfirmDeleteModalComponent} from "./confirm-delete-modal/confirm-delete-modal.component";
-import {DraftBoardComponent} from "./draft-board/draft-board.component";
-import {DraftedTeamComponent} from "./drafted-team/drafted-team.component";
-import {RouterLink} from "@angular/router";
+import { NgForOf, NgIf } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { Draft } from '../../domain/draft';
+import { DraftService } from '../../domain/draft.service';
+import { PlayerService } from '../../domain/player.service';
+import { SettingsService } from '../../domain/settings.service';
+import { ConfirmDeleteModalComponent } from './confirm-delete-modal/confirm-delete-modal.component';
+import { DraftBoardComponent } from './draft-board/draft-board.component';
+import { DraftedTeamComponent } from './drafted-team/drafted-team.component';
+import { SettingsModalComponent } from './settings-modal/settings-modal.component';
 
 @Component({
-  selector: "app-drafts",
+  selector: 'app-drafts',
   standalone: true,
   imports: [
     ConfirmDeleteModalComponent,
@@ -23,10 +22,9 @@ import {RouterLink} from "@angular/router";
     NgIf,
     ReactiveFormsModule,
     FormsModule,
-    RouterLink
   ],
-  templateUrl: "./drafts.component.html",
-  styleUrls: ["./drafts.component.css"],
+  templateUrl: './drafts.component.html',
+  styleUrls: ['./drafts.component.css'],
 })
 export class DraftsComponent implements OnInit {
   protected showModal: boolean = false;
@@ -35,8 +33,8 @@ export class DraftsComponent implements OnInit {
   protected availableSettings: string[] = [];
   protected availableDrafts: Draft[] = [];
   protected selectedDraft?: Draft | null;
-  protected selectedSetting: string = "";
-  protected selectedDraftId: string = "";
+  protected selectedSetting: string = '';
+  protected selectedDraftId: string = '';
 
   constructor(
     private playerService: PlayerService,
@@ -120,13 +118,13 @@ export class DraftsComponent implements OnInit {
       location.reload();
     }
     this.draftService.reset(this.selectedDraft!.id).subscribe(() => {
-      location.reload()
+      location.reload();
     });
   }
 
   protected delete() {
     this.draftService.delete(this.selectedDraftId).subscribe(() => {
-      location.reload()
+      location.reload();
     });
   }
 

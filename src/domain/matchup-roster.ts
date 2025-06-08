@@ -1,5 +1,5 @@
-import {Expose} from "class-transformer";
-import {SleeperPlayer} from "./sleeper-player";
+import { Expose } from 'class-transformer';
+import { SleeperPlayer } from './sleeper-player';
 
 export class MatchupRoster {
   @Expose()

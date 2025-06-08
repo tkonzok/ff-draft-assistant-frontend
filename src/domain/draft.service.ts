@@ -1,13 +1,13 @@
-import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { plainToInstance } from "class-transformer";
-import { BehaviorSubject, of, switchMap, tap } from "rxjs";
-import { Draft } from "./draft";
-import {PlayerStatus} from "./player";
-import {environment} from "../environments/environment";
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { plainToInstance } from 'class-transformer';
+import { BehaviorSubject, of, switchMap, tap } from 'rxjs';
+import { environment } from '../environments/environment';
+import { Draft } from './draft';
+import { PlayerStatus } from './player';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class DraftService {
   public static readonly DRAFTS_URL: string = `${environment.apiUrl}/drafts`;
@@ -51,19 +51,17 @@ export class DraftService {
       return;
     }
     const body = { playerStates: { [id]: playerStatus } };
-    return this.callUpdate(this.selectedDraftSubject.getValue()!.id, body)
+    return this.callUpdate(this.selectedDraftSubject.getValue()!.id, body);
   }
 
   reset(id: string) {
-    return this.http
-      .put<Draft>(`${DraftService.DRAFTS_URL}/${id}/reset`, {})
-      .pipe(
-        switchMap(() => this.http.get<Draft[]>(DraftService.DRAFTS_URL)),
-        switchMap((drafts) => of(plainToInstance(Draft, drafts))),
-        tap((drafts) => {
-          this.draftsSubject.next(drafts);
-        }),
-      )
+    return this.http.put<Draft>(`${DraftService.DRAFTS_URL}/${id}/reset`, {}).pipe(
+      switchMap(() => this.http.get<Draft[]>(DraftService.DRAFTS_URL)),
+      switchMap((drafts) => of(plainToInstance(Draft, drafts))),
+      tap((drafts) => {
+        this.draftsSubject.next(drafts);
+      }),
+    );
   }
 
   delete(id: string) {
@@ -88,16 +86,16 @@ export class DraftService {
         switchMap(() => this.http.get<Draft[]>(DraftService.DRAFTS_URL)),
         switchMap((drafts) => of(plainToInstance(Draft, drafts))),
         tap((drafts) => {
-          const selectedDraftId = this.selectedDraftSubject.getValue()?.id
+          const selectedDraftId = this.selectedDraftSubject.getValue()?.id;
           this.draftsSubject.next(drafts);
           if (!selectedDraftId) {
-            return
+            return;
           }
-          const selectedDraft = this.draftsSubject.getValue().find((draft) => draft.id === selectedDraftId)
+          const selectedDraft = this.draftsSubject.getValue().find((draft) => draft.id === selectedDraftId);
           if (!selectedDraft) {
             return;
           }
-          this.selectedDraftSubject.next(selectedDraft)
+          this.selectedDraftSubject.next(selectedDraft);
         }),
       )
       .subscribe();

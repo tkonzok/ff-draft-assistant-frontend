@@ -1,4 +1,11 @@
-.drafted-team-grid {
+.select-dropdown {
+  padding: 5px;
+  font-size: 16px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.draft-board-grid {
   display: grid;
   grid-template-columns: max-content;
   width: fit-content;
@@ -9,7 +16,7 @@
 
 .grid-header {
   display: grid;
-  grid-template-columns: 48px repeat(2, 64px) 256px repeat(2, 72px);
+  grid-template-columns: 44px 48px repeat(2, 64px) 164px repeat(2, 72px) 44px;
   font-weight: bold;
   background-color: #3f3f3f;
   border-bottom: 1px solid #ddd;
@@ -22,16 +29,7 @@
 
 .grid-row-wrapper {
   max-height: min(1280px, calc(100vh - 96px));
-  overflow: hidden;
-  transition:
-    max-height 0.5s ease-out,
-    opacity 0.5s ease-out;
-  opacity: 1;
-}
-
-.grid-row-wrapper.collapsed {
-  max-height: 0;
-  opacity: 0;
+  overflow: auto;
 }
 
 .grid-row {
@@ -41,7 +39,7 @@
 
 @media (max-width: 600px) {
   .grid-header {
-    grid-template-columns: 40px 40px 56px 172px repeat(2, 56px);
+    grid-template-columns: 40px 32px 32px 48px 128px repeat(2, 48px) 44px;
   }
 
   .grid-header > div {

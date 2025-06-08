@@ -1,0 +1,29 @@
+<span>Ranking:</span>
+<select
+  *ngIf="availableSettings$ | async; let settings"
+  [(ngModel)]="selectedSetting"
+  (ngModelChange)="filterPlayers($event)"
+  class="select-dropdown"
+>
+  <option *ngFor="let setting of settings" [value]="setting">
+    {{ setting }}
+  </option>
+</select>
+<div class="draft-board-grid">
+  <div class="grid-header">
+    <div></div>
+    <div>OVR</div>
+    <div>POS</div>
+    <div>RANK</div>
+    <div>NAME</div>
+    <div>TEAM</div>
+    <div>BYE</div>
+    <div></div>
+  </div>
+
+  <div class="grid-row-wrapper">
+    <div *ngFor="let player of filteredPlayers" class="grid-row">
+      <app-draft-board-row [player]="player"> </app-draft-board-row>
+    </div>
+  </div>
+</div>

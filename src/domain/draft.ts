@@ -1,5 +1,5 @@
-import {Expose, Transform} from "class-transformer";
-import {PlayerStatus} from "./player";
+import { Expose } from 'class-transformer';
+import { PlayerStatus } from './player';
 
 export class Draft {
   @Expose()
@@ -18,5 +18,5 @@ export class Draft {
   totalParticipants!: number;
 
   @Expose()
-  playerStates!: Record<string, PlayerStatus>
+  playerStates!: Record<string, PlayerStatus>;
 }

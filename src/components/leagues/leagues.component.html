@@ -9,10 +9,19 @@
           <button (click)="incrementSelectedWeek()">-></button>
         </div>
         <app-schedule [week]="selectedWeek" [selectedGame]="selectedGame" (selectGame)="onSelectGame($event)"></app-schedule>
-        <button [ngClass]="showPoints ? 'hide-points' : 'show-points'" (click)="toggleShowPoints()">{{ showPoints ? 'Hide Points' : 'Show Points' }}</button>
+        <button [ngClass]="showPoints ? 'hide-points' : 'show-points'" (click)="toggleShowPoints()">
+          {{ showPoints ? "Hide Points" : "Show Points" }}
+        </button>
       </div>
       <div class="matchup-container flex column">
-        <app-matchup *ngFor="let league of leagues" [league]="league" [rosterId]="rosterIds.get(league.league_id)" [week]="selectedWeek" [selectedGame]="selectedGame" [showPoints]="showPoints"></app-matchup>
+        <app-matchup
+          *ngFor="let league of leagues"
+          [league]="league"
+          [rosterId]="rosterIds.get(league.league_id)"
+          [week]="selectedWeek"
+          [selectedGame]="selectedGame"
+          [showPoints]="showPoints"
+        ></app-matchup>
       </div>
     </div>
   </div>

@@ -1,17 +1,17 @@
-import { Component, Input } from "@angular/core";
-import { NgClass } from "@angular/common";
+import { NgClass } from '@angular/common';
+import { Component, Input } from '@angular/core';
 
 export enum Position {
-  QB = "QB",
-  RB = "RB",
-  WR = "WR",
-  TE = "TE",
+  QB = 'QB',
+  RB = 'RB',
+  WR = 'WR',
+  TE = 'TE',
 }
 
 @Component({
-  selector: "app-position",
-  templateUrl: "./position.component.html",
-  styleUrls: ["./position.component.css"],
+  selector: 'app-position',
+  templateUrl: './position.component.html',
+  styleUrls: ['./position.component.css'],
   standalone: true,
   imports: [NgClass],
 })
@@ -21,15 +21,15 @@ export class PositionComponent {
   protected getBackgroundClass(): string {
     switch (this.pos) {
       case Position.QB:
-        return "qb-background";
+        return 'qb-background';
       case Position.RB:
-        return "rb-background";
+        return 'rb-background';
       case Position.WR:
-        return "wr-background";
+        return 'wr-background';
       case Position.TE:
-        return "te-background";
+        return 'te-background';
       default:
-        return "";
+        return '';
     }
   }
 }
