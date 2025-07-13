@@ -22,17 +22,19 @@ export class TeamComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    combineLatest([this.playerService.playersOfSelectedDraft$, this.draftService.selectedDraft$]).subscribe(([players, draft]) => {
-      if (!draft) {
-        this.timesTeamDrafted = 0;
-        return;
-      }
-      const draftedPlayerIds: string[] = Object.keys(draft.playerStates).filter(
-        (key: string) => draft.playerStates[key] === PlayerStatus.DRAFTED,
-      );
-      const draftedPlayers: Player[] = players.filter((player) => draftedPlayerIds.includes(player.id));
-      this.timesTeamDrafted = draftedPlayers.map((player) => player.team).filter((team) => team === this.team).length;
-    });
+    combineLatest([this.playerService.playersOfSelectedDraft$, this.draftService.selectedDraft$]).subscribe(
+      ([players, draft]) => {
+        if (!draft) {
+          this.timesTeamDrafted = 0;
+          return;
+        }
+        const draftedPlayerIds: string[] = Object.keys(draft.playerStates).filter(
+          (key: string) => draft.playerStates[key] === PlayerStatus.DRAFTED,
+        );
+        const draftedPlayers: Player[] = players.filter((player) => draftedPlayerIds.includes(player.id));
+        this.timesTeamDrafted = draftedPlayers.map((player) => player.team).filter((team) => team === this.team).length;
+      },
+    );
   }
 
   protected getBackgroundClass(): string {

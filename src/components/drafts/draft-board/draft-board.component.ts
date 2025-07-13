@@ -54,20 +54,22 @@ export class DraftBoardComponent implements OnInit, OnDestroy {
     );
 
     this.subscriptions.add(
-      combineLatest([this.pickPositionsSubject, this.playerService.playersOfSelectedDraft$, this.draftService.selectedDraft$]).subscribe(
-        ([pickPositions, players, draft]) => {
-          this.totalPlayers = players;
-          this.availablePlayers = draft
-            ? players.filter((player) => {
-                const status = draft.playerStates?.[player.id];
-                return status === PlayerStatus.AVAILABLE;
-              })
-            : [];
-          this.updateHighlightedPlayers(pickPositions);
-          this.updateCurrentPick();
-          this.filterPlayers();
-        },
-      ),
+      combineLatest([
+        this.pickPositionsSubject,
+        this.playerService.playersOfSelectedDraft$,
+        this.draftService.selectedDraft$,
+      ]).subscribe(([pickPositions, players, draft]) => {
+        this.totalPlayers = players;
+        this.availablePlayers = draft
+          ? players.filter((player) => {
+              const status = draft.playerStates?.[player.id];
+              return status === PlayerStatus.AVAILABLE;
+            })
+          : [];
+        this.updateHighlightedPlayers(pickPositions);
+        this.updateCurrentPick();
+        this.filterPlayers();
+      }),
     );
   }
 

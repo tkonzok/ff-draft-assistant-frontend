@@ -62,7 +62,9 @@ export class LeaguesComponent implements OnInit {
         }),
       )
       .subscribe();
-    this.sleeperService.getWeek().subscribe((week) => (this.selectedWeek = week));
+    this.sleeperService.getWeek().subscribe((week) => {
+      this.selectedWeek = week || 1;
+    });
   }
 
   protected decrementSelectedWeek() {

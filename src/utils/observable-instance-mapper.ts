@@ -1,6 +1,6 @@
-import { plainToInstance } from "class-transformer";
-import { ClassConstructor } from "class-transformer/types/interfaces";
-import { map, Observable } from "rxjs";
+import { plainToInstance } from 'class-transformer';
+import { ClassConstructor } from 'class-transformer/types/interfaces';
+import { map, Observable } from 'rxjs';
 
 export class ObservableInstanceMapper {
   static valueToInstance<T>(plain$: Observable<any>, cls: ClassConstructor<T>): Observable<T> {

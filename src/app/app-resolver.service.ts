@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { CanActivate, UrlTree } from '@angular/router';
 import { Observable, filter, first, map } from 'rxjs';
 import { MasterDataInitStatus, MasterDataService } from '../domain/master-data.service';
 
@@ -7,9 +7,7 @@ import { MasterDataInitStatus, MasterDataService } from '../domain/master-data.s
   providedIn: 'root',
 })
 export class AppGuard implements CanActivate {
-  constructor(
-    private masterDataService: MasterDataService,
-  ) {}
+  constructor(private masterDataService: MasterDataService) {}
 
   canActivate(): Observable<boolean | UrlTree> {
     return this.masterDataService.initStatus$.pipe(

@@ -1,8 +1,9 @@
 import { NgClass, NgForOf } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {Component, DestroyRef, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { tap } from 'rxjs';
 import { Schedule } from '../../../domain/schedule';
 import { ScheduleService } from '../../../domain/schedule.service';
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 
 @Component({
   selector: 'app-schedule',
@@ -32,11 +33,11 @@ export class ScheduleComponent implements OnInit {
 
   @Output() selectGame: EventEmitter<Schedule> = new EventEmitter<Schedule>();
 
-  constructor(private scheduleService: ScheduleService) {}
+  constructor(private scheduleService: ScheduleService, private readonly destroyRef$: DestroyRef) {}
 
   ngOnInit() {
     this.scheduleService
-      .getSchedule()
+      .getSchedule$()
       .pipe(
         tap((schedule) => {
           this.fullSchedule = schedule;
@@ -44,6 +45,7 @@ export class ScheduleComponent implements OnInit {
           this.sortSchedule();
           this.mapScheduleDates();
         }),
+        takeUntilDestroyed(this.destroyRef$)
       )
       .subscribe();
   }

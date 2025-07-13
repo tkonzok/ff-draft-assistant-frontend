@@ -22,17 +22,19 @@ export class ByeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    combineLatest([this.playerService.playersOfSelectedDraft$, this.draftService.selectedDraft$]).subscribe(([players, draft]) => {
-      if (!draft) {
-        this.timesByeDrafted = 0;
-        return;
-      }
-      const draftedPlayerIds: string[] = Object.keys(draft.playerStates).filter(
-        (key: string) => draft.playerStates[key] === PlayerStatus.DRAFTED,
-      );
-      const draftedPlayers: Player[] = players.filter((player) => draftedPlayerIds.includes(player.id));
-      this.timesByeDrafted = draftedPlayers.map((player) => player.bye).filter((team) => team === this.bye).length;
-    });
+    combineLatest([this.playerService.playersOfSelectedDraft$, this.draftService.selectedDraft$]).subscribe(
+      ([players, draft]) => {
+        if (!draft) {
+          this.timesByeDrafted = 0;
+          return;
+        }
+        const draftedPlayerIds: string[] = Object.keys(draft.playerStates).filter(
+          (key: string) => draft.playerStates[key] === PlayerStatus.DRAFTED,
+        );
+        const draftedPlayers: Player[] = players.filter((player) => draftedPlayerIds.includes(player.id));
+        this.timesByeDrafted = draftedPlayers.map((player) => player.bye).filter((team) => team === this.bye).length;
+      },
+    );
   }
 
   protected getBackgroundClass(): string {
