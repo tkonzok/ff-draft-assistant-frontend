@@ -24,9 +24,10 @@ export class MasterDataService {
 
   refresh() {
     this.draftService.refreshAll().pipe(take(1)).subscribe();
+    this.settingsService.refreshAll().pipe(take(1)).subscribe();
   }
 
-  private init(): Observable<void> {
+  init(): Observable<void> {
     this.initStatus.next(MasterDataInitStatus.IN_PROGRESS);
     return forkJoin({ drafts: this.draftService.init(), settings: this.settingsService.init() }).pipe(
       map(() => {
