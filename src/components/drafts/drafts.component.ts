@@ -1,10 +1,11 @@
 import { NgForOf, NgIf } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { tap } from 'rxjs';
 import { Draft } from '../../domain/draft';
 import { DraftService } from '../../domain/draft.service';
-import { PlayerService } from '../../domain/player.service';
 import { SettingsService } from '../../domain/settings.service';
 import { ConfirmDeleteModalComponent } from './confirm-delete-modal/confirm-delete-modal.component';
 import { DraftBoardComponent } from './draft-board/draft-board.component';
@@ -37,10 +38,10 @@ export class DraftsComponent implements OnInit {
   protected selectedDraftId: string = '';
 
   constructor(
-    private playerService: PlayerService,
     private draftService: DraftService,
     private settingsService: SettingsService,
     private dialog: MatDialog,
+    private readonly destroyRef$: DestroyRef,
   ) {}
 
   ngOnInit(): void {
@@ -50,27 +51,39 @@ export class DraftsComponent implements OnInit {
     this.settingsService.availableSettings$.subscribe((settings) => {
       this.availableSettings = settings;
     });
-    this.draftService.drafts$.subscribe((drafts) => {
-      this.availableDrafts = drafts;
-      if (this.selectedDraft) {
-        const draft = drafts.find((draft) => draft.id === this.selectedDraft?.id);
-        if (draft) {
-          this.selectedDraftId = draft.id;
-          this.settingsService.selectSettings(draft.settings);
-          this.draftPosition = draft.draftPosition;
-          this.totalDraftPositions = draft.totalParticipants;
-        }
-      }
-    });
-    this.draftService.selectedDraft$.subscribe((draft) => {
-      this.selectedDraft = draft;
-      if (draft) {
-        this.selectedDraftId = draft.id;
-        this.settingsService.selectSettings(draft.settings);
-        this.draftPosition = draft.draftPosition;
-        this.totalDraftPositions = draft.totalParticipants;
-      }
-    });
+    this.draftService
+      .getDrafts$()
+      .pipe(
+        tap((drafts) => {
+          this.availableDrafts = drafts;
+          if (this.selectedDraft) {
+            const draft = drafts.find((draft) => draft.id === this.selectedDraft?.id);
+            if (draft) {
+              this.selectedDraftId = draft.id;
+              this.settingsService.selectSettings(draft.settings);
+              this.draftPosition = draft.draftPosition;
+              this.totalDraftPositions = draft.totalParticipants;
+            }
+          }
+        }),
+        takeUntilDestroyed(this.destroyRef$),
+      )
+      .subscribe();
+    this.draftService
+      .getSelectedDraft$()
+      .pipe(
+        tap((draft) => {
+          this.selectedDraft = draft;
+          if (draft) {
+            this.selectedDraftId = draft.id;
+            this.settingsService.selectSettings(draft.settings);
+            this.draftPosition = draft.draftPosition;
+            this.totalDraftPositions = draft.totalParticipants;
+          }
+        }),
+        takeUntilDestroyed(this.destroyRef$),
+      )
+      .subscribe();
   }
 
   protected get draftPositions(): number[] {
