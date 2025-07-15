@@ -24,6 +24,7 @@ export class DraftService {
 
   init(): Observable<void> {
     return this.loadAll().pipe(
+      take(1),
       tap((drafts) => this.drafts$.next(drafts)),
       switchMap(() => this.refreshAll()),
       map(() => undefined),
@@ -61,7 +62,7 @@ export class DraftService {
 
   updatePosition(id: string, draftPosition: string) {
     const body = { draftPosition };
-    return this.callUpdate(id, body);
+    return this.callUpdate(body);
   }
 
   updatePlayerStatus(id: string, playerStatus: PlayerStatus) {
@@ -69,7 +70,7 @@ export class DraftService {
       return;
     }
     const body = { playerStates: { [id]: playerStatus } };
-    return this.callUpdate(id, body);
+    return this.callUpdate(body);
   }
 
   reset(id: string) {
@@ -122,19 +123,19 @@ export class DraftService {
     return this.dbService.clear(STORE_NAME_DRAFTS);
   }
 
-  private callUpdate(id: string, body: {}) {
-    return this.http
-      .put<Draft>(`${DraftService.DRAFTS_URL}/${id}`, body)
+  private callUpdate(body: {}) {
+    return this.selectedDraft$
       .pipe(
-        switchMap(() => this.refreshAll()),
-        switchMap(() => this.selectedDraft$),
+        take(1),
         filter(Boolean),
+        switchMap((selectedDraft) =>
+          this.http.put<Draft>(`${DraftService.DRAFTS_URL}/${selectedDraft.id}`, body).pipe(map(() => selectedDraft)),
+        ),
+        switchMap((selectedDraft) => this.refreshAll().pipe(map(() => selectedDraft))),
         switchMap((selectedDraft) => this.drafts$.pipe(map((drafts) => ({ drafts, selectedDraft })))),
         tap(({ drafts, selectedDraft }) => {
-          const draft = drafts.find((draft) => draft.id === selectedDraft.id);
-          if (selectedDraft) {
-            this.selectedDraft$.next(selectedDraft);
-          }
+          const updatedDraft = drafts.find((draft) => draft.id === selectedDraft.id);
+          this.selectedDraft$.next(updatedDraft || null);
         }),
       )
       .subscribe();

@@ -69,7 +69,6 @@ export class SettingsService {
   }
 
   private storeSettingsInDB(settings: Settings) {
-    console.log(settings);
     return this.dbService.add(STORE_NAME_SETTINGS, settings);
   }
 

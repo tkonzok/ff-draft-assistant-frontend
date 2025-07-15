@@ -36,8 +36,6 @@ export class RankingsComponent implements OnInit {
         take(1),
       )
       .subscribe(([settings, players]) => {
-        console.log('✅ Data loaded:', { settings, players });
-
         this.availableSettings = settings;
         this.players = players;
 
