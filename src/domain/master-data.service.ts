@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { catchError, EMPTY, map, Observable, ReplaySubject, take } from 'rxjs';
+import { catchError, EMPTY, forkJoin, map, Observable, ReplaySubject, take } from 'rxjs';
 import { DraftService } from './draft.service';
+import { SettingsService } from './settings.service';
 
 export enum MasterDataInitStatus {
   IN_PROGRESS = 'IN_PROGRESS',
@@ -14,7 +15,10 @@ export enum MasterDataInitStatus {
 export class MasterDataService {
   private initStatus = new ReplaySubject<MasterDataInitStatus>(1);
 
-  constructor(private draftService: DraftService) {
+  constructor(
+    private draftService: DraftService,
+    private settingsService: SettingsService,
+  ) {
     this.init().subscribe();
   }
 
@@ -24,7 +28,7 @@ export class MasterDataService {
 
   private init(): Observable<void> {
     this.initStatus.next(MasterDataInitStatus.IN_PROGRESS);
-    return this.draftService.init().pipe(
+    return forkJoin({ drafts: this.draftService.init(), settings: this.settingsService.init() }).pipe(
       map(() => {
         this.initStatus.next(MasterDataInitStatus.SUCCESS);
       }),

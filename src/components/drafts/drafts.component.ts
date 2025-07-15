@@ -45,10 +45,10 @@ export class DraftsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.settingsService.selectedSetting$.subscribe((setting) => {
+    this.settingsService.getSelectedSetting$().subscribe((setting) => {
       this.selectedSetting = setting;
     });
-    this.settingsService.availableSettings$.subscribe((settings) => {
+    this.settingsService.getSettings$().subscribe((settings) => {
       this.availableSettings = settings;
     });
     this.draftService

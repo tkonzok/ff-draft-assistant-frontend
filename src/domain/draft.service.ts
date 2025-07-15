@@ -107,13 +107,7 @@ export class DraftService {
   }
 
   private loadDraftsFromApi(): Observable<Draft[]> {
-    return this.http.get<Draft[]>(DraftService.DRAFTS_URL).pipe(
-      map((drafts) =>
-        plainToInstance(Draft, drafts, {
-          excludeExtraneousValues: true,
-        }),
-      ),
-    );
+    return this.http.get<Draft[]>(DraftService.DRAFTS_URL).pipe(map((drafts) => plainToInstance(Draft, drafts)));
   }
 
   private loadDraftsFromDB(): Observable<Draft[]> {

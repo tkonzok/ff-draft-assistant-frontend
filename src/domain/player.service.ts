@@ -26,7 +26,7 @@ export class PlayerService {
       .pipe(map((players) => plainToInstance(Player, players)))
       .subscribe((players: Player[]) => this._players$.next(players));
 
-    combineLatest([this._players$, this.settingsService.selectedSetting$, this.draftService.selectedDraft$])
+    combineLatest([this._players$, this.settingsService.getSelectedSetting$(), this.draftService.getSelectedDraft$()])
       .pipe(
         map(([players, setting, draft]) => {
           const playersCopy = [...players];

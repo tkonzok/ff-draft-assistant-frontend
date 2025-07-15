@@ -30,7 +30,7 @@ export class RankingsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    combineLatest([this.settingsService.availableSettings$, this.playerService.players$])
+    combineLatest([this.settingsService.getSettings$(), this.playerService.players$])
       .pipe(
         filter(([settings, players]) => settings.length > 0 && players.length > 0),
         take(1),

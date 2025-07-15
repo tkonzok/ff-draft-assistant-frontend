@@ -1,4 +1,4 @@
-import { JsonPipe, NgClass, NgForOf, NgIf } from '@angular/common';
+import { NgClass, NgForOf, NgIf } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -13,7 +13,7 @@ import { DraftBoardRowComponent } from './draft-board-row/draft-board-row.compon
 @Component({
   selector: 'app-draft-board',
   standalone: true,
-  imports: [NgForOf, JsonPipe, DraftBoardRowComponent, NgClass, FormsModule, NgIf, RouterLink],
+  imports: [NgForOf, DraftBoardRowComponent, NgClass, FormsModule, NgIf, RouterLink],
   templateUrl: './draft-board.component.html',
   styleUrls: ['./draft-board.component.css'],
 })
@@ -47,7 +47,7 @@ export class DraftBoardComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscriptions.add(
-      this.settingsService.selectedSetting$.subscribe((setting) => {
+      this.settingsService.getSelectedSetting$().subscribe((setting) => {
         this.settings = setting;
         this.filterPlayers();
       }),
@@ -57,7 +57,7 @@ export class DraftBoardComponent implements OnInit, OnDestroy {
       combineLatest([
         this.pickPositionsSubject,
         this.playerService.playersOfSelectedDraft$,
-        this.draftService.selectedDraft$,
+        this.draftService.getSelectedDraft$(),
       ]).subscribe(([pickPositions, players, draft]) => {
         this.totalPlayers = players;
         this.availablePlayers = draft

@@ -22,7 +22,7 @@ export class TeamComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    combineLatest([this.playerService.playersOfSelectedDraft$, this.draftService.selectedDraft$]).subscribe(
+    combineLatest([this.playerService.playersOfSelectedDraft$, this.draftService.getSelectedDraft$()]).subscribe(
       ([players, draft]) => {
         if (!draft) {
           this.timesTeamDrafted = 0;

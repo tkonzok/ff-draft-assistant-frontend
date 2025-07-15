@@ -1,8 +1,9 @@
-import { Expose } from 'class-transformer';
+import { Expose, Transform } from 'class-transformer';
 
 export class Settings {
   @Expose()
-  id = 'global';
+  @Transform(({ value }) => value ?? 'global', { toClassOnly: true })
+  id?: string;
 
   @Expose()
   settings!: string[];
