@@ -1,8 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { DestroyRef, Injectable } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { plainToInstance } from 'class-transformer';
-import { combineLatest, map, ReplaySubject } from 'rxjs';
+import { NgxIndexedDBService } from 'ngx-indexed-db';
+import { Observable, ReplaySubject, combineLatest, filter, map, of, switchMap, take, tap } from 'rxjs';
+import { STORE_NAME_PLAYERS } from '../app/indexed-db-config';
 import { environment } from '../environments/environment';
+import { ObservableInstanceMapper } from '../utils/observable-instance-mapper';
 import { Draft } from './draft';
 import { DraftService } from './draft.service';
 import { Player, PlayerStatus } from './player';
@@ -18,16 +22,14 @@ export class PlayerService {
 
   constructor(
     private http: HttpClient,
+    private dbService: NgxIndexedDBService,
     private settingsService: SettingsService,
     private draftService: DraftService,
+    private readonly destroyRef: DestroyRef,
   ) {
-    this.http
-      .get<Player[]>(PlayerService.PLAYER_URL)
-      .pipe(map((players) => plainToInstance(Player, players)))
-      .subscribe((players: Player[]) => this._players$.next(players));
-
     combineLatest([this._players$, this.settingsService.getSelectedSetting$(), this.draftService.getSelectedDraft$()])
       .pipe(
+        filter(([players, setting, draft]) => players != null && setting != null),
         map(([players, setting, draft]) => {
           const playersCopy = [...players];
           this.filterPlayers(playersCopy, setting);
@@ -37,8 +39,18 @@ export class PlayerService {
           }
           this._playersOfSelectedDraft$.next(playersCopy);
         }),
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe();
+  }
+
+  init(): Observable<void> {
+    return this.loadAll().pipe(
+      take(1),
+      tap((players) => this._players$.next(players)),
+      switchMap(() => this.refreshAll()),
+      map(() => undefined),
+    );
   }
 
   draft(player: Player): void {
@@ -55,6 +67,41 @@ export class PlayerService {
 
   get playersOfSelectedDraft$() {
     return this._playersOfSelectedDraft$.asObservable();
+  }
+
+  refreshAll() {
+    return this.loadPlayersFromApi().pipe(
+      take(1),
+      tap((players) => this._players$.next(players)),
+      switchMap((players) =>
+        this.clearAll().pipe(
+          map(() => players),
+          switchMap((players) => this.storePlayersInDB(players)),
+        ),
+      ),
+    );
+  }
+
+  private loadAll(): Observable<Player[]> {
+    return this.dbService
+      .count(STORE_NAME_PLAYERS)
+      .pipe(switchMap((count: number) => (count > 0 ? this.loadPlayersFromDB() : of([]))));
+  }
+
+  private loadPlayersFromApi(): Observable<Player[]> {
+    return this.http.get<Player[]>(PlayerService.PLAYER_URL).pipe(map((players) => plainToInstance(Player, players)));
+  }
+
+  private loadPlayersFromDB(): Observable<Player[]> {
+    return ObservableInstanceMapper.valuesToInstance(this.dbService.getAll<Player>(STORE_NAME_PLAYERS), Player);
+  }
+
+  private storePlayersInDB(players: Player[]): Observable<number[]> {
+    return this.dbService.bulkAdd(STORE_NAME_PLAYERS, players);
+  }
+
+  private clearAll(): Observable<boolean> {
+    return this.dbService.clear(STORE_NAME_PLAYERS);
   }
 
   private filterPlayers(players: Player[], setting: string): Player[] {

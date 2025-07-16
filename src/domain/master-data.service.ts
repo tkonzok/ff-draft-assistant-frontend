@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
-import { catchError, EMPTY, forkJoin, map, Observable, ReplaySubject, take } from 'rxjs';
+import { NgxIndexedDBService } from 'ngx-indexed-db';
+import { catchError, EMPTY, forkJoin, map, Observable, ReplaySubject, switchMap, take } from 'rxjs';
+import { STORE_NAME_LAST_UPDATE } from '../app/indexed-db-config';
 import { DraftService } from './draft.service';
+import { PlayerService } from './player.service';
 import { SettingsService } from './settings.service';
 
 export enum MasterDataInitStatus {
@@ -18,21 +21,39 @@ export class MasterDataService {
   constructor(
     private draftService: DraftService,
     private settingsService: SettingsService,
+    private playerService: PlayerService,
+    private dbService: NgxIndexedDBService,
   ) {
     this.init().subscribe();
   }
 
   refresh() {
-    this.draftService.refreshAll().pipe(take(1)).subscribe();
-    this.settingsService.refreshAll().pipe(take(1)).subscribe();
+    forkJoin({
+      drafts: this.draftService.refreshAll().pipe(take(1)),
+      settings: this.settingsService.refreshAll().pipe(take(1)),
+      player: this.playerService.refreshAll().pipe(take(1)),
+    })
+      .pipe(
+        switchMap(() => this.dbService.clear(STORE_NAME_LAST_UPDATE)),
+        switchMap(() => this.dbService.add(STORE_NAME_LAST_UPDATE, new Date())),
+      )
+      .subscribe();
   }
 
   init(): Observable<void> {
     this.initStatus.next(MasterDataInitStatus.IN_PROGRESS);
-    return forkJoin({ drafts: this.draftService.init(), settings: this.settingsService.init() }).pipe(
+    return forkJoin({
+      drafts: this.draftService.init(),
+      settings: this.settingsService.init(),
+      players: this.playerService.init(),
+    }).pipe(
+      take(1),
       map(() => {
         this.initStatus.next(MasterDataInitStatus.SUCCESS);
       }),
+      switchMap(() => this.dbService.clear(STORE_NAME_LAST_UPDATE)),
+      switchMap(() => this.dbService.add(STORE_NAME_LAST_UPDATE, { id: 'global', lastUpdate: new Date() })),
+      map(() => undefined),
       catchError((e) => {
         console.error(e);
         this.initStatus.next(MasterDataInitStatus.FAILED);
