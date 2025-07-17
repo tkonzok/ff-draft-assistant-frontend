@@ -14,7 +14,10 @@
       <button (click)="showModal = true">Delete</button>
     </div>
     <div class="select-wrapper">
-      <button (click)="openSettingsModal()" class="button-new-draft">+</button>
+      <div class="flex">
+        <button (click)="showTeam = !showTeam" class="button-toggle-expansion">></button>
+        <button (click)="openSettingsModal()" class="button-new-draft">+</button>
+      </div>
       <span>Draft:</span>
       <select [(ngModel)]="selectedDraftId" (ngModelChange)="selectDraft($event)" class="select-dropdown">
         <option *ngFor="let draft of availableDrafts" [value]="draft.id">
@@ -28,7 +31,9 @@
         </option>
       </select>
     </div>
-    <app-drafted-team></app-drafted-team>
+    @if (showTeam) {
+      <app-drafted-team></app-drafted-team>
+    }
   </div>
   <div>
     <div class="flex last-updated">

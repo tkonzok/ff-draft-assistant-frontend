@@ -41,6 +41,7 @@ export class DraftsComponent implements OnInit {
   protected selectedSetting: string = '';
   protected selectedDraftId: string = '';
   protected isUpToDate = false;
+  protected showTeam = true;
 
   constructor(
     readonly masterDataService: MasterDataService,

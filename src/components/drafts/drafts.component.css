@@ -72,13 +72,18 @@ app-draft-board {
   padding: 0 20px;
 }
 
-.button-new-draft {
+.button-new-draft,
+.button-toggle-expansion {
   width: 30px;
   height: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 26px;
+}
+
+.button-toggle-expansion {
+  display: none;
 }
 
 .last-updated {
@@ -113,6 +118,10 @@ app-draft-board {
 
   .mt-16 {
     margin-top: 0;
+  }
+
+  .button-toggle-expansion {
+    display: flex;
   }
 }
 
