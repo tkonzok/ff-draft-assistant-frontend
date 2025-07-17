@@ -1,4 +1,4 @@
-import { NgForOf, NgIf } from '@angular/common';
+import { AsyncPipe, NgClass, NgForOf, NgIf } from '@angular/common';
 import { Component, DestroyRef, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { tap } from 'rxjs';
 import { Draft } from '../../domain/draft';
 import { DraftService } from '../../domain/draft.service';
+import { MasterDataService } from '../../domain/master-data.service';
 import { SettingsService } from '../../domain/settings.service';
 import { ConfirmDeleteModalComponent } from './confirm-delete-modal/confirm-delete-modal.component';
 import { DraftBoardComponent } from './draft-board/draft-board.component';
@@ -23,11 +24,14 @@ import { SettingsModalComponent } from './settings-modal/settings-modal.componen
     NgIf,
     ReactiveFormsModule,
     FormsModule,
+    AsyncPipe,
+    NgClass,
   ],
   templateUrl: './drafts.component.html',
   styleUrls: ['./drafts.component.css'],
 })
 export class DraftsComponent implements OnInit {
+  protected readonly lastUpdated$;
   protected showModal: boolean = false;
   protected draftPosition: number = 1;
   protected totalDraftPositions: number = 12;
@@ -36,13 +40,25 @@ export class DraftsComponent implements OnInit {
   protected selectedDraft?: Draft | null;
   protected selectedSetting: string = '';
   protected selectedDraftId: string = '';
+  protected isUpToDate = false;
 
   constructor(
+    readonly masterDataService: MasterDataService,
     private draftService: DraftService,
     private settingsService: SettingsService,
     private dialog: MatDialog,
     private readonly destroyRef$: DestroyRef,
-  ) {}
+  ) {
+    this.lastUpdated$ = masterDataService.lastUpdated$.pipe(
+      tap((lastUpdated) => {
+        const now = new Date().getTime();
+        if (now - lastUpdated.getTime() < 30000) {
+          this.isUpToDate = true;
+        }
+      }),
+      takeUntilDestroyed(this.destroyRef$),
+    );
+  }
 
   ngOnInit(): void {
     this.settingsService.getSelectedSetting$().subscribe((setting) => {

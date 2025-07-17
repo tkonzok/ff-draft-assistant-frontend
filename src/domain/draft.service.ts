@@ -25,7 +25,14 @@ export class DraftService {
   init(): Observable<void> {
     return this.loadAll().pipe(
       take(1),
-      tap((drafts) => this.drafts$.next(drafts)),
+      tap((drafts) => {
+        this.drafts$.next(drafts);
+        const localStoredSelectedDraftId = localStorage.getItem('selectedDraftId');
+        const matchingDraft = drafts.find((draft: Draft) => draft.id === localStoredSelectedDraftId);
+        if (matchingDraft) {
+          this.selectedDraft$.next(matchingDraft);
+        }
+      }),
       switchMap(() => this.refreshAll()),
       map(() => undefined),
     );
@@ -45,7 +52,10 @@ export class DraftService {
         take(1),
         map((drafts) => drafts.find((draft) => draft.id === draftId)),
         filter(Boolean),
-        tap((draft) => this.selectedDraft$.next(draft)),
+        tap((draft) => {
+          this.selectedDraft$.next(draft);
+          localStorage.setItem('selectedDraftId', draft.id);
+        }),
       )
       .subscribe();
   }
@@ -132,7 +142,12 @@ export class DraftService {
           this.http.put<Draft>(`${DraftService.DRAFTS_URL}/${selectedDraft.id}`, body).pipe(map(() => selectedDraft)),
         ),
         switchMap((selectedDraft) => this.refreshAll().pipe(map(() => selectedDraft))),
-        switchMap((selectedDraft) => this.drafts$.pipe(map((drafts) => ({ drafts, selectedDraft })))),
+        switchMap((selectedDraft) =>
+          this.drafts$.pipe(
+            take(1),
+            map((drafts) => ({ drafts, selectedDraft })),
+          ),
+        ),
         tap(({ drafts, selectedDraft }) => {
           const updatedDraft = drafts.find((draft) => draft.id === selectedDraft.id);
           this.selectedDraft$.next(updatedDraft || null);

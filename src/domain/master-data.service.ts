@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
-import { catchError, EMPTY, forkJoin, map, Observable, ReplaySubject, switchMap, take } from 'rxjs';
+import { catchError, EMPTY, forkJoin, map, Observable, ReplaySubject, switchMap, take, tap } from 'rxjs';
 import { STORE_NAME_LAST_UPDATE } from '../app/indexed-db-config';
 import { DraftService } from './draft.service';
 import { PlayerService } from './player.service';
@@ -17,6 +17,7 @@ export enum MasterDataInitStatus {
 })
 export class MasterDataService {
   private initStatus = new ReplaySubject<MasterDataInitStatus>(1);
+  private lastUpdated = new ReplaySubject<Date>(1);
 
   constructor(
     private draftService: DraftService,
@@ -34,12 +35,14 @@ export class MasterDataService {
       .pipe(
         switchMap(() => this.dbService.clear(STORE_NAME_LAST_UPDATE)),
         switchMap(() => this.dbService.add(STORE_NAME_LAST_UPDATE, new Date())),
+        tap(() => this.updateLastUpdateSubject()),
       )
       .subscribe();
   }
 
   init() {
     this.initStatus.next(MasterDataInitStatus.IN_PROGRESS);
+    this.updateLastUpdateSubject();
     forkJoin({
       drafts: this.draftService.init(),
       settings: this.settingsService.init(),
@@ -52,6 +55,7 @@ export class MasterDataService {
         }),
         switchMap(() => this.dbService.clear(STORE_NAME_LAST_UPDATE)),
         switchMap(() => this.dbService.add(STORE_NAME_LAST_UPDATE, { id: 'global', lastUpdate: new Date() })),
+        tap(() => this.updateLastUpdateSubject()),
         map(() => undefined),
         catchError((e) => {
           console.error(e);
@@ -64,5 +68,21 @@ export class MasterDataService {
 
   get initStatus$(): Observable<MasterDataInitStatus> {
     return this.initStatus.asObservable();
+  }
+
+  get lastUpdated$(): Observable<Date> {
+    return this.lastUpdated.asObservable();
+  }
+
+  private updateLastUpdateSubject() {
+    this.dbService
+      .getAll<{ id: string; lastUpdate: Date }>(STORE_NAME_LAST_UPDATE)
+      .pipe(
+        take(1),
+        tap((lastUpdateStrings: { id: string; lastUpdate: Date }[]) => {
+          this.lastUpdated.next(lastUpdateStrings[0]?.lastUpdate);
+        }),
+      )
+      .subscribe();
   }
 }

@@ -30,7 +30,13 @@
     </div>
     <app-drafted-team></app-drafted-team>
   </div>
-  <app-draft-board class="mt-16" [draftPosition]="{ draftPosition, totalDraftPositions }"></app-draft-board>
+  <div>
+    <div class="flex last-updated">
+      <div class="indicator" [ngClass]="{ green: isUpToDate }"></div>
+      <p>{{ (lastUpdated$ | async)?.toLocaleString() }}</p>
+    </div>
+    <app-draft-board class="mt-16" [draftPosition]="{ draftPosition, totalDraftPositions }"></app-draft-board>
+  </div>
   <app-confirm-delete-modal *ngIf="showModal" [name]="selectedDraft?.name" (confirm)="handleConfirmation($event)">
   </app-confirm-delete-modal>
 </div>
