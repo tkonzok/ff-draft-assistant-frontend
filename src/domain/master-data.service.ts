@@ -23,9 +23,7 @@ export class MasterDataService {
     private settingsService: SettingsService,
     private playerService: PlayerService,
     private dbService: NgxIndexedDBService,
-  ) {
-    this.init().subscribe();
-  }
+  ) {}
 
   refresh() {
     forkJoin({
@@ -40,26 +38,28 @@ export class MasterDataService {
       .subscribe();
   }
 
-  init(): Observable<void> {
+  init() {
     this.initStatus.next(MasterDataInitStatus.IN_PROGRESS);
-    return forkJoin({
+    forkJoin({
       drafts: this.draftService.init(),
       settings: this.settingsService.init(),
       players: this.playerService.init(),
-    }).pipe(
-      take(1),
-      map(() => {
-        this.initStatus.next(MasterDataInitStatus.SUCCESS);
-      }),
-      switchMap(() => this.dbService.clear(STORE_NAME_LAST_UPDATE)),
-      switchMap(() => this.dbService.add(STORE_NAME_LAST_UPDATE, { id: 'global', lastUpdate: new Date() })),
-      map(() => undefined),
-      catchError((e) => {
-        console.error(e);
-        this.initStatus.next(MasterDataInitStatus.FAILED);
-        return EMPTY;
-      }),
-    );
+    })
+      .pipe(
+        take(1),
+        map(() => {
+          this.initStatus.next(MasterDataInitStatus.SUCCESS);
+        }),
+        switchMap(() => this.dbService.clear(STORE_NAME_LAST_UPDATE)),
+        switchMap(() => this.dbService.add(STORE_NAME_LAST_UPDATE, { id: 'global', lastUpdate: new Date() })),
+        map(() => undefined),
+        catchError((e) => {
+          console.error(e);
+          this.initStatus.next(MasterDataInitStatus.FAILED);
+          return EMPTY;
+        }),
+      )
+      .subscribe();
   }
 
   get initStatus$(): Observable<MasterDataInitStatus> {

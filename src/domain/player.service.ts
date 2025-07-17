@@ -123,6 +123,9 @@ export class PlayerService {
     const availablePlayers: Player[] = players.filter((player) => availablePlayerIds.includes(player.id));
     availablePlayers.forEach((currentPlayer, index) => {
       const nextPlayer = availablePlayers.slice(index + 1).find((next) => next.pos === currentPlayer.pos);
+      if (!nextPlayer?.rankings[setting]?.tier || !currentPlayer.rankings[setting]?.tier) {
+        return;
+      }
       currentPlayer.rankings[setting].isLastOfTier = !(
         nextPlayer?.rankings[setting]?.tier === currentPlayer.rankings[setting]?.tier
       );

@@ -1,6 +1,5 @@
 import { DBConfig } from 'ngx-indexed-db';
 
-const storeNameSleeperPlayers = 'sleeperPlayers';
 const storeNamePlayers = 'players';
 const storeNameSettings = 'settings';
 const storeNameDrafts = 'drafts';
