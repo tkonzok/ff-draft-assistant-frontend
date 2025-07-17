@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Medium grey circular background -->
+  <circle cx="256" cy="256" r="256" fill="#888888"/>
+  <!-- Star scaled 0.8x and adjusted to center, light grey fill -->
+  <path fill="#cccccc"
+        transform="translate(256 258) scale(0.8) translate(-256 -256)"
+        d="M256 60
+       L295.1 180.2
+       L421.6 180.2
+       L319.7 249.8
+       L358.8 370
+       L256 300.4
+       L153.2 370
+       L192.3 249.8
+       L90.4 180.2
+       L216.9 180.2
+       Z"/>
+</svg>

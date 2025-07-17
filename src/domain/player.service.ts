@@ -61,6 +61,14 @@ export class PlayerService {
     this.draftService.updatePlayerStatus(player.id, PlayerStatus.NOT_AVAILABLE);
   }
 
+  favourite(player: Player): void {
+    this.draftService.updatePlayerStatus(player.id, PlayerStatus.AVAILABLE_FAVOURITE);
+  }
+
+  undoFavourite(player: Player): void {
+    this.draftService.updatePlayerStatus(player.id, PlayerStatus.AVAILABLE);
+  }
+
   get players$() {
     return this._players$.asObservable();
   }
@@ -118,7 +126,8 @@ export class PlayerService {
 
   private markLastOfTier(players: Player[], draft: Draft, setting: string): void {
     const availablePlayerIds: string[] = Object.keys(draft.playerStates).filter(
-      (key: string) => draft.playerStates[key] === PlayerStatus.AVAILABLE,
+      (key: string) =>
+        draft.playerStates[key] === PlayerStatus.AVAILABLE || draft.playerStates[key] === PlayerStatus.AVAILABLE_FAVOURITE,
     );
     const availablePlayers: Player[] = players.filter((player) => availablePlayerIds.includes(player.id));
     availablePlayers.forEach((currentPlayer, index) => {

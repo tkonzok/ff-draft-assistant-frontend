@@ -63,7 +63,7 @@ export class DraftBoardComponent implements OnInit, OnDestroy {
         this.availablePlayers = draft
           ? players.filter((player) => {
               const status = draft.playerStates?.[player.id];
-              return status === PlayerStatus.AVAILABLE;
+              return status === PlayerStatus.AVAILABLE || status === PlayerStatus.AVAILABLE_FAVOURITE;
             })
           : [];
         this.updateHighlightedPlayers(pickPositions);

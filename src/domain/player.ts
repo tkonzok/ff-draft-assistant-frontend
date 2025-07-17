@@ -5,6 +5,7 @@ export enum PlayerStatus {
   AVAILABLE,
   NOT_AVAILABLE,
   DRAFTED,
+  AVAILABLE_FAVOURITE,
 }
 
 export class Player {

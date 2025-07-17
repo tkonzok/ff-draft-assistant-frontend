@@ -1,6 +1,6 @@
 import { NgClass, NgOptimizedImage } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
-import { Player } from '../../../../domain/player';
+import { Player, PlayerStatus } from '../../../../domain/player';
 import { PlayerService } from '../../../../domain/player.service';
 import { SettingsService } from '../../../../domain/settings.service';
 import { ByeComponent } from '../../bye/bye.component';
@@ -18,6 +18,7 @@ export class DraftBoardRowComponent implements OnInit {
   @Input({ required: true }) player!: Player;
   @Input() showBorderBottom: boolean = false;
   protected selectedSetting: string = 'hppr1qb';
+  protected readonly PlayerStatus = PlayerStatus;
 
   constructor(
     private playerService: PlayerService,
@@ -36,5 +37,13 @@ export class DraftBoardRowComponent implements OnInit {
 
   remove(): void {
     this.playerService.remove(this.player);
+  }
+
+  makeFavourite(): void {
+    this.playerService.favourite(this.player);
+  }
+
+  undoFavourite(): void {
+    this.playerService.undoFavourite(this.player);
   }
 }

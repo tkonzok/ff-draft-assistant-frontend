@@ -4,10 +4,19 @@
     'border-bottom': showBorderBottom,
   }"
 >
-  <div>
+  <div class="buttons">
     <button (click)="remove()">
       <img ngSrc="../../../assets/icons/cross.svg" alt="cross" height="24" width="24" />
     </button>
+    @if (player.status === PlayerStatus.AVAILABLE_FAVOURITE) {
+      <button (click)="undoFavourite()">
+        <img ngSrc="../../../assets/icons/star.svg" alt="cross" height="24" width="24" />
+      </button>
+    } @else {
+      <button (click)="makeFavourite()">
+        <img ngSrc="../../../assets/icons/star_grey.svg" alt="cross" height="24" width="24" />
+      </button>
+    }
   </div>
   <div>{{ player.rankings[this.selectedSetting].ovr }}</div>
   <app-position [pos]="player.pos"></app-position>

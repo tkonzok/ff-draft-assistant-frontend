@@ -73,7 +73,7 @@
 
 .grid-header {
   display: grid;
-  grid-template-columns: 44px 48px repeat(2, 64px) 164px repeat(2, 72px) 44px;
+  grid-template-columns: 72px 48px repeat(2, 64px) 164px repeat(2, 72px) 44px;
   font-weight: bold;
   background-color: #3f3f3f;
   border-bottom: 1px solid #ddd;
@@ -116,7 +116,7 @@
   }
 
   .grid-header {
-    grid-template-columns: 40px 32px 32px 48px 128px repeat(2, 48px) 44px;
+    grid-template-columns: 68px 32px 32px 48px 128px repeat(2, 48px) 44px;
   }
 
   .grid-header > div {
