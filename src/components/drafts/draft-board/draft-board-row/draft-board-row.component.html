@@ -8,7 +8,7 @@
     <button (click)="remove()">
       <img ngSrc="../../../assets/icons/cross.svg" alt="cross" height="24" width="24" />
     </button>
-    @if (player.status === PlayerStatus.AVAILABLE_FAVOURITE) {
+    @if (player().status === PlayerStatus.AVAILABLE_FAVOURITE) {
       <button (click)="undoFavourite()">
         <img ngSrc="../../../assets/icons/star.svg" alt="cross" height="24" width="24" />
       </button>
@@ -18,12 +18,12 @@
       </button>
     }
   </div>
-  <div>{{ player.rankings[this.selectedSetting].ovr }}</div>
-  <app-position [pos]="player.pos"></app-position>
-  <div>{{ player.rankings[this.selectedSetting].rank }}</div>
-  <div>{{ player.name }}</div>
-  <app-team [team]="player.team"></app-team>
-  <app-bye [bye]="player.bye"></app-bye>
+  <div>{{ player().rankings[this.selectedSetting].ovr }}</div>
+  <app-position [pos]="player().pos"></app-position>
+  <div>{{ player().rankings[this.selectedSetting].rank }}</div>
+  <div>{{ player().name }}</div>
+  <app-team [team]="player().team"></app-team>
+  <app-bye [bye]="player().bye"></app-bye>
   <div>
     <button (click)="draft()">
       <img ngSrc="../../../assets/icons/checkmark.svg" alt="checkmark" height="24" width="24" />

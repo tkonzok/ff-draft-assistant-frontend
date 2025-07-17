@@ -32,6 +32,7 @@ export class PlayerService {
         filter(([players, setting, draft]) => players != null && setting != null),
         map(([players, setting, draft]) => {
           const playersCopy = [...players];
+          this.updatePlayerStates(playersCopy, draft);
           this.filterPlayers(playersCopy, setting);
           this.sortPlayers(playersCopy, setting);
           if (draft) {
@@ -138,6 +139,19 @@ export class PlayerService {
       currentPlayer.rankings[setting].isLastOfTier = !(
         nextPlayer?.rankings[setting]?.tier === currentPlayer.rankings[setting]?.tier
       );
+    });
+  }
+
+  private updatePlayerStates(playersCopy: Player[], draft: Draft | null) {
+    if (!draft) {
+      return;
+    }
+    playersCopy.map((player: Player) => {
+      const draftPlayerStatus = draft.playerStates[player.id];
+      if (draftPlayerStatus != null) {
+        player.status = draftPlayerStatus;
+      }
+      return player;
     });
   }
 }
