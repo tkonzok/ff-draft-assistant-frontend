@@ -83,6 +83,13 @@ export class DraftService {
     return this.callUpdate(body);
   }
 
+  undo() {
+    if (!this.selectedDraft$) {
+      return;
+    }
+    return this.callUndo();
+  }
+
   reset(id: string) {
     return this.http.put<Draft>(`${DraftService.DRAFTS_URL}/${id}/reset`, {}).pipe(
       switchMap(() => this.http.get<Draft[]>(DraftService.DRAFTS_URL)),
@@ -140,6 +147,29 @@ export class DraftService {
         filter(Boolean),
         switchMap((selectedDraft) =>
           this.http.put<Draft>(`${DraftService.DRAFTS_URL}/${selectedDraft.id}`, body).pipe(map(() => selectedDraft)),
+        ),
+        switchMap((selectedDraft) => this.refreshAll().pipe(map(() => selectedDraft))),
+        switchMap((selectedDraft) =>
+          this.drafts$.pipe(
+            take(1),
+            map((drafts) => ({ drafts, selectedDraft })),
+          ),
+        ),
+        tap(({ drafts, selectedDraft }) => {
+          const updatedDraft = drafts.find((draft) => draft.id === selectedDraft.id);
+          this.selectedDraft$.next(updatedDraft || null);
+        }),
+      )
+      .subscribe();
+  }
+
+  private callUndo() {
+    return this.selectedDraft$
+      .pipe(
+        take(1),
+        filter(Boolean),
+        switchMap((selectedDraft) =>
+          this.http.post<Draft>(`${DraftService.DRAFTS_URL}/${selectedDraft.id}/undo`, {}).pipe(map(() => selectedDraft)),
         ),
         switchMap((selectedDraft) => this.refreshAll().pipe(map(() => selectedDraft))),
         switchMap((selectedDraft) =>

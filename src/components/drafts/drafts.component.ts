@@ -163,4 +163,8 @@ export class DraftsComponent implements OnInit {
       this.delete();
     }
   }
+
+  protected undo() {
+    this.draftService.undo();
+  }
 }

@@ -94,6 +94,11 @@ app-draft-board {
   * {
     margin: 0;
   }
+
+  .button-undo {
+    margin-left: auto;
+    padding: 8px;
+  }
 }
 
 .indicator {

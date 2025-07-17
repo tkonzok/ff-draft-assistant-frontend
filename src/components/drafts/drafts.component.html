@@ -39,6 +39,7 @@
     <div class="flex last-updated">
       <div class="indicator" [ngClass]="{ green: isUpToDate }"></div>
       <p>{{ (lastUpdated$ | async)?.toLocaleString() }}</p>
+      <button (click)="undo()" class="button-undo">Undo</button>
     </div>
     <app-draft-board class="mt-16" [draftPosition]="{ draftPosition, totalDraftPositions }"></app-draft-board>
   </div>
