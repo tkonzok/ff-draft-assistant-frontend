@@ -33,12 +33,12 @@ export class PlayerService {
         map(([players, setting, draft]) => {
           const playersCopy = [...players];
           this.updatePlayerStates(playersCopy, draft);
-          this.filterPlayers(playersCopy, setting);
-          this.sortPlayers(playersCopy, setting);
+          const filteredPlayers = this.filterPlayers(playersCopy, setting);
+          const sortedPlayers = this.sortPlayers(filteredPlayers, setting);
           if (draft) {
-            this.markLastOfTier(playersCopy, draft, setting);
+            this.markLastOfTier(sortedPlayers, draft, setting);
           }
-          this._playersOfSelectedDraft$.next(playersCopy);
+          this._playersOfSelectedDraft$.next(sortedPlayers);
         }),
         takeUntilDestroyed(this.destroyRef),
       )
@@ -114,7 +114,7 @@ export class PlayerService {
   }
 
   private filterPlayers(players: Player[], setting: string): Player[] {
-    return players.filter((player: Player) => player.rankings && player.rankings[setting]);
+    return players.filter((player: Player) => player.rankings && player.rankings[setting] && player.rankings[setting].ovr);
   }
 
   private sortPlayers(players: Player[], setting: string): Player[] {
