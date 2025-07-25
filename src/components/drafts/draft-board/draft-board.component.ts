@@ -145,7 +145,7 @@ export class DraftBoardComponent implements OnInit, OnDestroy {
     );
   }
 
-  private getPickPositions(draftPosition: number, totalTeams: number, totalRounds: number = 20): number[] {
+  private getPickPositions(draftPosition: number, totalTeams: number, totalRounds: number = 30): number[] {
     const picks: number[] = [];
     draftPosition = Number(draftPosition);
     for (let round = 1; round <= totalRounds; round++) {

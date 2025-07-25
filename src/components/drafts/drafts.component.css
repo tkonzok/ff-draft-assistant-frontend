@@ -130,9 +130,15 @@ app-draft-board {
   }
 }
 
-@media (max-width: 720px) {
+@media (orientation: portrait) {
+  .drafted-team-grid {
+    overflow: auto;
+    max-height: 50vh;
+  }
+
   .container {
     padding: 64px 16px 16px;
+    overflow: auto;
   }
 
   .settings-wrapper > button {

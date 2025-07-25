@@ -39,7 +39,12 @@
   grid-template-columns: 1fr;
 }
 
-@media (max-width: 600px) {
+@media (orientation: portrait) {
+  .drafted-team-grid {
+    max-height: 50vh;
+    overflow: auto;
+  }
+
   .grid-header {
     grid-template-columns: 40px 40px 56px 172px repeat(2, 56px);
   }

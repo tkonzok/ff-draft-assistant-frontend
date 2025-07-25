@@ -108,10 +108,15 @@
   background-color: #6f6f6f;
 }
 
-@media (max-width: 600px) {
+@media (orientation: portrait) {
+  .draft-board-grid {
+    max-height: 80vh;
+    overflow: auto;
+  }
+
   .filters-wrapper {
-    flex-direction: column;
-    flex-flow: column-reverse;
+    display: flex;
+    flex-direction: row;
     padding-left: 8px;
   }
 
