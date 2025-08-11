@@ -85,7 +85,7 @@
 }
 
 .grid-row-wrapper {
-  max-height: min(1280px, calc(100vh - 96px));
+  max-height: min(1280px, calc(100vh - 220px));
   overflow: auto;
 }
 

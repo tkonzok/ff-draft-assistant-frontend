@@ -1,3 +1,7 @@
+::ng-deep * {
+  scrollbar-width: none;
+}
+
 .container {
   display: flex;
   flex-wrap: nowrap;
@@ -11,7 +15,8 @@
 app-drafted-team,
 app-draft-board {
   display: block;
-  max-height: calc(100vh - 64px);
+  max-height: calc(100vh - 124px);
+  overflow: hidden;
 }
 
 .draft-position-label {
@@ -131,9 +136,21 @@ app-draft-board {
 }
 
 @media (orientation: portrait) {
-  .drafted-team-grid {
+  app-drafted-team,
+  app-draft-board {
     overflow: auto;
-    max-height: 50vh;
+  }
+
+  app-drafted-team {
+    max-height: calc((100vh - 250px) / 3);
+  }
+
+  app-draft-board {
+    max-height: calc((100vh - 250px) * 2 / 3);
+
+    &.extend {
+      max-height: calc((100vh - 250px));
+    }
   }
 
   .container {

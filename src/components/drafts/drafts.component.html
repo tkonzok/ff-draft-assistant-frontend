@@ -41,7 +41,7 @@
       <p>{{ (lastUpdated$ | async)?.toLocaleString() }}</p>
       <button (click)="undo()" class="button-undo">Undo</button>
     </div>
-    <app-draft-board class="mt-16" [draftPosition]="{ draftPosition, totalDraftPositions }"></app-draft-board>
+    <app-draft-board [ngClass]="{ extend: !showTeam}" class="mt-16" [draftPosition]="{ draftPosition, totalDraftPositions }"></app-draft-board>
   </div>
   <app-confirm-delete-modal *ngIf="showModal" [name]="selectedDraft?.name" (confirm)="handleConfirmation($event)">
   </app-confirm-delete-modal>

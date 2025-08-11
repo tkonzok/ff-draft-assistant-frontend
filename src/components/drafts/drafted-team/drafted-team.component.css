@@ -2,9 +2,7 @@
   display: grid;
   grid-template-columns: max-content;
   width: fit-content;
-  max-height: 100%;
   border: 1px solid #ddd;
-  overflow: hidden;
 }
 
 .grid-header {
@@ -21,8 +19,8 @@
 }
 
 .grid-row-wrapper {
-  max-height: min(1280px, calc(100vh - 96px));
-  overflow: hidden;
+  max-height: min(1280px, calc(100vh - 220px));
+  overflow: auto;
   transition:
     max-height 0.5s ease-out,
     opacity 0.5s ease-out;
@@ -40,11 +38,6 @@
 }
 
 @media (orientation: portrait) {
-  .drafted-team-grid {
-    max-height: 50vh;
-    overflow: auto;
-  }
-
   .grid-header {
     grid-template-columns: 40px 40px 56px 172px repeat(2, 56px);
   }
