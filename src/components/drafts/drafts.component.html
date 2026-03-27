@@ -9,6 +9,15 @@
       </select>
       <span class="draft-position-label">of </span>
       <span class="draft-position-display">{{ totalDraftPositions }}</span>
+      @if (selectedDraft) {
+        <button
+          class="third-round-reversal"
+          [ngClass]="{ active: selectedDraft.thirdRoundReversal }"
+          (click)="toggleThirdRoundReversal()"
+        >
+          3RR
+        </button>
+      }
       <button class="reload-button" (click)="reload()">Reload</button>
       <button (click)="reset()">Reset</button>
       <button (click)="showModal = true">Delete</button>
@@ -41,7 +50,13 @@
       <p>{{ (lastUpdated$ | async)?.toLocaleString() }}</p>
       <button (click)="undo()" class="button-undo">Undo</button>
     </div>
-    <app-draft-board [ngClass]="{ extend: !showTeam}" class="mt-16" [draftPosition]="{ draftPosition, totalDraftPositions }"></app-draft-board>
+    <app-draft-board
+      [ngClass]="{ extend: !showTeam }"
+      class="mt-16"
+      [draftPosition]="draftPosition"
+      [totalDraftPositions]="totalDraftPositions"
+      [thirdRoundReversal]="!!selectedDraft?.thirdRoundReversal"
+    ></app-draft-board>
   </div>
   <app-confirm-delete-modal *ngIf="showModal" [name]="selectedDraft?.name" (confirm)="handleConfirmation($event)">
   </app-confirm-delete-modal>

@@ -70,8 +70,13 @@ export class DraftService {
       .subscribe();
   }
 
-  updatePosition(id: string, draftPosition: string) {
+  updatePosition(draftPosition: string) {
     const body = { draftPosition };
+    return this.callUpdate(body);
+  }
+
+  updateThirdRoundReversal(thirdRoundReversal: boolean) {
+    const body = { thirdRoundReversal };
     return this.callUpdate(body);
   }
 

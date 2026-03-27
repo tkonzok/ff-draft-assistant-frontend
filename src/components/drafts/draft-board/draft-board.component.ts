@@ -1,8 +1,9 @@
 import { NgClass, NgForOf, NgIf } from '@angular/common';
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, computed, input } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { BehaviorSubject, Subscription, combineLatest } from 'rxjs';
+import { Subscription, combineLatest } from 'rxjs';
 import { DraftService } from '../../../domain/draft.service';
 import { Player, PlayerStatus } from '../../../domain/player';
 import { PlayerService } from '../../../domain/player.service';
@@ -18,11 +19,9 @@ import { DraftBoardRowComponent } from './draft-board-row/draft-board-row.compon
   styleUrls: ['./draft-board.component.css'],
 })
 export class DraftBoardComponent implements OnInit, OnDestroy {
-  @Input() set draftPosition(value: Record<string, number>) {
-    const pickPositions: number[] = this.getPickPositions(value['draftPosition'], value['totalDraftPositions']);
-    this.totalDraftPositions = value['totalDraftPositions'];
-    this.pickPositionsSubject.next(pickPositions);
-  }
+  draftPosition = input.required<number>();
+  totalDraftPositions = input.required<number>();
+  thirdRoundReversal = input<boolean>(false);
 
   protected availablePlayers: Player[] = [];
   protected filteredPlayers: Player[] = [];
@@ -34,10 +33,15 @@ export class DraftBoardComponent implements OnInit, OnDestroy {
   protected visiblePosition?: string;
   protected readonly Position = Position;
 
-  private pickPositionsSubject: BehaviorSubject<number[]> = new BehaviorSubject<number[]>(this.getPickPositions(1, 12));
+  private readonly pickPositions = computed(() => {
+    const draftPosition = this.draftPosition();
+    const totalDraftPositions = this.totalDraftPositions();
+    const thirdRoundReversal = this.thirdRoundReversal();
+    return this.getPickPositions(draftPosition, thirdRoundReversal, totalDraftPositions);
+  });
+  private readonly pickPositions$ = toObservable(this.pickPositions);
   private subscriptions: Subscription = new Subscription();
   private totalPlayers: Player[] = [];
-  private totalDraftPositions: number = 12;
 
   constructor(
     private playerService: PlayerService,
@@ -55,7 +59,7 @@ export class DraftBoardComponent implements OnInit, OnDestroy {
 
     this.subscriptions.add(
       combineLatest([
-        this.pickPositionsSubject,
+        this.pickPositions$,
         this.playerService.playersOfSelectedDraft$,
         this.draftService.getSelectedDraft$(),
       ]).subscribe(([pickPositions, players, draft]) => {
@@ -145,14 +149,33 @@ export class DraftBoardComponent implements OnInit, OnDestroy {
     );
   }
 
-  private getPickPositions(draftPosition: number, totalTeams: number, totalRounds: number = 30): number[] {
+  private getPickPositions(
+    draftPosition: number | string,
+    isThirdRoundReversal: boolean,
+    totalTeams: number | string,
+    totalRounds: number = 32,
+  ): number[] {
     const picks: number[] = [];
-    draftPosition = Number(draftPosition);
+
+    const position = Number(draftPosition);
+    const teams = Number(totalTeams);
+
     for (let round = 1; round <= totalRounds; round++) {
-      round = Number(round);
-      const pickInRound = round % 2 === 1 ? (round - 1) * totalTeams + draftPosition : round * totalTeams - draftPosition + 1;
-      picks.push(Number(pickInRound));
+      let isForward: boolean;
+
+      if (!isThirdRoundReversal) {
+        isForward = round % 2 === 1;
+      } else {
+        if (round === 1) isForward = true;
+        else if (round === 2 || round === 3) isForward = false;
+        else isForward = round % 2 === 0;
+      }
+
+      const pickInRound = isForward ? (round - 1) * teams + position : round * teams - position + 1;
+
+      picks.push(pickInRound);
     }
+
     return picks;
   }
 
@@ -177,8 +200,8 @@ export class DraftBoardComponent implements OnInit, OnDestroy {
     }
     const numberOfDraftedPlayers = this.totalPlayers.length - this.availablePlayers.length;
     const currentPick = numberOfDraftedPlayers + 1;
-    const round = Math.ceil(currentPick / this.totalDraftPositions);
-    const pick = ((currentPick - 1) % this.totalDraftPositions) + 1;
+    const round = Math.ceil(currentPick / this.totalDraftPositions());
+    const pick = ((currentPick - 1) % this.totalDraftPositions()) + 1;
     this.currentPick = `${round}.${pick}`;
   }
 }

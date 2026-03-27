@@ -77,6 +77,15 @@ app-draft-board {
   padding: 0 20px;
 }
 
+.third-round-reversal {
+  padding: 0 20px;
+  background-color: #cc0000;
+
+  &.active {
+    background-color: #007700;
+  }
+}
+
 .button-new-draft,
 .button-toggle-expansion {
   width: 30px;

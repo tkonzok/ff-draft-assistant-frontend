@@ -15,6 +15,9 @@ export class Draft {
   draftPosition!: number;
 
   @Expose()
+  thirdRoundReversal!: boolean;
+
+  @Expose()
   totalParticipants!: number;
 
   @Expose()

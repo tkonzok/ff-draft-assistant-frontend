@@ -127,7 +127,14 @@ export class DraftsComponent implements OnInit {
     if (!this.selectedDraft) {
       return;
     }
-    this.draftService.updatePosition(this.selectedDraft.id, (event.target as HTMLSelectElement).value);
+    this.draftService.updatePosition((event.target as HTMLSelectElement).value);
+  }
+
+  protected toggleThirdRoundReversal() {
+    if (!this.selectedDraft) {
+      return;
+    }
+    this.draftService.updateThirdRoundReversal(!this.selectedDraft.thirdRoundReversal);
   }
 
   protected selectDraft(draftId: string) {
