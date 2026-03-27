@@ -127,6 +127,11 @@ body {
   color: #fff;
 }
 
+.pick-background {
+  background-color: white;
+  color: #000;
+}
+
 html,
 body {
   height: 100%;

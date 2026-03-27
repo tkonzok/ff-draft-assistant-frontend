@@ -45,6 +45,7 @@ export class DraftedTeamComponent implements OnInit, OnDestroy {
                   [Position.RB]: 2,
                   [Position.WR]: 3,
                   [Position.TE]: 4,
+                  [Position.PICK]: 5,
                 };
                 return (positionOrder[a.pos] || 0) - (positionOrder[b.pos] || 0);
               })

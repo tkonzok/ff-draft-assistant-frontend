@@ -104,6 +104,7 @@ export class DraftBoardComponent implements OnInit, OnDestroy {
         [Position.RB]: this.getCurrentTier(Position.RB),
         [Position.WR]: this.getCurrentTier(Position.WR),
         [Position.TE]: this.getCurrentTier(Position.TE),
+        [Position.PICK]: this.getCurrentTier(Position.PICK),
       };
       this.filteredPlayers = this.availablePlayers.filter((availablePlayer: Player) => {
         if (!availablePlayer.rankings[this.settings]?.ovr) {

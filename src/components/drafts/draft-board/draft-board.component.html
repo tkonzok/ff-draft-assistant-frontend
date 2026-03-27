@@ -34,6 +34,14 @@
       {{ Position.TE }}
     </button>
     <button
+      (click)="togglePosition(Position.PICK)"
+      [ngClass]="{
+        'pick-background': visiblePosition === Position.PICK,
+      }"
+    >
+      {{ Position.PICK }}
+    </button>
+    <button
       (click)="toggleTierView()"
       [ngClass]="{
         'red-background': showOnlyNextTiers,
@@ -42,20 +50,22 @@
       TIER
     </button>
   </div>
-  <div class="search-bar-wrapper">
-    <div class="search-container">
-      <input
-        type="text"
-        [(ngModel)]="searchTerm"
-        placeholder="Search players..."
-        (input)="filterPlayers()"
-        class="search-input"
-      />
-      <button *ngIf="searchTerm" (click)="clearSearch()" class="clear-btn">×</button>
+  <div class="filter-buttons">
+    <div class="search-bar-wrapper">
+      <div class="search-container">
+        <input
+          type="text"
+          [(ngModel)]="searchTerm"
+          placeholder="Search players..."
+          (input)="filterPlayers()"
+          class="search-input"
+        />
+        <button *ngIf="searchTerm" (click)="clearSearch()" class="clear-btn">×</button>
+      </div>
+      <span>{{ currentPick }}</span>
     </div>
-    <span>{{ currentPick }}</span>
+    <button [routerLink]="'/rankings'">EDIT</button>
   </div>
-  <button [routerLink]="'/rankings'">EDIT</button>
 </div>
 
 <div class="draft-board-grid">

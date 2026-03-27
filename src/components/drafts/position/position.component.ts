@@ -6,6 +6,7 @@ export enum Position {
   RB = 'RB',
   WR = 'WR',
   TE = 'TE',
+  PICK = 'Pick',
 }
 
 @Component({
@@ -28,6 +29,8 @@ export class PositionComponent {
         return 'wr-background';
       case Position.TE:
         return 'te-background';
+      case Position.PICK:
+        return 'pick-background';
       default:
         return '';
     }
