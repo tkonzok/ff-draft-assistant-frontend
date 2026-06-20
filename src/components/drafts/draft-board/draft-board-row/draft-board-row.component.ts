@@ -8,11 +8,10 @@ import { PositionComponent } from '../../position/position.component';
 import { TeamComponent } from '../../team/team.component';
 
 @Component({
-  selector: 'app-draft-board-row',
-  standalone: true,
-  imports: [NgOptimizedImage, PositionComponent, TeamComponent, ByeComponent, NgClass],
-  templateUrl: './draft-board-row.component.html',
-  styleUrl: './draft-board-row.component.css',
+    selector: 'app-draft-board-row',
+    imports: [NgOptimizedImage, PositionComponent, TeamComponent, ByeComponent, NgClass],
+    templateUrl: './draft-board-row.component.html',
+    styleUrl: './draft-board-row.component.css'
 })
 export class DraftBoardRowComponent implements OnInit {
   readonly player = input.required<Player>();

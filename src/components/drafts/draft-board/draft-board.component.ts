@@ -12,11 +12,10 @@ import { Position } from '../position/position.component';
 import { DraftBoardRowComponent } from './draft-board-row/draft-board-row.component';
 
 @Component({
-  selector: 'app-draft-board',
-  standalone: true,
-  imports: [NgForOf, DraftBoardRowComponent, NgClass, FormsModule, NgIf, RouterLink],
-  templateUrl: './draft-board.component.html',
-  styleUrls: ['./draft-board.component.css'],
+    selector: 'app-draft-board',
+    imports: [NgForOf, DraftBoardRowComponent, NgClass, FormsModule, NgIf, RouterLink],
+    templateUrl: './draft-board.component.html',
+    styleUrls: ['./draft-board.component.css']
 })
 export class DraftBoardComponent implements OnInit, OnDestroy {
   draftPosition = input.required<number>();

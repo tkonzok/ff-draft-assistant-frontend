@@ -7,23 +7,22 @@ import { MatInput } from '@angular/material/input';
 import { MatFormField, MatLabel, MatOption, MatSelect } from '@angular/material/select';
 
 @Component({
-  selector: 'app-settings-modal',
-  standalone: true,
-  imports: [
-    MatSelect,
-    MatOption,
-    MatLabel,
-    MatFormField,
-    FormsModule,
-    MatDialogActions,
-    MatButton,
-    MatDialogTitle,
-    MatDialogContent,
-    NgForOf,
-    MatInput,
-  ],
-  templateUrl: './settings-modal.component.html',
-  styleUrl: './settings-modal.component.css',
+    selector: 'app-settings-modal',
+    imports: [
+        MatSelect,
+        MatOption,
+        MatLabel,
+        MatFormField,
+        FormsModule,
+        MatDialogActions,
+        MatButton,
+        MatDialogTitle,
+        MatDialogContent,
+        NgForOf,
+        MatInput,
+    ],
+    templateUrl: './settings-modal.component.html',
+    styleUrl: './settings-modal.component.css'
 })
 export class SettingsModalComponent {
   availableSettings: string[] = [];

@@ -10,11 +10,10 @@ import { PositionComponent } from '../position/position.component';
 import { TeamComponent } from '../team/team.component';
 
 @Component({
-  selector: 'app-rankings',
-  standalone: true,
-  imports: [NgForOf, FormsModule, AsyncPipe, ByeComponent, NgOptimizedImage, PositionComponent, TeamComponent],
-  templateUrl: './rankings.component.html',
-  styleUrls: ['./rankings.component.css'],
+    selector: 'app-rankings',
+    imports: [NgForOf, FormsModule, AsyncPipe, ByeComponent, NgOptimizedImage, PositionComponent, TeamComponent],
+    templateUrl: './rankings.component.html',
+    styleUrls: ['./rankings.component.css']
 })
 export class RankingsComponent implements OnInit {
   protected availableSettings: string[] = [];

@@ -10,11 +10,10 @@ import { Position } from '../position/position.component';
 import { DraftedTeamRowComponent } from './drafted-team-row/drafted-team-row.component';
 
 @Component({
-  selector: 'app-drafted-team',
-  standalone: true,
-  imports: [NgForOf, JsonPipe, DraftedTeamRowComponent, DraftBoardRowComponent, NgClass],
-  templateUrl: './drafted-team.component.html',
-  styleUrl: './drafted-team.component.css',
+    selector: 'app-drafted-team',
+    imports: [NgForOf, JsonPipe, DraftedTeamRowComponent, DraftBoardRowComponent, NgClass],
+    templateUrl: './drafted-team.component.html',
+    styleUrl: './drafted-team.component.css'
 })
 export class DraftedTeamComponent implements OnInit, OnDestroy {
   players: Player[] = [];

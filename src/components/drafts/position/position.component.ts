@@ -10,11 +10,10 @@ export enum Position {
 }
 
 @Component({
-  selector: 'app-position',
-  templateUrl: './position.component.html',
-  styleUrls: ['./position.component.css'],
-  standalone: true,
-  imports: [NgClass],
+    selector: 'app-position',
+    templateUrl: './position.component.html',
+    styleUrls: ['./position.component.css'],
+    imports: [NgClass]
 })
 export class PositionComponent {
   @Input({ required: true }) pos!: Position;
