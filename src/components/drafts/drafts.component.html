@@ -55,6 +55,7 @@
       <div class="indicator" [ngClass]="{ green: isUpToDate }"></div>
       <p>{{ (lastUpdated$ | async)?.toLocaleString() }}</p>
       <button (click)="undo()" class="button-undo">Undo</button>
+      <button (click)="clearIndexedDb()" class="button-clear-db">Clear Cache</button>
     </div>
     <app-draft-board
       [ngClass]="{ extend: !showTeam }"

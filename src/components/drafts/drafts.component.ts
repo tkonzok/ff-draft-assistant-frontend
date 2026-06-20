@@ -171,4 +171,18 @@ export class DraftsComponent implements OnInit {
   protected undo() {
     this.draftService.undo();
   }
+
+  protected clearIndexedDb() {
+    const dbNames = indexedDB.databases
+      ? indexedDB.databases().then((dbs) => {
+          dbs.forEach((db) => {
+            if (db.name) indexedDB.deleteDatabase(db.name);
+          });
+          location.reload();
+        })
+      : Promise.resolve().then(() => {
+          indexedDB.deleteDatabase('ff-draft-assistant');
+          location.reload();
+        });
+  }
 }

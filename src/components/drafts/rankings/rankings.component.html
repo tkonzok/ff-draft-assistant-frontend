@@ -1,7 +1,9 @@
 @if (initialized$ | async) {
   <div class="top-bar">
     <button class="back-button" (click)="goBack()">
-      <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="#e8eaed"><path d="M400-80 0-480l400-400 56 57-343 343 343 343-56 57Z"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="#e8eaed">
+        <path d="M400-80 0-480l400-400 56 57-343 343 343 343-56 57Z" />
+      </svg>
     </button>
     <span>Ranking:</span>
     <select [(ngModel)]="selectedSetting" (ngModelChange)="filterAndSortPlayers($event)" class="select-dropdown">
@@ -43,12 +45,16 @@
               <app-bye [bye]="player.bye"></app-bye>
               <div>
                 <button (click)="moveUp(i)" [disabled]="i === 0">
-                  <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="#e8eaed"><path d="M440-160v-487L216-423l-56-57 320-320 320 320-56 57-224-224v487h-80Z"/></svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="#e8eaed">
+                    <path d="M440-160v-487L216-423l-56-57 320-320 320 320-56 57-224-224v487h-80Z" />
+                  </svg>
                 </button>
               </div>
               <div>
                 <button (click)="moveDown(i)" [disabled]="i === filteredPlayers.length - 1">
-                  <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="#e8eaed"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z"/></svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="#e8eaed">
+                    <path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" />
+                  </svg>
                 </button>
               </div>
             </div>

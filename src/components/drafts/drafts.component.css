@@ -113,6 +113,11 @@ app-draft-board {
     margin-left: auto;
     padding: 8px;
   }
+
+  .button-clear-db {
+    padding: 8px;
+    color: #f44336;
+  }
 }
 
 .indicator {
