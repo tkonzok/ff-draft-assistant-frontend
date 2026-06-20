@@ -141,7 +141,7 @@ export class DraftService {
     return this.dbService.bulkAdd(STORE_NAME_DRAFTS, drafts);
   }
 
-  private clearAll(): Observable<boolean> {
+  private clearAll(): Observable<void> {
     return this.dbService.clear(STORE_NAME_DRAFTS);
   }
 

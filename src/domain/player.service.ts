@@ -109,7 +109,7 @@ export class PlayerService {
     return this.dbService.bulkAdd(STORE_NAME_PLAYERS, players);
   }
 
-  private clearAll(): Observable<boolean> {
+  private clearAll(): Observable<void> {
     return this.dbService.clear(STORE_NAME_PLAYERS);
   }
 

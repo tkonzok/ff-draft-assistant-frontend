@@ -72,7 +72,7 @@ export class SettingsService {
     return this.dbService.add(STORE_NAME_SETTINGS, settings);
   }
 
-  private clear(): Observable<boolean> {
+  private clear(): Observable<void> {
     return this.dbService.clear(STORE_NAME_SETTINGS);
   }
 }
