@@ -22,8 +22,8 @@ import { SettingsModalComponent } from './settings-modal/settings-modal.componen
     ReactiveFormsModule,
     FormsModule,
     AsyncPipe,
-    NgClass
-],
+    NgClass,
+  ],
   templateUrl: './drafts.component.html',
   styleUrls: ['./drafts.component.css'],
 })

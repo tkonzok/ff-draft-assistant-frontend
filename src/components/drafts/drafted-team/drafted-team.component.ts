@@ -1,11 +1,10 @@
-import { JsonPipe, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription, combineLatest } from 'rxjs';
 import { DraftService } from '../../../domain/draft.service';
 import { Player, PlayerStatus } from '../../../domain/player';
 import { PlayerService } from '../../../domain/player.service';
 import { SettingsService } from '../../../domain/settings.service';
-import { DraftBoardRowComponent } from '../draft-board/draft-board-row/draft-board-row.component';
 import { Position } from '../position/position.component';
 import { DraftedTeamRowComponent } from './drafted-team-row/drafted-team-row.component';
 

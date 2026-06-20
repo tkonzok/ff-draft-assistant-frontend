@@ -1,4 +1,3 @@
-
 import { Component, Inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
@@ -18,8 +17,8 @@ import { MatFormField, MatLabel, MatOption, MatSelect } from '@angular/material/
     MatButton,
     MatDialogTitle,
     MatDialogContent,
-    MatInput
-],
+    MatInput,
+  ],
   templateUrl: './settings-modal.component.html',
   styleUrl: './settings-modal.component.css',
 })

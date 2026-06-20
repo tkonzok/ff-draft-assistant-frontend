@@ -80,7 +80,10 @@ export class MasterDataService {
       .pipe(
         take(1),
         tap((lastUpdateStrings: { id: string; lastUpdate: Date }[]) => {
-          this.lastUpdated.next(lastUpdateStrings[0]?.lastUpdate);
+          const lastUpdate = lastUpdateStrings[0]?.lastUpdate;
+          if (lastUpdate) {
+            this.lastUpdated.next(lastUpdate);
+          }
         }),
       )
       .subscribe();

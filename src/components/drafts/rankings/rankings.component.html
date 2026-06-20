@@ -1,44 +1,54 @@
 @if (initialized$ | async) {
-  <span>Ranking:</span>
-  <select [(ngModel)]="selectedSetting" (ngModelChange)="filterAndSortPlayers($event)" class="select-dropdown">
-    @for (setting of availableSettings; track setting) {
-      <option [value]="setting">
-        {{ setting }}
-      </option>
+  <div class="top-bar">
+    <button class="back-button" (click)="goBack()">
+      <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="#e8eaed"><path d="M400-80 0-480l400-400 56 57-343 343 343 343-56 57Z"/></svg>
+    </button>
+    <span>Ranking:</span>
+    <select [(ngModel)]="selectedSetting" (ngModelChange)="filterAndSortPlayers($event)" class="select-dropdown">
+      @for (setting of availableSettings; track setting) {
+        <option [value]="setting">
+          {{ setting }}
+        </option>
+      }
+    </select>
+    @if (this.selectedSetting) {
+      <button class="submit-button" (click)="submitRankings()">Submit Rankings</button>
     }
-  </select>
+  </div>
 
   @if (this.selectedSetting) {
     <div class="draft-board-grid">
       <div class="grid-header">
-        <div></div>
         <div>OVR</div>
+        <div>DIFF</div>
         <div>POS</div>
         <div>RANK</div>
         <div>NAME</div>
         <div>TEAM</div>
         <div>BYE</div>
         <div></div>
+        <div></div>
       </div>
 
       <div class="grid-row-wrapper">
-        @for (player of filteredPlayers; track player) {
+        @for (player of filteredPlayers; track player; let i = $index) {
           <div class="grid-row">
             <div class="ranking-row">
-              <div>
-                <button>
-                  <img ngSrc="../../../assets/icons/cross.svg" alt="cross" height="24" width="24" />
-                </button>
-              </div>
               <div>{{ player.rankings[this.selectedSetting].ovr }}</div>
+              <div [class]="getDiffClass(player)">{{ getDiffDisplay(player) }}</div>
               <app-position [pos]="player.pos"></app-position>
               <div>{{ player.rankings[this.selectedSetting].rank }}</div>
               <div>{{ player.name }}</div>
               <app-team [team]="player.team"></app-team>
               <app-bye [bye]="player.bye"></app-bye>
               <div>
-                <button>
-                  <img ngSrc="../../../assets/icons/checkmark.svg" alt="checkmark" height="24" width="24" />
+                <button (click)="moveUp(i)" [disabled]="i === 0">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="#e8eaed"><path d="M440-160v-487L216-423l-56-57 320-320 320 320-56 57-224-224v487h-80Z"/></svg>
+                </button>
+              </div>
+              <div>
+                <button (click)="moveDown(i)" [disabled]="i === filteredPlayers.length - 1">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="#e8eaed"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z"/></svg>
                 </button>
               </div>
             </div>

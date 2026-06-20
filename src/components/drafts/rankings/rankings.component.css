@@ -1,3 +1,21 @@
+:host {
+  margin-left: 12px;
+}
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 12px;
+  margin-bottom: 12px;
+}
+
+.back-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .select-dropdown {
   padding: 5px;
   font-size: 16px;
@@ -9,14 +27,15 @@
   display: grid;
   grid-template-columns: max-content;
   width: fit-content;
-  max-height: 100%;
+  max-height: 90%;
   border: 1px solid #ddd;
   overflow: hidden;
+  margin-left: 12px;
 }
 
 .grid-header {
   display: grid;
-  grid-template-columns: 44px 48px repeat(2, 64px) 164px repeat(2, 72px) 44px;
+  grid-template-columns: 48px 48px repeat(2, 64px) 164px repeat(2, 72px) 44px 44px;
   font-weight: bold;
   background-color: #3f3f3f;
   border-bottom: 1px solid #ddd;
@@ -39,7 +58,7 @@
 
 @media (max-width: 600px) {
   .grid-header {
-    grid-template-columns: 40px 32px 32px 48px 128px repeat(2, 48px) 44px;
+    grid-template-columns: 32px 32px 32px 48px 128px repeat(2, 48px) 36px 36px;
   }
 
   .grid-header > div {
@@ -51,7 +70,7 @@
 
 .ranking-row {
   display: grid;
-  grid-template-columns: 44px 48px repeat(2, 64px) 164px repeat(2, 72px) 44px;
+  grid-template-columns: 48px 48px repeat(2, 64px) 164px repeat(2, 72px) 44px 44px;
   align-items: center;
   height: 40px;
   padding: 8px 0;
@@ -73,9 +92,39 @@ button {
   cursor: pointer;
 }
 
+button:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
 button img {
   width: 26px;
   height: 26px;
+}
+
+.submit-button {
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: bold;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.submit-button:hover {
+  background-color: #45a049;
+}
+
+.diff-positive {
+  color: #4caf50;
+  font-weight: bold;
+}
+
+.diff-negative {
+  color: #f44336;
+  font-weight: bold;
 }
 
 .border-bottom {
@@ -84,7 +133,7 @@ button img {
 
 @media (max-width: 600px) {
   .ranking-row {
-    grid-template-columns: 40px 32px 32px 48px 128px repeat(2, 48px) 44px;
+    grid-template-columns: 32px 32px 32px 48px 128px repeat(2, 48px) 36px 36px;
 
     > * {
       padding-left: 0;
