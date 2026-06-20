@@ -1,4 +1,4 @@
-import { JsonPipe, NgClass, NgForOf } from '@angular/common';
+import { JsonPipe, NgClass } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription, combineLatest } from 'rxjs';
 import { DraftService } from '../../../domain/draft.service';
@@ -11,7 +11,7 @@ import { DraftedTeamRowComponent } from './drafted-team-row/drafted-team-row.com
 
 @Component({
   selector: 'app-drafted-team',
-  imports: [NgForOf, DraftedTeamRowComponent, NgClass],
+  imports: [DraftedTeamRowComponent, NgClass],
   templateUrl: './drafted-team.component.html',
   styleUrl: './drafted-team.component.css',
 })

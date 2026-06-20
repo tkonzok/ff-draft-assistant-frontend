@@ -9,8 +9,10 @@
   </div>
 
   <div class="grid-row-wrapper" [ngClass]="{ collapsed: !visible }">
-    <div *ngFor="let player of players" class="grid-row">
-      <app-drafted-team-row [player]="player" [setting]="selectedSetting"></app-drafted-team-row>
-    </div>
+    @for (player of players; track player) {
+      <div class="grid-row">
+        <app-drafted-team-row [player]="player" [setting]="selectedSetting"></app-drafted-team-row>
+      </div>
+    }
   </div>
 </div>

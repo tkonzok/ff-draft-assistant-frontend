@@ -6,7 +6,7 @@
       [ngClass]="{
         'qb-background': visiblePosition === Position.QB,
       }"
-    >
+      >
       {{ Position.QB }}
     </button>
     <button
@@ -14,7 +14,7 @@
       [ngClass]="{
         'rb-background': visiblePosition === Position.RB,
       }"
-    >
+      >
       {{ Position.RB }}
     </button>
     <button
@@ -22,7 +22,7 @@
       [ngClass]="{
         'wr-background': visiblePosition === Position.WR,
       }"
-    >
+      >
       {{ Position.WR }}
     </button>
     <button
@@ -30,7 +30,7 @@
       [ngClass]="{
         'te-background': visiblePosition === Position.TE,
       }"
-    >
+      >
       {{ Position.TE }}
     </button>
     <button
@@ -38,7 +38,7 @@
       [ngClass]="{
         'pick-background': visiblePosition === Position.PICK,
       }"
-    >
+      >
       {{ Position.PICK }}
     </button>
     <button
@@ -46,7 +46,7 @@
       [ngClass]="{
         'red-background': showOnlyNextTiers,
       }"
-    >
+      >
       TIER
     </button>
   </div>
@@ -59,8 +59,10 @@
           placeholder="Search players..."
           (input)="filterPlayers()"
           class="search-input"
-        />
-        <button *ngIf="searchTerm" (click)="clearSearch()" class="clear-btn">×</button>
+          />
+        @if (searchTerm) {
+          <button (click)="clearSearch()" class="clear-btn">×</button>
+        }
       </div>
       <span>{{ currentPick }}</span>
     </div>
@@ -81,15 +83,17 @@
   </div>
 
   <div class="grid-row-wrapper">
-    <div *ngFor="let player of filteredPlayers" class="grid-row">
-      <app-draft-board-row
-        [player]="player"
-        [showBorderBottom]="visiblePosition !== undefined && player.rankings[this.settings].isLastOfTier"
+    @for (player of filteredPlayers; track player) {
+      <div class="grid-row">
+        <app-draft-board-row
+          [player]="player"
+          [showBorderBottom]="visiblePosition !== undefined && player.rankings[this.settings].isLastOfTier"
         [ngClass]="{
           highlighted: highlightedPlayers.includes(player) && !showOnlyNextTiers,
         }"
-      >
-      </app-draft-board-row>
-    </div>
+          >
+        </app-draft-board-row>
+      </div>
+    }
   </div>
 </div>

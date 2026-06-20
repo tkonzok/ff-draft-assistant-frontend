@@ -1,4 +1,4 @@
-import { NgClass, NgForOf, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component, OnDestroy, OnInit, computed, input } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
@@ -13,7 +13,7 @@ import { DraftBoardRowComponent } from './draft-board-row/draft-board-row.compon
 
 @Component({
   selector: 'app-draft-board',
-  imports: [NgForOf, DraftBoardRowComponent, NgClass, FormsModule, NgIf, RouterLink],
+  imports: [DraftBoardRowComponent, NgClass, FormsModule, RouterLink],
   templateUrl: './draft-board.component.html',
   styleUrls: ['./draft-board.component.css'],
 })

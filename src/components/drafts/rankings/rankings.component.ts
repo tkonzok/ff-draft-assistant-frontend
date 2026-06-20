@@ -1,4 +1,4 @@
-import { AsyncPipe, NgForOf, NgOptimizedImage } from '@angular/common';
+import { AsyncPipe, NgOptimizedImage } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BehaviorSubject, combineLatest, filter, take } from 'rxjs';
@@ -11,7 +11,7 @@ import { TeamComponent } from '../team/team.component';
 
 @Component({
   selector: 'app-rankings',
-  imports: [NgForOf, FormsModule, AsyncPipe, ByeComponent, NgOptimizedImage, PositionComponent, TeamComponent],
+  imports: [FormsModule, AsyncPipe, ByeComponent, NgOptimizedImage, PositionComponent, TeamComponent],
   templateUrl: './rankings.component.html',
   styleUrls: ['./rankings.component.css'],
 })

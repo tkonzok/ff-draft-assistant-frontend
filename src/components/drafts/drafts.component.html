@@ -3,9 +3,11 @@
     <div class="settings-wrapper">
       <span class="draft-position-label">Pos: </span>
       <select [value]="draftPosition" (change)="selectDraftPosition($event)" class="select-dropdown">
-        <option *ngFor="let position of draftPositions" [value]="position">
-          {{ position }}
-        </option>
+        @for (position of draftPositions; track position) {
+          <option [value]="position">
+            {{ position }}
+          </option>
+        }
       </select>
       <span class="draft-position-label">of </span>
       <span class="draft-position-display">{{ totalDraftPositions }}</span>
@@ -14,7 +16,7 @@
           class="third-round-reversal"
           [ngClass]="{ active: selectedDraft.thirdRoundReversal }"
           (click)="toggleThirdRoundReversal()"
-        >
+          >
           3RR
         </button>
       }
@@ -29,15 +31,19 @@
       </div>
       <span>Draft:</span>
       <select [(ngModel)]="selectedDraftId" (ngModelChange)="selectDraft($event)" class="select-dropdown">
-        <option *ngFor="let draft of availableDrafts" [value]="draft.id">
-          {{ draft.name }}
-        </option>
+        @for (draft of availableDrafts; track draft) {
+          <option [value]="draft.id">
+            {{ draft.name }}
+          </option>
+        }
       </select>
       <span>Settings:</span>
       <select [value]="selectedSetting" (change)="selectSetting($event)" class="select-dropdown">
-        <option *ngFor="let setting of availableSettings" [value]="setting">
-          {{ setting }}
-        </option>
+        @for (setting of availableSettings; track setting) {
+          <option [value]="setting">
+            {{ setting }}
+          </option>
+        }
       </select>
     </div>
     @if (showTeam) {
@@ -58,6 +64,8 @@
       [thirdRoundReversal]="!!selectedDraft?.thirdRoundReversal"
     ></app-draft-board>
   </div>
-  <app-confirm-delete-modal *ngIf="showModal" [name]="selectedDraft?.name" (confirm)="handleConfirmation($event)">
-  </app-confirm-delete-modal>
+  @if (showModal) {
+    <app-confirm-delete-modal [name]="selectedDraft?.name" (confirm)="handleConfirmation($event)">
+    </app-confirm-delete-modal>
+  }
 </div>

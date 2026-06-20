@@ -1,4 +1,4 @@
-import { AsyncPipe, NgClass, NgForOf, NgIf } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import { Component, DestroyRef, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -19,13 +19,11 @@ import { SettingsModalComponent } from './settings-modal/settings-modal.componen
     ConfirmDeleteModalComponent,
     DraftBoardComponent,
     DraftedTeamComponent,
-    NgForOf,
-    NgIf,
     ReactiveFormsModule,
     FormsModule,
     AsyncPipe,
-    NgClass,
-  ],
+    NgClass
+],
   templateUrl: './drafts.component.html',
   styleUrls: ['./drafts.component.css'],
 })
