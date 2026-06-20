@@ -6,10 +6,10 @@ import { Player, PlayerStatus } from '../../../domain/player';
 import { PlayerService } from '../../../domain/player.service';
 
 @Component({
-    selector: 'app-bye',
-    templateUrl: './bye.component.html',
-    styleUrls: ['./bye.component.css'],
-    imports: [NgClass]
+  selector: 'app-bye',
+  templateUrl: './bye.component.html',
+  styleUrls: ['./bye.component.css'],
+  imports: [NgClass],
 })
 export class ByeComponent implements OnInit {
   @Input({ required: true }) bye!: string;

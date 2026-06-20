@@ -14,20 +14,20 @@ import { DraftedTeamComponent } from './drafted-team/drafted-team.component';
 import { SettingsModalComponent } from './settings-modal/settings-modal.component';
 
 @Component({
-    selector: 'app-drafts',
-    imports: [
-        ConfirmDeleteModalComponent,
-        DraftBoardComponent,
-        DraftedTeamComponent,
-        NgForOf,
-        NgIf,
-        ReactiveFormsModule,
-        FormsModule,
-        AsyncPipe,
-        NgClass,
-    ],
-    templateUrl: './drafts.component.html',
-    styleUrls: ['./drafts.component.css']
+  selector: 'app-drafts',
+  imports: [
+    ConfirmDeleteModalComponent,
+    DraftBoardComponent,
+    DraftedTeamComponent,
+    NgForOf,
+    NgIf,
+    ReactiveFormsModule,
+    FormsModule,
+    AsyncPipe,
+    NgClass,
+  ],
+  templateUrl: './drafts.component.html',
+  styleUrls: ['./drafts.component.css'],
 })
 export class DraftsComponent implements OnInit {
   protected readonly lastUpdated$;

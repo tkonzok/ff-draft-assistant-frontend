@@ -9,7 +9,6 @@ import { TeamComponent } from '../../team/team.component';
 
 @Component({
   selector: 'app-ranking-row',
-  standalone: true,
   imports: [NgOptimizedImage, PositionComponent, TeamComponent, ByeComponent, NgClass],
   templateUrl: './ranking-row.component.html',
   styleUrl: './ranking-row.component.css',
@@ -25,7 +24,7 @@ export class RankingRowComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.settingsService.selectedSetting$.subscribe((setting) => {
+    this.settingsService.getSelectedSetting$().subscribe((setting) => {
       this.selectedSetting = setting;
     });
   }

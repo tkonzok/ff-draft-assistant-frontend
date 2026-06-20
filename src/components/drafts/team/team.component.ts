@@ -6,10 +6,10 @@ import { Player, PlayerStatus } from '../../../domain/player';
 import { PlayerService } from '../../../domain/player.service';
 
 @Component({
-    selector: 'app-team',
-    templateUrl: './team.component.html',
-    styleUrls: ['./team.component.css'],
-    imports: [NgClass]
+  selector: 'app-team',
+  templateUrl: './team.component.html',
+  styleUrls: ['./team.component.css'],
+  imports: [NgClass],
 })
 export class TeamComponent implements OnInit {
   @Input({ required: true }) team!: string;

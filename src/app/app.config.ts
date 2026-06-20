@@ -1,5 +1,5 @@
 import { provideHttpClient } from '@angular/common/http';
-import { ApplicationConfig, provideZoneChangeDetection, inject, provideAppInitializer } from '@angular/core';
+import { ApplicationConfig, inject, provideAppInitializer, provideZoneChangeDetection } from '@angular/core';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter } from '@angular/router';
 import { provideIndexedDb } from 'ngx-indexed-db';
@@ -19,8 +19,8 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     provideIndexedDb(INDEXED_DB_CONFIG),
     provideAppInitializer(() => {
-        const initializerFn = (initMasterdataFactory)(inject(MasterDataService));
-        return initializerFn();
-      }),
+      const initializerFn = initMasterdataFactory(inject(MasterDataService));
+      return initializerFn();
+    }),
   ],
 };
