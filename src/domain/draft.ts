@@ -15,6 +15,9 @@ export class Draft {
   draftPosition!: number;
 
   @Expose()
+  pickPositions!: number[];
+
+  @Expose()
   thirdRoundReversal!: boolean;
 
   @Expose()

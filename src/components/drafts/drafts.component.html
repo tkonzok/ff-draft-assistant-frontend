@@ -60,9 +60,7 @@
     <app-draft-board
       [ngClass]="{ extend: !showTeam }"
       class="mt-16"
-      [draftPosition]="draftPosition"
       [totalDraftPositions]="totalDraftPositions"
-      [thirdRoundReversal]="!!selectedDraft?.thirdRoundReversal"
     ></app-draft-board>
   </div>
   @if (showModal) {
