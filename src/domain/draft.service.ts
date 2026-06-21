@@ -80,6 +80,10 @@ export class DraftService {
     return this.callUpdate(body);
   }
 
+  updatePickPositions(body: { pickPositions: number[] }) {
+    return this.callUpdate(body);
+  }
+
   updatePlayerStatus(id: string, playerStatus: PlayerStatus) {
     if (!this.selectedDraft$) {
       return;

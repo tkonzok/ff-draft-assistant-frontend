@@ -1,0 +1,52 @@
+.pick-list {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+  margin-bottom: 16px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.pick-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  padding: 6px 10px;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.15s;
+}
+
+.pick-item.active {
+  background: #809dab;
+}
+
+.pick-item.active-traded {
+  background: #a8bfc7;
+}
+
+.pick-item.active-new {
+  background: #80ab8d;
+}
+
+.pick-item.inactive {
+  background: #d3d3d3;
+  opacity: 0.7;
+}
+
+.pick-number {
+  font-weight: bold;
+  font-size: 14px;
+  color: #1a1a1a;
+}
+
+.add-pick-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.add-pick-field {
+  flex: 1;
+}

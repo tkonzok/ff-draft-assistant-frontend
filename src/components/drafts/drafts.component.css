@@ -68,17 +68,13 @@ app-draft-board {
 }
 
 .settings-wrapper > button {
-  width: 90px;
+  width: 60px;
   height: 30px;
   text-align: center;
 }
 
-.reload-button {
-  padding: 0 20px;
-}
-
 .third-round-reversal {
-  padding: 0 20px;
+  padding: 0 10px;
   background-color: #cc0000;
 
   &.active {

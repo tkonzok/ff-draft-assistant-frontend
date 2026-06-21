@@ -11,6 +11,7 @@ import { SettingsService } from '../../domain/settings.service';
 import { ConfirmDeleteModalComponent } from './confirm-delete-modal/confirm-delete-modal.component';
 import { DraftBoardComponent } from './draft-board/draft-board.component';
 import { DraftedTeamComponent } from './drafted-team/drafted-team.component';
+import { PickPositionsModalComponent } from './pick-positions-modal/pick-positions-modal.component';
 import { SettingsModalComponent } from './settings-modal/settings-modal.component';
 
 @Component({
@@ -184,5 +185,27 @@ export class DraftsComponent implements OnInit {
           indexedDB.deleteDatabase('ff-draft-assistant');
           location.reload();
         });
+  }
+
+  protected updatePickPositions() {
+    if (!this.selectedDraft) return;
+
+    const dialogRef = this.dialog.open(PickPositionsModalComponent, {
+      data: {
+        pickPositions: this.selectedDraft.pickPositions,
+        totalParticipants: this.selectedDraft.totalParticipants,
+        draftPosition: this.selectedDraft.draftPosition,
+        thirdRoundReversal: this.selectedDraft.thirdRoundReversal,
+      },
+      width: '500px',
+      maxWidth: '90vw',
+    });
+
+    dialogRef.afterClosed().subscribe((result: number[] | undefined) => {
+      if (result && this.selectedDraft) {
+        const body = { pickPositions: result.sort((a, b) => a - b) };
+        this.draftService.updatePickPositions(body);
+      }
+    });
   }
 }

@@ -1,0 +1,31 @@
+<h1 mat-dialog-title>Edit Pick Positions</h1>
+<div mat-dialog-content>
+  <div class="pick-list">
+    @for (pick of allPicks; track pick) {
+      <div
+        class="pick-item"
+        [ngClass]="{
+          active: isActive(pick) && isOriginal(pick) && isDefault(pick),
+          'active-traded': isActive(pick) && isOriginal(pick) && !isDefault(pick),
+          'active-new': isActive(pick) && !isOriginal(pick),
+          inactive: !isActive(pick),
+        }"
+        (click)="togglePick(pick)"
+      >
+        <span class="pick-number">{{ formatPick(pick) }}</span>
+      </div>
+    }
+  </div>
+
+  <div class="add-pick-row">
+    <mat-form-field appearance="fill" class="add-pick-field">
+      <mat-label>Add pick (e.g. 2.05 or 17)</mat-label>
+      <input matInput type="text" [(ngModel)]="newPickInput" (keyup.enter)="addPick()" />
+    </mat-form-field>
+    <button mat-button (click)="addPick()" [disabled]="!isValidInput()">Add</button>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-button (click)="onSubmit()">Save</button>
+</div>
